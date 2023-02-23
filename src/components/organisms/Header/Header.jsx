@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ className }) => {
   return (
-    <div>
+    <div className={className}>
       <p>Reddot</p>
       {/* search bar */}
       {/* buttons? */}

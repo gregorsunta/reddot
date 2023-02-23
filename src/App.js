@@ -1,12 +1,12 @@
 import './App.css';
-import Header from './components/organisms/Header.jsx';
+import RouterConfig from './navigation/RouterConfig';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Header></Header>
+    <div>
+      <RouterConfig />
     </div>
   );
-}
+};
 
 export default App;
