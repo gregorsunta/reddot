@@ -1,0 +1,5 @@
+.container {
+  padding: var(--size-5);
+
+  background-color: rgb(255, 255, 255);
+}
