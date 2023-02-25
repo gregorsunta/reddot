@@ -1,0 +1,43 @@
+[debug] [2023-02-23T18:02:13.514Z] ----------------------------------------------------------------------
+[debug] [2023-02-23T18:02:13.515Z] Command:       /home/gregor/.nvm/versions/node/v16.17.0/bin/node /home/gregor/.nvm/versions/node/v16.17.0/bin/firebase serve
+[debug] [2023-02-23T18:02:13.515Z] CLI Version:   11.23.1
+[debug] [2023-02-23T18:02:13.515Z] Platform:      linux
+[debug] [2023-02-23T18:02:13.516Z] Node Version:  v16.17.0
+[debug] [2023-02-23T18:02:13.516Z] Time:          Thu Feb 23 2023 19:02:13 GMT+0100 (Central European Standard Time)
+[debug] [2023-02-23T18:02:13.516Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-02-23T18:02:13.564Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-02-23T18:02:13.564Z] > authorizing via signed-in user (gr33gyss@gmail.com)
+[debug] [2023-02-23T18:02:13.564Z] [iam] checking project reddot-b1116 for permissions ["firebase.projects.get"]
+[debug] [2023-02-23T18:02:13.565Z] > refreshing access token with scopes: []
+[debug] [2023-02-23T18:02:13.566Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-02-23T18:02:13.567Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-02-23T18:02:13.754Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-02-23T18:02:13.754Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-02-23T18:02:13.759Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/reddot-b1116:testIamPermissions [none]
+[debug] [2023-02-23T18:02:13.759Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/reddot-b1116:testIamPermissions x-goog-quota-user=projects/reddot-b1116
+[debug] [2023-02-23T18:02:13.759Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/reddot-b1116:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-02-23T18:02:14.596Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/reddot-b1116:testIamPermissions 200
+[debug] [2023-02-23T18:02:14.596Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/reddot-b1116:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-02-23T18:02:14.597Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 [none]
+[debug] [2023-02-23T18:02:14.920Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 200
+[debug] [2023-02-23T18:02:14.920Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 {"projectId":"reddot-b1116","projectNumber":"753035621309","displayName":"reddot","name":"projects/reddot-b1116","resources":{"hostingSite":"reddot-b1116"},"state":"ACTIVE","etag":"1_4bc3a575-22e9-473e-be61-2eebb42f54ac"}
+[info] 
+[info] === Serving from '/home/gregor/repos/reddit-clone'...
+[info] 
+[debug] [2023-02-23T18:02:14.921Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/reddot-b1116/sites 
+[debug] [2023-02-23T18:02:16.000Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/reddot-b1116/sites 200
+[debug] [2023-02-23T18:02:16.000Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/reddot-b1116/sites {"sites":[{"name":"projects/reddot-b1116/sites/reddot-b1116","defaultUrl":"https://reddot-b1116.web.app","appId":"1:753035621309:web:a0d1d6580dd8b6632b98d4","type":"DEFAULT_SITE"}]}
+[debug] [2023-02-23T18:02:16.000Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116/webApps/1:753035621309:web:a0d1d6580dd8b6632b98d4/config [none]
+[debug] [2023-02-23T18:02:16.952Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116/webApps/1:753035621309:web:a0d1d6580dd8b6632b98d4/config 200
+[debug] [2023-02-23T18:02:16.952Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116/webApps/1:753035621309:web:a0d1d6580dd8b6632b98d4/config {"projectId":"reddot-b1116","appId":"1:753035621309:web:a0d1d6580dd8b6632b98d4","storageBucket":"reddot-b1116.appspot.com","apiKey":"AIzaSyAwTMVr0eYDM7sPer6CUDplqq9Yf4ecOKI","authDomain":"reddot-b1116.firebaseapp.com","messagingSenderId":"753035621309"}
+[debug] [2023-02-23T18:02:16.954Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 [none]
+[debug] [2023-02-23T18:02:17.320Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 200
+[debug] [2023-02-23T18:02:17.320Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/reddot-b1116 {"projectId":"reddot-b1116","projectNumber":"753035621309","displayName":"reddot","name":"projects/reddot-b1116","resources":{"hostingSite":"reddot-b1116"},"state":"ACTIVE","etag":"1_4bc3a575-22e9-473e-be61-2eebb42f54ac"}
+[info] i  hosting[reddot-b1116]: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
+[info] ✔  hosting[reddot-b1116]: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[info] i  hosting: 127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] "GET / HTTP/1.1" 200 744 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] \"GET / HTTP/1.1\" 200 744 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0\""}}
+[info] i  hosting: 127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] "GET /static/css/main.1d4e1e0c.css HTTP/1.1" 200 - "http://localhost:5000/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] \"GET /static/css/main.1d4e1e0c.css HTTP/1.1\" 200 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0\""}}
+[info] i  hosting: 127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] "GET /static/js/main.744e72bd.js HTTP/1.1" 200 - "http://localhost:5000/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [23/Feb/2023:18:02:25 +0000] \"GET /static/js/main.744e72bd.js HTTP/1.1\" 200 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0\""}}
+[info] i  hosting: 127.0.0.1 - - [23/Feb/2023:18:02:26 +0000] "GET /logo192.png HTTP/1.1" 404 - "http://localhost:5000/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [23/Feb/2023:18:02:26 +0000] \"GET /logo192.png HTTP/1.1\" 404 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0\""}}
+[info] i  hosting: 127.0.0.1 - - [23/Feb/2023:18:02:26 +0000] "GET /favicon.ico HTTP/1.1" 404 - "http://localhost:5000/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [23/Feb/2023:18:02:26 +0000] \"GET /favicon.ico HTTP/1.1\" 404 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0\""}}
