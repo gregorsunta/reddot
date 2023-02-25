@@ -1,22 +1,23 @@
 import React from 'react';
 import HomeTemplate from '../templates/HomeTemplate.module.css';
 import Header from '../organisms/Header/Header';
-import PageInfoPanel from '../molecules/PageInfoPanel/PageInfoPanel';
+import PageInfoPanel from '../organisms/PageInfoPanel/PageInfoPanel';
 import FeedPanel from '../organisms/FeedPanel/FeedPanel';
-import CreatePostPanel from '../molecules/CreatePostPanel/CreatePostPanel';
-import styles from './Homepage.module.css';
+import CreatePostPanel from '../organisms/CreatePostPanel/CreatePostPanel';
 
 const Homepage = () => {
   return (
     <>
-      <Header className={`${HomeTemplate.header}`}></Header>
-      <div className={`${HomeTemplate.main} ${styles.container}`}>
+      <Header className={HomeTemplate.header}></Header>
+      <div className={HomeTemplate.main}>
         <div className={HomeTemplate.content}>
-          <CreatePostPanel className={`${styles.panel}`} />
-          <FeedPanel className={`${styles.feed} ${styles.panel}`}></FeedPanel>
+          <CreatePostPanel className={`${HomeTemplate.panel}`} />
+          <FeedPanel
+            className={`${HomeTemplate.feed} ${HomeTemplate.panel}`}
+          ></FeedPanel>
         </div>
         <div className={HomeTemplate['side-panel-container']}>
-          <PageInfoPanel className={styles.panel}></PageInfoPanel>
+          <PageInfoPanel className={HomeTemplate.panel}></PageInfoPanel>
         </div>
       </div>
     </>

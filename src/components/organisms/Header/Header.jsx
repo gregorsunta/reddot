@@ -1,8 +1,8 @@
-import styles from './Header.module.css';
+import React from 'react';
 
 const Header = ({ className }) => {
   return (
-    <div className={`${className} ${styles.container}`}>
+    <div className={className}>
       <p>Reddot</p>
       {/* search bar */}
       {/* buttons? */}
