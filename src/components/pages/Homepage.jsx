@@ -1,9 +1,9 @@
 import React from 'react';
 import HomeTemplate from '../templates/HomeTemplate.module.css';
 import Header from '../organisms/Header/Header';
-import PageInfoPanel from '../organisms/PageInfoPanel/PageInfoPanel';
+import PageInfoPanel from '../molecules/PageInfoPanel/PageInfoPanel';
 import FeedPanel from '../organisms/FeedPanel/FeedPanel';
-import CreatePostPanel from '../organisms/CreatePostPanel/CreatePostPanel';
+import CreatePostPanel from '../molecules/CreatePostPanel/CreatePostPanel';
 
 const Homepage = () => {
   return (
