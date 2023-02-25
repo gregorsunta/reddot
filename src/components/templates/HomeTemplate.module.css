@@ -9,7 +9,7 @@
   justify-content: center;
   gap: var(--size-7);
 
-  padding: var(--size-8) var(--size-12);
+  padding: 5vw 35vh;
   min-height: 100vh;
   width: 100vw;
 }
