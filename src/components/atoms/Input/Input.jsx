@@ -1,19 +1,19 @@
 import styles from './Input.module.css';
 
-const SearchBar = ({
+const Input = ({
   placeholder = '',
   type = 'text',
   className = '',
-  emptyValue = false,
+  readOnly = false,
 }) => {
   return (
     <input
       className={`${styles.container} ${className}`}
       type={type}
       placeholder={placeholder}
-      value={emptyValue ? '' : undefined}
+      readOnly={readOnly}
     />
   );
 };
 
-export default SearchBar;
+export default Input;
