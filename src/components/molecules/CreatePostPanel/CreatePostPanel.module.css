@@ -3,3 +3,7 @@
   align-items: center;
   gap: var(--size-5);
 }
+.input {
+  height: var(--size-7);
+  flex: 1;
+}

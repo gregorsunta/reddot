@@ -5,7 +5,14 @@ const CreatePostPanel = ({ className = '' }) => {
   return (
     <div className={`${styles.container} ${className}`}>
       <p>PI</p>
-      <Input placeholder={'Create post'} readOnly={true} />
+      <a href="/submit">
+        <input
+          className={`${styles.input}`}
+          type="text"
+          placeholder="Create post"
+          readOnly="true"
+        />
+      </a>
     </div>
   );
 };

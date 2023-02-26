@@ -1,7 +1,8 @@
 .header {
   position: fixed;
   top: 0;
-  height: var(--size-7);
+  /* height: var(--size-7); */
+  padding: var(--size-4) var(--size-6);
   width: 100vw;
   background-color: rgb(255, 255, 255);
 }
@@ -25,15 +26,14 @@
 }
 .feed {
 }
+
+.side-panel-container {
+  width: 35%;
+}
 .panel {
   padding: var(--size-4);
   border-radius: var(--size-2);
   border: var(--size-09) solid var(--gray-4);
   /* box-shadow: 0 0 5px var(--gray-4); */
   background-color: white;
-}
-.side-panel-container {
-  width: 35%;
-}
-.panel {
 }
