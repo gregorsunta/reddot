@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   TextOutline,
   ImageOutline,
@@ -6,9 +7,10 @@ import {
   AlbumsOutline,
   MicOutline,
 } from 'react-ionicons';
-import styles from './SubmitPanel.module.css';
+import indexStyles from '../../../styles/molecules/panels/index.module.css';
+import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 
-const SubmitPanel = ({ className }) => {
+const SubmitPanel = () => {
   const [activeType, setActiveType] = useState('text');
   const isActive = (value) => {
     return value === activeType ? styles.active : '';
@@ -36,7 +38,7 @@ const SubmitPanel = ({ className }) => {
       );
   };
   return (
-    <div className={`${className} ${styles.container}`}>
+    <div className={`${`${indexStyles.container}`} ${styles.container}`}>
       <div className={styles['btns-container']}>
         {/* post type buttons */}
         <button
@@ -83,11 +85,15 @@ const SubmitPanel = ({ className }) => {
       <input className={`${styles.input}`} type="text" placeholder="Title" />
       {displayType()}
       <div className={styles['form-btn']}>
-        <button>Cancel</button>
-        <button>Post</button>
+        <Link to={'/'}>
+          <button>Cancel</button>
+        </Link>
+        <Link to={'/'}>
+          <button>Post</button>
+        </Link>
       </div>
     </div>
   );
 };
 
-export default SubmitPanel;
+export { SubmitPanel };

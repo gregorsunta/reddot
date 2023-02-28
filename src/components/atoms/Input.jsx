@@ -1,4 +1,4 @@
-import styles from './Input.module.css';
+import styles from '../../styles/atoms/Input.module.css';
 
 const Input = ({
   placeholder = '',
@@ -15,5 +15,4 @@ const Input = ({
     />
   );
 };
-
-export default Input;
+export { Input };

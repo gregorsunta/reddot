@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--size-5);
+}
+.container input {
+  flex: 2;
+  font-size: var(--size-5-5);
+  padding: var(--size-1) var(--size-5-5);
+  align-self: stretch;
+  border: var(--size-08) solid var(--gray-4);
+  border-radius: 50px;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: var(--size-3);
+}
+.logo-container img {
+  width: var(--size-6-5);
+}
+.logo-container p {
+  font-size: var(--size-5-5);
+  font-weight: 400;
+  text-shadow: 1px 1px var(--gray-4);
+  letter-spacing: -1px;
+}
+.btn-container {
+  display: flex;
+  gap: var(--size-5);
+  /* align-items: stretch; */
+}
+.btn-container button {
+  width: var(--size-6);
+  aspect-ratio: 1/1;
+  /* align-self: stretch; */
+  border: var(--size-08) solid var(--gray-4);
+}
+.profile-container {
+  align-self: stretch;
+  width: var(--size-9);
+  /* background-color: gray; */
+  border: var(--size-08) solid var(--gray-4);
+  border-radius: var(--size-3);
+}
+.search-group-container {
+  align-self: stretch;
+  width: var(--size-10);
+  border: var(--size-08) solid var(--gray-4);
+  border-radius: var(--size-3);
+  /* background-color: gray; */
+}

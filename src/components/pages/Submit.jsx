@@ -1,10 +1,12 @@
-import SubmitPanel from '../molecules/SubmitPanel/SubmitPanel';
-import DefaultTemplate from '../templates/DefaultTemplate.module.css';
+import Protected from '../../navigation/Protected';
+import { SubmitPanel } from '../molecules/panels/';
 
-const Submit = ({ className }) => {
+const Submit = () => {
   return (
-    <div className={className}>
-      <SubmitPanel className={DefaultTemplate.panel} />
+    <div className={''}>
+      <Protected>
+        <SubmitPanel className={`${''}`} />
+      </Protected>
     </div>
   );
 };

@@ -1,12 +1,26 @@
 import { Route, Routes } from 'react-router-dom';
-import Homepage from '../components/pages/Homepage.jsx';
+import Home from '../components/pages/Home';
+import Submit from '../components/pages/Submit';
+import Header from '../components/organisms/Header';
+import { PageInfoPanel } from '../components/molecules/panels';
+
+//TODO: make template references only directly on pages?
 
 const RouterConfig = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Homepage />} />
-    </Routes>
+    <div>
+      <Header className={`${''}`}></Header>
+      <div className={`${''}`}>
+        <Routes>
+          <Route path="/" element={<Home className={`${''}`} />} />
+          <Route path="/submit" element={<Submit className={`${''}`} />} />
+        </Routes>
+        <div className={`${''}`}>
+          <PageInfoPanel className={`${''}`}></PageInfoPanel>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default RouterConfig;
+export { RouterConfig };

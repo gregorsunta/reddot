@@ -1,18 +1,26 @@
 import React from 'react';
-import DefaultTemplate from '../templates/DefaultTemplate.module.css';
-import FeedPanel from '../organisms/FeedPanel/FeedPanel';
-import CreatePostPanel from '../molecules/CreatePostPanel/CreatePostPanel';
-// import promptSignIn from '../../services/firebase-auth';
+import {
+  CreatePostPanel,
+  PageInfoPanel,
+  FeedPanel,
+} from '../molecules/panels/';
+import Protected from '../../navigation/Protected';
+import MainTemplate from '../templates/MainTemplate';
+import HeaderButtons from '../molecules/HeaderButtons.jsx';
 
-const Homepage = ({ className }) => {
+const Home = () => {
   return (
-    <div className={className}>
-      <CreatePostPanel className={`${DefaultTemplate.panel}`} />
-      <FeedPanel
-        className={`${DefaultTemplate.feed} ${DefaultTemplate.panel}`}
-      ></FeedPanel>
-    </div>
+    <MainTemplate
+      header={<HeaderButtons></HeaderButtons>}
+      content={
+        <>
+          <Protected auth={true} component={CreatePostPanel} alternative={''} />
+          <FeedPanel />
+        </>
+      }
+      side={<PageInfoPanel />}
+    ></MainTemplate>
   );
 };
 
-export default Homepage;
+export default Home;
