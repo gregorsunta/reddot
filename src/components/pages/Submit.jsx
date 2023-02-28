@@ -3,7 +3,7 @@ import { SubmitPanel } from '../molecules/panels/';
 import MainTemplate from '../templates/MainTemplate.jsx';
 
 const Submit = () => {
-  return <MainTemplate className={''}></MainTemplate>;
+  return <MainTemplate content={<SubmitPanel />}></MainTemplate>;
 };
 
 export default Submit;

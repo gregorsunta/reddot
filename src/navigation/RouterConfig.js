@@ -15,9 +15,6 @@ const RouterConfig = () => {
           <Route path="/" element={<Home className={`${''}`} />} />
           <Route path="/submit" element={<Submit className={`${''}`} />} />
         </Routes>
-        <div className={`${''}`}>
-          <PageInfoPanel className={`${''}`}></PageInfoPanel>
-        </div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../../styles/templates/MainTemplate.module.css';
-import Header from '../organisms/Header.jsx';
 import {
   PageInfoPanel,
   CreatePostPanel,
