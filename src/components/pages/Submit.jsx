@@ -1,14 +1,9 @@
 import Protected from '../../navigation/Protected';
 import { SubmitPanel } from '../molecules/panels/';
+import MainTemplate from '../templates/MainTemplate.jsx';
 
 const Submit = () => {
-  return (
-    <div className={''}>
-      <Protected>
-        <SubmitPanel className={`${''}`} />
-      </Protected>
-    </div>
-  );
+  return <MainTemplate className={''}></MainTemplate>;
 };
 
 export default Submit;

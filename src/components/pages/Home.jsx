@@ -11,7 +11,6 @@ import HeaderButtons from '../molecules/HeaderButtons.jsx';
 const Home = () => {
   return (
     <MainTemplate
-      header={<HeaderButtons></HeaderButtons>}
       content={
         <>
           <Protected auth={true} component={CreatePostPanel} alternative={''} />

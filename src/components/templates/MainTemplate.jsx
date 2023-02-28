@@ -10,7 +10,6 @@ import {
 const MainTemplate = ({ auth, content, side }) => {
   return (
     <div>
-      <Header auth={auth} className={styles.header}></Header>
       <div className={styles.main}>
         <div className={styles.content}>{content}</div>
         <div className={styles['side-panel-container']}>{side}</div>
