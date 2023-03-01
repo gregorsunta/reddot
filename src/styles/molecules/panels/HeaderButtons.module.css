@@ -1,0 +1,19 @@
+.text-button-container {
+  /* padding: 1vh 2vw; */
+  padding: var(--size-2) var(--size-6);
+  border: var(--size-0) solid var(--teal-7);
+  white-space: nowrap;
+  border-radius: 50px;
+  background-color: rgb(255, 255, 255);
+  color: var(--teal-7);
+}
+.text-button-container:hover {
+  background-color: var(--teal-1);
+}
+.text-button-container.highlight {
+  background-color: var(--teal-7);
+  color: white;
+}
+.text-button-container.highlight:hover {
+  background-color: var(--teal-8);
+}
