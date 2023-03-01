@@ -1,23 +1,33 @@
 import React from 'react';
 import logo from '../../assets/images/logo.svg';
 import styles from '../../styles/organisms/Header.module.css';
+import { HeaderButtons, Dropdown } from '../molecules/';
+import { Input } from '../atoms/';
+
+const options = [
+  { name: 'Account', link: '/test1' },
+  { name: 'Register or Sign Up', link: '/test1' },
+];
 
 const Header = ({ className }) => {
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
-        <img src={logo} alt="Outlined robot head." />
+        <img style={{ height: '80%' }} src={logo} alt="Outlined robot head." />
         <p>reddot</p>
       </div>
-      <div className={styles['search-group-container']}></div>
-      <input className={''} placeholder={'Search reddot'}></input>
+      {/* <div className={styles['search-group-container']}></div> */}
+      <Input
+        className={`${styles['search-bar-container']}`}
+        placeholder={'Search reddot'}
+      />
       <div className={styles['btn-container']}>
-        <button></button>
-        <button></button>
-        <button></button>
+        <HeaderButtons />
       </div>
-      <div className={styles['profile-container']}>Profile</div>
-      {/* my profile button - sign out - sign out? */}
+      <Dropdown
+        className={`${styles['dropdown-container']}`}
+        options={options}
+      />
     </div>
   );
 };
