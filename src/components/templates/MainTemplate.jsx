@@ -1,10 +1,5 @@
 import React from 'react';
 import styles from '../../styles/templates/MainTemplate.module.css';
-import {
-  PageInfoPanel,
-  CreatePostPanel,
-  FeedPanel,
-} from '../molecules/panels/';
 
 const MainTemplate = ({ auth, content, side }) => {
   return (
