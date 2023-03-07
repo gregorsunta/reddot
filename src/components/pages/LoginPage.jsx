@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import authStore from '../../stores/authStore';
-import authService from '../../services/authService';
+import authService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { getAuth } from 'firebase/auth';
