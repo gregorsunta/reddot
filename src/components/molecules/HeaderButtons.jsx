@@ -1,22 +1,27 @@
 import { Button } from '../atoms';
-import { signInUser } from '../../services/firebase-auth';
 import styles from '../../styles/molecules/panels/HeaderButtons.module.css';
+import withRedirect from '../../utils/withRedirect.jsx';
+import { useAuth } from '../../context/authContext';
 
-const HeaderButtons = ({ auth = false }) => {
-  if (!auth) {
+const RedirectButton = withRedirect(Button);
+
+const HeaderButtons = () => {
+  const AuthStore = useAuth();
+
+  if (!AuthStore.user) {
     return (
       <>
-        <Button
+        <RedirectButton
           className={`${styles['text-button-container']}`}
           title={'Click here to log in'}
           text={'Log in'}
-          onClick={null}
+          link={'/login'}
         />
-        <Button
+        <RedirectButton
           className={`${styles['text-button-container']} ${styles['highlight']}`}
           title={'Click here to sign up'}
           text={'Sign up'}
-          onClick={null}
+          link={'/register'}
         />
       </>
     );

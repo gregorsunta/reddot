@@ -1,19 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from '../components/pages/Home';
-import Submit from '../components/pages/Submit';
+import LoginPage from '../components/pages/LoginPage';
+import HomePage from '../components/pages/HomePage';
+import SubmitPage from '../components/pages/SubmitPage';
 import Header from '../components/organisms/Header';
-import { PageInfoPanel } from '../components/molecules/panels';
+import RegisterPage from '../components/pages/RegisterPage';
 
-//TODO: make template references only directly on pages?
-
-const RouterConfig = () => {
+const RouterConfig = ({ store }) => {
   return (
     <div>
       <Header className={`${''}`}></Header>
       <div className={`${''}`}>
         <Routes>
-          <Route path="/" element={<Home className={`${''}`} />} />
-          <Route path="/submit" element={<Submit className={`${''}`} />} />
+          <Route path="/" element={<HomePage className={`${''}`} />} />
+          <Route path="/submit" element={<SubmitPage className={`${''}`} />} />
+          <Route path="/login" element={<LoginPage className={`${''}`} />} />
+          <Route
+            path="/register"
+            element={<RegisterPage className={`${''}`} />}
+          />
         </Routes>
       </div>
     </div>

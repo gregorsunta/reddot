@@ -1,14 +1,27 @@
-import './App.css';
+import React from 'react';
 import { initializeApp } from 'firebase/app';
-import { RouterConfig } from './navigation';
 import { getFirestore } from 'firebase/firestore';
-import { getFirebaseConfig } from './services';
+import { observer } from 'mobx-react';
+import { getAuth, GoogleAuthProvider, initializeAuth } from 'firebase/auth';
+import { RouterConfig } from './navigation';
+import authStore from './stores/authStore';
+import { getFirebaseConfig } from './services/firebase-config';
+import './App.css';
+import { AuthContext } from './context/authContext';
+
+const app = initializeApp(getFirebaseConfig());
+
+const auth = getAuth(app);
+
+const store = new authStore(auth);
+
+const db = getFirestore();
 
 const App = () => {
   return (
-    <div>
+    <AuthContext.Provider value={store}>
       <RouterConfig />
-    </div>
+    </AuthContext.Provider>
   );
 };
 
