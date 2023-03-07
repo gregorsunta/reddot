@@ -1,27 +1,17 @@
 import { makeObservable, observable, action } from 'mobx';
-import { Observer } from 'mobx-react';
-import { signInUser, signOutUser } from '../services/firebase-auth';
 
-export class authStore {
+export default class authStore {
   user = null;
-  userToken = null;
-  isLoding = false;
+  isLoading = false;
   constructor(auth) {
     this.auth = auth;
     makeObservable(this, {
       user: observable,
-      userToken: observable,
-      signOut: action,
+      isLoading: observable,
+      auth: observable,
     });
   }
-
-  signOut = async () => {
-    try {
-      await signOutUser(this.auth);
-    } catch (err) {}
+  setUser = (user) => {
+    this.user = user;
   };
 }
-
-// signIn = () => {
-//     signInUser();
-//   };
