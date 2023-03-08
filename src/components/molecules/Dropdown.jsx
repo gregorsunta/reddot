@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../atoms';
 import styles from '../../styles/molecules/Dropdown.module.css';
-import { withRedirect } from '../../utils/withRedirect.jsx';
 import { ButtonsGroup } from './ButtonsGroup';
-
-const ButtonWithRedirect = withRedirect(Button);
 
 const Dropdown = ({ buttons, className }) => {
   const [isOpen, setIsOpen] = useState(false);

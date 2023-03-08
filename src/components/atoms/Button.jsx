@@ -1,23 +1,19 @@
 import styles from '../../styles/atoms/Button.module.css';
 
 const Button = ({
-  text = null,
-  onClick = null,
-  className = '',
-  activeClassName = '',
-  title = undefined,
+  text,
+  className,
+  activeClassName,
   isActive = false,
-  key = null,
-  icon = '',
+  icon,
+  ...rest
 }) => {
   return (
     <button
-      title={title}
       className={`${styles.container} ${className} ${
         isActive ? activeClassName : ''
       }`}
-      onClick={onClick}
-      key={key}
+      {...rest}
     >
       {icon}
       {text}

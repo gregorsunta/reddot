@@ -4,13 +4,14 @@ import { useAuth } from '../../context/authContext';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Input } from '../atoms/';
 import { withRedirect } from '../../utils';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 import styles from '../../styles/organisms/Header.module.css';
 import ButtonFunctionalRound from '../../styles/atoms/ButtonFunctionalRound.module.css';
 
 const dropdownButtons = [
-  { text: 'Account', link: '/test1', key: 'account' },
-  { text: 'Register or Sign Up', link: '/test1', key: 'alternative' },
+  { text: 'Account', link: '/account', key: 'account' },
+  { text: 'Register or Sign Up', link: '/signup', key: 'alternative' },
 ];
 const unauthenticatedUserButtons = [
   {
@@ -28,7 +29,8 @@ const unauthenticatedUserButtons = [
 ];
 const authenticatedUserButtons = [
   {
-    text: 'Create post',
+    title: 'Add post',
+    icon: <AiOutlinePlus />,
     link: '/submit',
     className: '',
     key: 'submit',
@@ -40,7 +42,6 @@ const Header = observer(({ className }) => {
   const AuthStore = useAuth();
   return (
     <div className={`${styles.container} ${className}`}>
-      {console.log(AuthStore.user)}
       <div className={styles['logo-container']}>
         <RedirectLogo link={'/'} />
       </div>
