@@ -5,7 +5,7 @@ import { Input } from '../atoms/';
 import withRedirect from '../../utils/withRedirect';
 import Logo from '../molecules/Logo.jsx';
 
-const options = [
+const dropdownButtons = [
   { name: 'Account', link: '/test1' },
   { name: 'Register or Sign Up', link: '/test1' },
 ];
@@ -26,7 +26,7 @@ const Header = ({ className }) => {
       </div>
       <Dropdown
         className={`${styles['dropdown-container']}`}
-        options={options}
+        buttons={dropdownButtons}
       />
     </div>
   );
