@@ -7,7 +7,6 @@ const Dropdown = ({ buttons, className }) => {
   const [mainButton, ...listButtons] = buttons;
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
-  const { ...props } = mainButton;
 
   const toggleList = () => {
     setIsOpen(!isOpen);
