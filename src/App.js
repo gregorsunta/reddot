@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { observer } from 'mobx-react';
@@ -12,12 +12,12 @@ import { AuthContext } from './context/authContext';
 
 const app = initializeApp(getFirebaseConfig());
 const auth = getAuth(app);
-const store = new authStore(auth);
+const AuthStore = new authStore(auth);
 FirestoneService.init(app);
 
 const App = () => {
   return (
-    <AuthContext.Provider value={store}>
+    <AuthContext.Provider value={AuthStore}>
       <RouterConfig />
     </AuthContext.Provider>
   );
