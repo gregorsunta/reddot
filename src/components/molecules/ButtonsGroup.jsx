@@ -1,7 +1,6 @@
 import { Button } from '../atoms';
 import { withRedirect } from '../../utils/withRedirect.jsx';
 import { observer } from 'mobx-react';
-import { IconName } from 'react-icons/io';
 
 const RedirectButton = withRedirect(Button);
 
@@ -12,6 +11,7 @@ const ButtonsGroup = observer(({ buttons }) => {
         return btn.link ? (
           <RedirectButton
             text={btn.text}
+            icon={btn.icon}
             link={btn.link}
             className={btn.className}
             key={btn.key}
@@ -19,6 +19,7 @@ const ButtonsGroup = observer(({ buttons }) => {
         ) : (
           <Button
             text={btn.text}
+            icon={btn.icon}
             onClick={btn.event}
             className={btn.className}
             key={btn.key}

@@ -8,6 +8,7 @@ const Button = ({
   title = undefined,
   isActive = false,
   key = null,
+  icon = '',
 }) => {
   return (
     <button
@@ -18,6 +19,7 @@ const Button = ({
       onClick={onClick}
       key={key}
     >
+      {icon}
       {text}
     </button>
   );
