@@ -1,2 +1,3 @@
 export * from './Dropdown';
-export * from './HeaderButtons';
+export * from './ButtonsGroup';
+export * from './Logo';

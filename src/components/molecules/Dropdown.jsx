@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../atoms';
 import styles from '../../styles/molecules/Dropdown.module.css';
-import withRedirect from '../../utils/withRedirect.jsx';
+import { withRedirect } from '../../utils/withRedirect.jsx';
+import { ButtonsGroup } from './ButtonsGroup';
 
 const ButtonWithRedirect = withRedirect(Button);
 
@@ -32,30 +33,7 @@ const Dropdown = ({ buttons, className }) => {
         onClick={toggleList}
       />
       <ul className={`${isOpen && styles['active']}`}>
-        {buttons.map((option) => {
-          if (option.link) {
-            return (
-              <ButtonWithRedirect
-                // className={styles.option}
-                link={option.link}
-                text={option.name}
-                key={option.name}
-              >
-                {option.name}
-              </ButtonWithRedirect>
-            );
-          } else {
-            return (
-              <Button
-                onClick={option.onClick}
-                text={option.name}
-                key={option.name}
-              >
-                {option.name}
-              </Button>
-            );
-          }
-        })}
+        <ButtonsGroup buttons={buttons} />
       </ul>
     </div>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 import { CreatePostPanel, PageInfoPanel, FeedPanel } from '../molecules/panels';
 import Protected from '../../navigation/Protected';
 import MainTemplate from '../templates/MainTemplate';
-import HeaderButtons from '../molecules/HeaderButtons.jsx';
 
 const HomePage = () => {
   return (
@@ -14,7 +13,7 @@ const HomePage = () => {
         </>
       }
       side={<PageInfoPanel />}
-    ></MainTemplate>
+    />
   );
 };
 

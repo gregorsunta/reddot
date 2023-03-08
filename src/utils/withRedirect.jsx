@@ -11,4 +11,4 @@ const withRedirect = (Component) => {
   return WithRedirect;
 };
 
-export default withRedirect;
+export { withRedirect };
