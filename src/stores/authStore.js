@@ -9,6 +9,7 @@ export default class authStore {
       user: observable,
       isLoading: observable,
       auth: observable,
+      setUser: action,
     });
   }
   setUser = (user) => {

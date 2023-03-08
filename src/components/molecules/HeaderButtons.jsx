@@ -2,10 +2,11 @@ import { Button } from '../atoms';
 import styles from '../../styles/molecules/panels/HeaderButtons.module.css';
 import withRedirect from '../../utils/withRedirect.jsx';
 import { useAuth } from '../../context/authContext';
+import { observer } from 'mobx-react';
 
 const RedirectButton = withRedirect(Button);
 
-const HeaderButtons = () => {
+const HeaderButtons = observer(() => {
   const AuthStore = useAuth();
 
   if (!AuthStore.user) {
