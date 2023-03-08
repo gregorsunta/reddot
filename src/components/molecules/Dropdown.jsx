@@ -5,7 +5,7 @@ import withRedirect from '../../utils/withRedirect.jsx';
 
 const ButtonWithRedirect = withRedirect(Button);
 
-const Dropdown = ({ options, className }) => {
+const Dropdown = ({ buttons, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
 
@@ -23,6 +23,7 @@ const Dropdown = ({ options, className }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [container]);
+
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
       <Button
@@ -31,7 +32,7 @@ const Dropdown = ({ options, className }) => {
         onClick={toggleList}
       />
       <ul className={`${isOpen && styles['active']}`}>
-        {options.map((option) => {
+        {buttons.map((option) => {
           if (option.link) {
             return (
               <ButtonWithRedirect
