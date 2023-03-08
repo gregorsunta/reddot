@@ -4,10 +4,20 @@ const Button = ({
   text = null,
   onClick = null,
   className = '',
+  activeClassName = '',
   title = undefined,
+  isActive = false,
+  key = null,
 }) => {
   return (
-    <button title={title} className={`${''} ${className}`} onClick={onClick}>
+    <button
+      title={title}
+      className={`${styles.container} ${className} ${
+        isActive ? activeClassName : ''
+      }`}
+      onClick={onClick}
+      key={key}
+    >
       {text}
     </button>
   );
