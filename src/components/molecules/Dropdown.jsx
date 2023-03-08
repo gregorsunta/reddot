@@ -4,8 +4,10 @@ import styles from '../../styles/molecules/Dropdown.module.css';
 import { ButtonsGroup } from './ButtonsGroup';
 
 const Dropdown = ({ buttons, className }) => {
+  const [mainButton, ...listButtons] = buttons;
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
+  const { ...props } = mainButton;
 
   const toggleList = () => {
     setIsOpen(!isOpen);
@@ -24,13 +26,9 @@ const Dropdown = ({ buttons, className }) => {
 
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
-      <Button
-        className={`${isOpen && styles['active']}`}
-        text={'Profile'}
-        onClick={toggleList}
-      />
+      <Button {...mainButton} onClick={toggleList} />
       <ul className={`${isOpen && styles['active']}`}>
-        <ButtonsGroup buttons={buttons} />
+        <ButtonsGroup buttons={listButtons} />
       </ul>
     </div>
   );

@@ -4,12 +4,26 @@ import { useAuth } from '../../context/authContext';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Input } from '../atoms/';
 import { withRedirect } from '../../utils';
-import { AiOutlinePlus } from 'react-icons/ai';
-
+import { AiOutlinePlus, AiOutlineUser } from 'react-icons/ai';
+import { IoIosArrowDropdown } from 'react-icons/io';
 import styles from '../../styles/organisms/Header.module.css';
 import ButtonFunctionalRound from '../../styles/atoms/ButtonFunctionalRound.module.css';
 
-const dropdownButtons = [
+const unauthDropdown = [
+  {
+    icon: (
+      <>
+        <AiOutlineUser /> <IoIosArrowDropdown />
+      </>
+    ),
+  },
+  { text: 'Dark mode', key: 'mode' },
+  { text: 'Terms & policies', key: 'terms' },
+  { text: 'Account', link: '/account', key: 'account' },
+  { text: 'Register or Sign Up', link: '/signup', key: 'alternative' },
+];
+const authDropdown = [
+  { icon: <AiOutlineUser /> },
   { text: 'Account', link: '/account', key: 'account' },
   { text: 'Register or Sign Up', link: '/signup', key: 'alternative' },
 ];
@@ -58,10 +72,17 @@ const Header = observer(({ className }) => {
           }
         />
       </div>
-      <Dropdown
-        className={`${styles['dropdown-container']}`}
-        buttons={dropdownButtons}
-      />
+      {AuthStore.user ? (
+        <Dropdown
+          className={`${styles['dropdown-container']}`}
+          buttons={authDropdown}
+        />
+      ) : (
+        <Dropdown
+          className={`${styles['dropdown-container']}`}
+          buttons={unauthDropdown}
+        />
+      )}
     </div>
   );
 });
