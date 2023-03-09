@@ -42,21 +42,19 @@
   border-radius: var(--size-3);
 }
 .btn-container {
-  flex: 0 1 20%;
-
+  flex: 0 1 35%;
+  height: 70%;
   display: flex;
   gap: var(--size-5);
 }
 .dropdown-container {
   flex: 0 1 5%;
-  height: 80%;
-
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  height: 70%;
 }
 .dropdown-container > button {
+  display: flex;
   height: 100%;
+  width: 2.5rem;
 }
 .dropdown-container > ul {
   right: -0;
