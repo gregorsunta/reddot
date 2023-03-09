@@ -7,8 +7,8 @@ const Button = ({
   className,
   activeClassName,
   isActive = false,
-  beforeText,
-  afterText,
+  startIcon,
+  endIcon,
   ...rest
 }) => {
   let Component = 'button';
@@ -20,9 +20,9 @@ const Button = ({
   }
   return (
     <Component to={to} className={`${className} ${styles.container}`} {...rest}>
-      {beforeText}
+      {startIcon}
       {children}
-      {afterText}
+      {endIcon}
     </Component>
   );
 };
