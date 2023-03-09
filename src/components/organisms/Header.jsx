@@ -16,42 +16,49 @@ const anonymousButtons = [
   {
     children: <span>Login</span>,
     to: '/login',
-    className: `${ButtonBasic.container}`,
+    variant: 'outlined',
+    // className: ButtonBasic.container,
     key: 'login',
   },
   {
     children: <span>Sign up</span>,
     to: '/signup',
-    className: `${ButtonBasic.container} ${ButtonBasic.highlight}`,
+    variant: 'filled',
+    // className: [ButtonBasic.container, ButtonBasic.highlight].join(' '),
     key: 'signup',
   },
 ];
 const anonymousDropdown = [
   {
+    variant: 'text',
     startIcon: <AiOutlineUser />,
     endIcon: <IoIosArrowDropdown />,
     className: '',
   },
   {
+    variant: 'text',
     children: <span>Dark mode</span>,
     key: 'mode',
-    className: `${ButtonDropdownItem.container}`,
+    className: '',
   },
   {
+    variant: 'text',
     children: <span>Terms & policies</span>,
     key: 'terms',
-    className: `${ButtonDropdownItem.container}`,
+    className: '',
   },
   {
+    variant: 'text',
     children: <span>Register or Sign Up</span>,
     href: '/signup',
     key: 'alternative',
-    className: `${ButtonDropdownItem.container}`,
+    className: '',
   },
 ];
 const authButtons = [
   {
     title: 'Add post',
+    variant: 'text',
     startIcon: AiOutlinePlus,
     to: '/submit',
     className: '',
@@ -60,20 +67,24 @@ const authButtons = [
 ];
 const authDropdown = [
   {
+    variant: 'text',
     className: '',
     startIcon: <AiOutlineUser />,
   },
   {
+    variant: 'text',
     children: <span>Dark mode</span>,
     key: 'mode',
     className: `${ButtonDropdownItem.container}`,
   },
   {
+    variant: 'text',
     children: <span>Terms & policies</span>,
     key: 'terms',
     className: `${ButtonDropdownItem.container}`,
   },
   {
+    variant: 'text',
     children: <span>Account</span>,
     to: '/account',
     key: 'account',

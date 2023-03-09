@@ -5,6 +5,7 @@ const Button = ({
   children,
   to = null,
   className,
+  variant = 'filled',
   activeClassName,
   isActive = false,
   startIcon,
@@ -12,14 +13,16 @@ const Button = ({
   ...rest
 }) => {
   let Component = 'button';
-  if (to) {
-    Component = Link;
-  }
-  if (activeClassName) {
-    Component = NavLink;
-  }
+  const classNames = [styles.container, className];
+
+  to && (Component = Link);
+  activeClassName && (Component = NavLink);
+  variant === 'filled' && classNames.push(styles.filled);
+  variant === 'outlined' && classNames.push(styles.outlined);
+  variant === 'text' && classNames.push(styles.text);
+
   return (
-    <Component to={to} className={`${className} ${styles.container}`} {...rest}>
+    <Component to={to} className={classNames.join(' ')} {...rest}>
       {startIcon}
       {children}
       {endIcon}

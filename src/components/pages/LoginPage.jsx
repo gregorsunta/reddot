@@ -6,6 +6,7 @@ import { Button, Input } from '../atoms';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../context/authContext';
 import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage = ({ className }) => {
   const store = useAuth();
@@ -34,8 +35,13 @@ const LoginPage = ({ className }) => {
           <Input placeholder="email" />
           <p>Enter password</p>
           <Input placeholder="password" />
-          <Button text={'Login'} />
-          <Button text={'Sign in with google'} onClick={Login} />
+          <Button children={<span>Login</span>} />
+          <Button
+            variant="text"
+            startIcon={<FcGoogle />}
+            children={<span>Continue with google</span>}
+            onClick={Login}
+          />
         </>
       }
     />
