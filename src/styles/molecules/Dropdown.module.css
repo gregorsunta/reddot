@@ -1,39 +1,24 @@
 .container {
   position: relative;
 }
-.container > button {
-  border: var(--size-09) solid var(--gray-4);
-  border-radius: 5px;
-  background-color: white;
-}
-.container > button.active {
-  border-bottom-color: white;
-  border-bottom-left-radius: none;
-  border-bottom-right-radius: none;
-}
 .container > ul {
   position: absolute;
 
   display: flex;
   flex-direction: column;
   gap: var(--size-3);
-  align-items: right;
   padding: 0;
   height: 0;
 
   overflow: hidden;
-  background-color: white;
 }
-.container > ul.active {
+.container .active {
   height: auto;
   padding: 2vh 2vh;
   border: var(--size-09) solid var(--gray-4);
   border-radius: var(--size-3);
 }
 .container > ul * {
-  border: none;
-  /* align-items: stretch; */
-  background-color: rgb(255, 255, 255);
   text-align: left;
   white-space: nowrap;
 }
