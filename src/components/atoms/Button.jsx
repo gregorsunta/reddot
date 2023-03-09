@@ -1,23 +1,29 @@
-import styles from '../../styles/atoms/Button.module.css';
+import styles from '../../styles/atoms/ButtonBase.module.css';
+import { Link, NavLink } from 'react-router-dom';
 
 const Button = ({
-  text,
+  children,
+  to = null,
   className,
   activeClassName,
   isActive = false,
-  icon,
+  beforeText,
+  afterText,
   ...rest
 }) => {
+  let Component = 'button';
+  if (to) {
+    Component = Link;
+  }
+  if (activeClassName) {
+    Component = NavLink;
+  }
   return (
-    <button
-      className={`${styles.container} ${className} ${
-        isActive ? activeClassName : ''
-      }`}
-      {...rest}
-    >
-      {icon}
-      {text}
-    </button>
+    <Component to={to} className={`${className} ${styles.container}`} {...rest}>
+      {beforeText}
+      {children}
+      {afterText}
+    </Component>
   );
 };
 
