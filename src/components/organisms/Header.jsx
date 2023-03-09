@@ -6,51 +6,82 @@ import { Input } from '../atoms/';
 import { withRedirect } from '../../utils';
 import { AiOutlinePlus, AiOutlineUser } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
-import styles from '../../styles/organisms/Header.module.css';
-import ButtonFunctionalRound from '../../styles/atoms/ButtonFunctionalRound.module.css';
+import { MdOutlineAccountCircle, MdOutlinePageview } from 'react-icons/md';
 
-const unauthDropdown = [
+import styles from '../../styles/organisms/Header.module.css';
+import ButtonBasic from '../../styles/atoms/ButtonBasic.module.css';
+import ButtonDropdownItem from '../../styles/atoms/ButtonDropdownItem.module.css';
+
+const anonymousButtons = [
   {
-    icon: (
-      <>
-        <AiOutlineUser /> <IoIosArrowDropdown />
-      </>
-    ),
-  },
-  { text: 'Dark mode', key: 'mode' },
-  { text: 'Terms & policies', key: 'terms' },
-  { text: 'Account', link: '/account', key: 'account' },
-  { text: 'Register or Sign Up', link: '/signup', key: 'alternative' },
-];
-const authDropdown = [
-  { icon: <AiOutlineUser /> },
-  { text: 'Account', link: '/account', key: 'account' },
-  { text: 'Register or Sign Up', link: '/signup', key: 'alternative' },
-];
-const unauthenticatedUserButtons = [
-  {
-    text: 'Log in',
-    link: '/login',
-    className: ButtonFunctionalRound.container,
+    children: <span>Login</span>,
+    to: '/login',
+    className: `${ButtonBasic.container}`,
     key: 'login',
   },
   {
-    text: 'Sign Up',
-    className: `${ButtonFunctionalRound.container} ${ButtonFunctionalRound.highlight}`,
-    link: '/signup',
+    children: <span>Sign up</span>,
+    to: '/signup',
+    className: `${ButtonBasic.container} ${ButtonBasic.highlight}`,
     key: 'signup',
   },
 ];
-const authenticatedUserButtons = [
+const anonymousDropdown = [
+  {
+    startIcon: <AiOutlineUser />,
+    endIcon: <IoIosArrowDropdown />,
+    className: '',
+  },
+  {
+    children: <span>Dark mode</span>,
+    key: 'mode',
+    className: `${ButtonDropdownItem.container}`,
+  },
+  {
+    children: <span>Terms & policies</span>,
+    key: 'terms',
+    className: `${ButtonDropdownItem.container}`,
+  },
+  {
+    children: <span>Register or Sign Up</span>,
+    href: '/signup',
+    key: 'alternative',
+    className: `${ButtonDropdownItem.container}`,
+  },
+];
+const authButtons = [
   {
     title: 'Add post',
-    icon: <AiOutlinePlus />,
-    link: '/submit',
+    startIcon: AiOutlinePlus,
+    to: '/submit',
     className: '',
     key: 'submit',
   },
-  { text: 'Sign Up', link: '/signup', key: 'signup' },
 ];
+const authDropdown = [
+  {
+    className: '',
+    startIcon: <AiOutlineUser />,
+  },
+  {
+    children: <span>Dark mode</span>,
+    key: 'mode',
+    className: `${ButtonDropdownItem.container}`,
+  },
+  {
+    children: <span>Terms & policies</span>,
+    key: 'terms',
+    className: `${ButtonDropdownItem.container}`,
+  },
+  {
+    children: <span>Account</span>,
+    to: '/account',
+    key: 'account',
+    className: `${ButtonDropdownItem.container}`,
+    startIcon: <MdOutlineAccountCircle />,
+  },
+];
+
 const RedirectLogo = withRedirect(Logo);
 const Header = observer(({ className }) => {
   const AuthStore = useAuth();
@@ -65,11 +96,7 @@ const Header = observer(({ className }) => {
       />
       <div className={styles['btn-container']}>
         <ButtonsGroup
-          buttons={
-            AuthStore.user
-              ? authenticatedUserButtons
-              : unauthenticatedUserButtons
-          }
+          buttons={AuthStore.user ? authButtons : anonymousButtons}
         />
       </div>
       {AuthStore.user ? (
@@ -80,7 +107,7 @@ const Header = observer(({ className }) => {
       ) : (
         <Dropdown
           className={`${styles['dropdown-container']}`}
-          buttons={unauthDropdown}
+          buttons={anonymousDropdown}
         />
       )}
     </div>
