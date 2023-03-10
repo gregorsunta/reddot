@@ -1,22 +1,10 @@
 .container {
+  padding: var(--size-3) var(--size-6);
   display: flex;
   align-items: center;
-
-  padding: var(--size-2) var(--size-6-5);
-  border: var(--size-0) solid var(--teal-7);
-  white-space: nowrap;
-  border-radius: var(--size-5);
-  background-color: white;
-  color: var(--teal-7);
+  justify-content: center;
 }
-.container:hover {
-  background-color: var(--teal-1);
-}
-.container.highlight {
-  background-color: var(--teal-7);
-  color: white;
-}
-.container.highlight:hover {
-  border: var(--size-0) solid var(--teal-8);
-  background-color: var(--teal-8);
+.container svg {
+  height: var(--size-6);
+  width: var(--size-6);
 }
