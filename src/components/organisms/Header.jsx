@@ -104,9 +104,10 @@ const Header = observer(({ className, isSignedIn }) => {
         className={`${styles['search-bar-container']}`}
         placeholder={'Search reddot'}
       />
-      <div className={styles['btn-container']}>
-        <ButtonsGroup buttons={isSignedIn ? authButtons : anonymousButtons} />
-      </div>
+      <ButtonsGroup
+        className={styles['btn-container']}
+        buttons={isSignedIn ? authButtons : anonymousButtons}
+      />
       <Dropdown
         className={styles['dropdown-container']}
         buttons={isSignedIn ? authDropdown : anonymousDropdown}
