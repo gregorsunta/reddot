@@ -1,6 +1,5 @@
 import React from 'react';
 import { CreatePostPanel, PageInfoPanel, FeedPanel } from '../molecules/panels';
-import Protected from '../../navigation/Protected';
 import MainTemplate from '../templates/MainTemplate';
 
 const HomePage = () => {
@@ -8,7 +7,7 @@ const HomePage = () => {
     <MainTemplate
       content={
         <>
-          <Protected auth={true} component={CreatePostPanel} alternative={''} />
+          <CreatePostPanel />
           <FeedPanel />
         </>
       }
