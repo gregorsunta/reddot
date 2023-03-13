@@ -1,6 +1,6 @@
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
-export default class authService {
+class AuthService {
   constructor(auth) {
     this.auth = auth;
   }
@@ -20,3 +20,13 @@ export default class authService {
     }
   };
 }
+
+const createAuthService = () => {
+  let instance = null;
+  if (!instance) {
+    instance = new AuthService();
+  }
+  console.error('Only one instance of AuthService is allowed');
+};
+
+export default createAuthService;
