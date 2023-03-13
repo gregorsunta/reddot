@@ -1,9 +1,10 @@
 import authStore from './authStore';
-import dataStore from './dataStore';
+import dataStore from './userStore';
 
 class RootStore {
-  constructot() {
-    this.DataStore = authStore();
-    this.AuthStore = dataStore();
+  constructor(app) {
+    this.DataStore = dataStore();
+    this.AuthStore = authStore(app);
   }
 }
+export default new RootStore();
