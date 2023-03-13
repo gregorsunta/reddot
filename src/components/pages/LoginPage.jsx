@@ -1,16 +1,15 @@
 import { observer } from 'mobx-react';
-import AuthStore from '../../stores/authStore';
 import authService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { getAuth } from 'firebase/auth';
-import { useAuth } from '../../context/authContext';
+import { useRoot } from '../../constants/rootStoreContext';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 
-const LoginPage = ({ className }) => {
-  const AuthStore = useAuth();
-  const AuthService = new authService(AuthStore.auth);
+const LoginPage = observer(({ className }) => {
+  const rootStore = useRoot();
+  const AuthService = new authService(rootStore.auth);
   const [isLoading, setIsLoading] = useState(false);
 
   const Login = async () => {
@@ -18,7 +17,7 @@ const LoginPage = ({ className }) => {
     try {
       const result = await AuthService.signInWithGoogle();
       const user = result.user;
-      AuthStore.setUser(user);
+      rootStore.setUser(user);
     } catch (err) {
       console.error(err);
     } finally {
@@ -46,6 +45,6 @@ const LoginPage = ({ className }) => {
       }
     />
   );
-};
+});
 
 export default LoginPage;
