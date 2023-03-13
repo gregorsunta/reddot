@@ -1,21 +1,21 @@
 import { observer } from 'mobx-react';
-import authService from '../../services/AuthService';
+import createAuthService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
-import { getAuth } from 'firebase/auth';
 import { useRoot } from '../../context/rootStoreContext';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
+import AuthService from '../../services/AuthService';
 
 const LoginPage = observer(({ className }) => {
   const rootStore = useRoot();
-  const AuthService = new authService(rootStore.auth);
+  const authService = AuthService;
   const [isLoading, setIsLoading] = useState(false);
 
   const Login = async () => {
     setIsLoading(true);
     try {
-      const result = await AuthService.signInWithGoogle();
+      const result = await authService.signInWithGoogle();
       const user = result.user;
       rootStore.setUser(user);
     } catch (err) {

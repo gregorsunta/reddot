@@ -1,10 +1,10 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
 import FirestoneService from './services/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
-import createRootStore from './stores/rootStore';
+import RootStore from './stores/rootStore';
 import { RootStoreContext } from './context/rootStoreContext';
 import { RouterConfig } from './navigation';
 
@@ -12,7 +12,10 @@ const app = initializeApp(getFirebaseConfig());
 FirestoneService.init(app);
 
 const App = () => {
-  const [rootStore] = useState(() => createRootStore(app));
+  const [rootStore] = useState(() => RootStore);
+  useEffect(() => {
+    rootStore.authStore.init(app);
+  }, [rootStore]);
 
   return (
     <IconContext.Provider value={{ size: '100%' }}>
