@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { useRoot } from '../../constants/rootStoreContext';
+import { useRoot } from '../../context/rootStoreContext';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Input } from '../atoms/';
 import { withRedirect } from '../../utils';
