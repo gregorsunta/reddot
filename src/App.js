@@ -1,25 +1,24 @@
+import './App.css';
 import React, { useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { observer } from 'mobx-react';
-import { RouterConfig } from './navigation';
-import RootStore from './stores/rootStore';
+import { IconContext } from 'react-icons';
 import FirestoneService from './services/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
-import './App.css';
-import { AuthContext } from './context/authContext';
-import { IconContext } from 'react-icons';
+import createRootStore from './stores/rootStore';
+import { RootStoreContext } from './context/rootStoreContext';
+import { RouterConfig } from './navigation';
 
 const app = initializeApp(getFirebaseConfig());
 FirestoneService.init(app);
 
 const App = () => {
-  const [rootStore] = useState(() => RootStore(app));
+  const [rootStore] = useState(() => createRootStore(app));
+
   return (
     <IconContext.Provider value={{ size: '100%' }}>
-      <AuthContext.Provider rootStore={rootStore}>
+      <RootStoreContext.Provider value={rootStore}>
         <RouterConfig />
-      </AuthContext.Provider>
+      </RootStoreContext.Provider>
     </IconContext.Provider>
   );
 };

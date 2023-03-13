@@ -1,32 +1,27 @@
+import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import LoginPage from '../components/pages/LoginPage';
+import { observer } from 'mobx-react';
+import { useRoot } from '../context/rootStoreContext';
 import HomePage from '../components/pages/HomePage';
 import SubmitPage from '../components/pages/SubmitPage';
-import Header from '../components/organisms/Header';
+import LoginPage from '../components/pages/LoginPage';
 import RegisterPage from '../components/pages/RegisterPage';
-import { observer } from 'mobx-react';
-import { useAuth } from '../context/authContext';
+import MainLayout from './layouts/MainLayout.jsx';
 
 const RouterConfig = observer(() => {
-  const AuthStore = useAuth();
+  const rootStore = useRoot();
+  const [isSignedIn] = useState(!!rootStore);
   return (
-    <div>
-      <Header className={`${''}`}></Header>
-      <div className={`${''}`}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="/submit"
-            element={AuthStore.user ? <SubmitPage /> : <LoginPage />}
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/register"
-            element={<RegisterPage className={`${''}`} />}
-          />
-        </Routes>
-      </div>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<MainLayout isSignedIn={isSignedIn} />}>
+          <Route index element={<HomePage />} />
+          <Route path="submit" element={<SubmitPage />} />
+        </Route>
+        <Route path={'/login'} element={<LoginPage />} />
+        <Route path={'/signup'} element={<RegisterPage />} />
+      </Routes>
+    </>
   );
 });
 
