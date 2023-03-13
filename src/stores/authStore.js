@@ -21,9 +21,9 @@ class AuthStore {
 const createAuthStore = (auth) => {
   let authStoreInstance = null;
   if (!authStoreInstance) {
-    authStoreInstance = new AuthStore(auth);
+    return (authStoreInstance = new AuthStore(auth));
   }
-  return authStoreInstance;
+  console.error('Only one instance of AuthStore is allowed');
 };
 
 export default createAuthStore;

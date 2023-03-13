@@ -7,9 +7,9 @@ export class UserStore {
 const createUserStore = () => {
   let authStoreInstance = null;
   if (!authStoreInstance) {
-    authStoreInstance = new UserStore();
+    return (authStoreInstance = new UserStore());
   }
-  return authStoreInstance;
+  throw new Error(`Only one instance of UserStore is allowed`);
 };
 
 export default createUserStore;
