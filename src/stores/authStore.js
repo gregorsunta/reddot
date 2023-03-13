@@ -1,6 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
-export default class authStore {
+class AuthStore {
   user = null;
   isLoading = false;
   constructor(auth) {
@@ -16,3 +16,4 @@ export default class authStore {
     this.user = user;
   };
 }
+export default new AuthStore();
