@@ -1,19 +1,11 @@
-import createAuthStore from './authStore';
-import createUserStore from './userStore';
+import AuthStore from './authStore';
+import UserStore from './userStore';
 
 class RootStore {
-  constructor(app) {
-    this.authStore = createAuthStore(app);
-    this.userStore = createUserStore();
+  constructor() {
+    this.authStore = AuthStore;
+    this.userStore = UserStore;
   }
 }
 
-const createRootStore = (app) => {
-  let rootStoreInstance = null;
-  if (!rootStoreInstance) {
-    return (rootStoreInstance = new RootStore(app));
-  }
-  throw new Error(`Only one instance of RootStore is allowed`);
-};
-
-export default createRootStore;
+export default new RootStore();

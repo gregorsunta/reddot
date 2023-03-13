@@ -4,12 +4,4 @@ export class UserStore {
   }
 }
 
-const createUserStore = () => {
-  let authStoreInstance = null;
-  if (!authStoreInstance) {
-    return (authStoreInstance = new UserStore());
-  }
-  throw new Error(`Only one instance of UserStore is allowed`);
-};
-
-export default createUserStore;
+export default new UserStore();
