@@ -1,10 +1,11 @@
 import { makeObservable, observable, action } from 'mobx';
+import { getAuth } from 'firebase/auth';
 
 class AuthStore {
   user = null;
   isLoading = false;
-  constructor(auth) {
-    this.auth = auth;
+  constructor(app) {
+    this.auth = getAuth(app);
     makeObservable(this, {
       user: observable,
       isLoading: observable,
@@ -16,4 +17,13 @@ class AuthStore {
     this.user = user;
   };
 }
-export default new AuthStore();
+
+const createAuthStore = (auth) => {
+  let authStoreInstance = null;
+  if (!authStoreInstance) {
+    authStoreInstance = new AuthStore(auth);
+  }
+  return authStoreInstance;
+};
+
+export default createAuthStore;
