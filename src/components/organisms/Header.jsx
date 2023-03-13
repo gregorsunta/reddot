@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { useAuth } from '../../context/authContext';
+import { useRoot } from '../../constants/rootStoreContext';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Input } from '../atoms/';
 import { withRedirect } from '../../utils';
@@ -59,7 +59,7 @@ const authButtons = [
   {
     title: 'Add post',
     variant: 'text',
-    startIcon: AiOutlinePlus,
+    startIcon: <AiOutlinePlus />,
     to: '/submit',
     className: '',
     key: 'submit',
@@ -94,8 +94,7 @@ const authDropdown = [
 ];
 
 const RedirectLogo = withRedirect(Logo);
-const Header = observer(({ className }) => {
-  const AuthStore = useAuth();
+const Header = observer(({ className, isSignedIn }) => {
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
@@ -106,21 +105,12 @@ const Header = observer(({ className }) => {
         placeholder={'Search reddot'}
       />
       <div className={styles['btn-container']}>
-        <ButtonsGroup
-          buttons={AuthStore.user ? authButtons : anonymousButtons}
-        />
+        <ButtonsGroup buttons={isSignedIn ? authButtons : anonymousButtons} />
       </div>
-      {AuthStore.user ? (
-        <Dropdown
-          className={`${styles['dropdown-container']}`}
-          buttons={authDropdown}
-        />
-      ) : (
-        <Dropdown
-          className={`${styles['dropdown-container']}`}
-          buttons={anonymousDropdown}
-        />
-      )}
+      <Dropdown
+        className={styles['dropdown-container']}
+        buttons={isSignedIn ? authDropdown : anonymousDropdown}
+      />
     </div>
   );
 });
