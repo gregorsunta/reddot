@@ -3,7 +3,7 @@ import authService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { getAuth } from 'firebase/auth';
-import { useRoot } from '../../constants/rootStoreContext';
+import { useRoot } from '../../context/rootStoreContext';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 
