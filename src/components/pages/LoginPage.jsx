@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import authStore from '../../stores/authStore';
+import AuthStore from '../../stores/authStore';
 import authService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
@@ -9,8 +9,8 @@ import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage = ({ className }) => {
-  const store = useAuth();
-  const AuthService = new authService(store.auth);
+  const AuthStore = useAuth();
+  const AuthService = new authService(AuthStore.auth);
   const [isLoading, setIsLoading] = useState(false);
 
   const Login = async () => {
@@ -18,7 +18,7 @@ const LoginPage = ({ className }) => {
     try {
       const result = await AuthService.signInWithGoogle();
       const user = result.user;
-      store.setUser(user);
+      AuthStore.setUser(user);
     } catch (err) {
       console.error(err);
     } finally {
