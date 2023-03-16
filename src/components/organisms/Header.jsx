@@ -9,7 +9,6 @@ import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle, MdOutlinePageview } from 'react-icons/md';
 
 import styles from '../../styles/organisms/Header.module.css';
-import ButtonBasic from '../../styles/atoms/ButtonBasic.module.css';
 import ButtonDropdownItem from '../../styles/atoms/ButtonDropdownItem.module.css';
 
 const anonymousButtons = [
@@ -94,7 +93,8 @@ const authDropdown = [
 ];
 
 const RedirectLogo = withRedirect(Logo);
-const Header = observer(({ className, isSignedIn }) => {
+
+const Header = observer(({ className, userStore }) => {
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
@@ -106,11 +106,11 @@ const Header = observer(({ className, isSignedIn }) => {
       />
       <ButtonsGroup
         className={styles['btn-container']}
-        buttons={isSignedIn ? authButtons : anonymousButtons}
+        buttons={userStore.user ? authButtons : anonymousButtons}
       />
       <Dropdown
         className={styles['dropdown-container']}
-        buttons={isSignedIn ? authDropdown : anonymousDropdown}
+        buttons={userStore.user ? authDropdown : anonymousDropdown}
       />
     </div>
   );
