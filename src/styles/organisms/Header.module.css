@@ -11,7 +11,7 @@
   background-color: rgb(255, 255, 255);
 }
 .logo-container {
-  flex: 0 1 10%;
+  flex: 0 0 auto;
   height: 100%;
   text-decoration: none;
 }
@@ -35,20 +35,20 @@
   color: var(--gray-6);
 }
 .search-group-container {
-  flex: 0 1 20%;
+  /* flex: 0 1 20%; */
 
   align-self: stretch;
   border: var(--size-08) solid var(--gray-4);
   border-radius: var(--size-3);
 }
 .btn-container {
-  flex: 0 1 35%;
+  /* flex: 0 1 35%; */
   height: 70%;
   display: flex;
   gap: var(--size-5);
 }
 .dropdown-container {
-  flex: 0 1 5%;
+  /* flex: 0 1 5%; */
   height: 70%;
 }
 .dropdown-container > button {
@@ -72,4 +72,14 @@
   font-size: var(--size-6);
   text-shadow: 1px 1px var(--gray-4);
   letter-spacing: -1px;
+}
+@media screen and (max-width: 920px) {
+  .logo-container p {
+    display: none;
+  }
+}
+@media screen and (max-width: 780px) {
+  .btn-container {
+    display: none;
+  }
 }
