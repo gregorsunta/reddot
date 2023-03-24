@@ -13,7 +13,11 @@ const Button = ({
   ...rest
 }) => {
   let Component = 'button';
-  const classNames = [styles.container, className];
+  const classNames = [
+    styles.container,
+    className,
+    isActive ? activeClassName : '',
+  ];
 
   to && (Component = Link);
   activeClassName && (Component = NavLink);
