@@ -2,8 +2,6 @@
 @import url('./assets/reset-styles.css');
 :root {
   font-family: 'Ubuntu';
-  margin: 0;
-  padding: 0;
 
   --size-08: 0.034rem;
   --size-09: 0.056rem;
@@ -47,7 +45,4 @@
   --gray-7: #495057;
   --gray-8: #343a40;
   --gray-9: #212529;
-}
-* {
-  box-sizing: border-box;
 }
