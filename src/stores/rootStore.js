@@ -7,5 +7,5 @@ class RootStore {
     this.userStore = UserStore;
   }
 }
-
-export default new RootStore();
+const rootStore = new RootStore();
+export default rootStore;

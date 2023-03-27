@@ -21,5 +21,5 @@ class AuthStore {
     this.user = user;
   };
 }
-
-export default new AuthStore();
+const authStore = new AuthStore();
+export default authStore;
