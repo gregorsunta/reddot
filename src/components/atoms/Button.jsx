@@ -7,17 +7,17 @@ const Button = ({
   to = null,
   className,
   variant = 'filled',
-  activeClassName,
+  activeClassName = null,
   isActive = false,
-  startIcon,
-  endIcon,
-  disabled,
+  startIcon = null,
+  endIcon = null,
+  disabled = false,
   ...rest
 }) => {
   let Component = 'button';
 
   useEffect(() => {
-    const variants = ['text', 'outlined', 'filled'];
+    const variants = ['text', 'outlined', 'filled', 'icon'];
     if (!variants.includes(variant)) {
       console.error(`The button variant "${variant}" does not exist`);
     }
@@ -41,9 +41,9 @@ const Button = ({
       ].join(' ')}
       {...rest}
     >
-      <div className={styles.icon}>{startIcon}</div>
+      {startIcon && <div className={styles.icon}>{startIcon}</div>}
       {children}
-      <div className={styles.icon}>{endIcon}</div>
+      {endIcon && <div className={styles.icon}>{endIcon}</div>}
     </Component>
   );
 };
