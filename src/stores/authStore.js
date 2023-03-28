@@ -1,5 +1,5 @@
 import { makeObservable, observable, action } from 'mobx';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 class AuthStore {
   user = null;
@@ -16,6 +16,9 @@ class AuthStore {
   }
   init = (app) => {
     this.auth = getAuth(app);
+    onAuthStateChanged(this.auth, (user) => {
+      user ? this.setUser(user) : (this.user = null);
+    });
   };
   setUser = (user) => {
     this.user = user;
