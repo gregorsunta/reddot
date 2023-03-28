@@ -10,6 +10,7 @@
     "mobx": "^6.8.0",
     "mobx-react": "^7.6.0",
     "npm-save": "^1.0.2",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
