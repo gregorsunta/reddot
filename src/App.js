@@ -4,24 +4,24 @@ import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
 import FirestoneService from './services/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
-import RootStore from './stores/rootStore';
-import { RootStoreContext } from './context/rootStoreContext';
+import AuthStore from './stores/authStore';
+import { AuthStoreContext } from './context/authStoreContext';
 import { RouterConfig } from './navigation';
 
 const app = initializeApp(getFirebaseConfig());
 FirestoneService.init(app);
 
 const App = () => {
-  const [rootStore] = useState(() => RootStore);
+  const [authStore] = useState(() => AuthStore);
   useEffect(() => {
-    rootStore.authStore.init(app);
-  }, [rootStore]);
+    authStore.init(app);
+  }, [authStore]);
 
   return (
     <IconContext.Provider value={{ size: '100%' }}>
-      <RootStoreContext.Provider value={rootStore}>
+      <AuthStoreContext.Provider value={authStore}>
         <RouterConfig />
-      </RootStoreContext.Provider>
+      </AuthStoreContext.Provider>
     </IconContext.Provider>
   );
 };

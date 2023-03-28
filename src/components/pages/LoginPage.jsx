@@ -2,22 +2,21 @@ import { observer } from 'mobx-react';
 import createAuthService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
-import { useRoot } from '../../context/rootStoreContext';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import AuthService from '../../services/AuthService';
+import { Navigate } from 'react-router-dom';
+import { useAuthStore } from '../../context/authStoreContext';
 
 const LoginPage = observer(({ className }) => {
-  const rootStore = useRoot();
+  const authStore = useAuthStore();
   const authService = AuthService;
   const [isLoading, setIsLoading] = useState(false);
 
   const Login = async () => {
     setIsLoading(true);
     try {
-      const result = await authService.signInWithGoogle();
-      const user = result.user;
-      rootStore.setUser(user);
+      await authService.signInWithGooglePopup();
     } catch (err) {
       console.error(err);
     } finally {
@@ -26,24 +25,27 @@ const LoginPage = observer(({ className }) => {
   };
 
   return (
-    <MainTemplate
-      className={className}
-      content={
-        <>
-          <p>Enter email</p>
-          <Input placeholder="email" />
-          <p>Enter password</p>
-          <Input placeholder="password" />
-          <Button children={<span>Login</span>} />
-          <Button
-            variant="text"
-            startIcon={<FcGoogle />}
-            children={<span>Continue with google</span>}
-            onClick={Login}
-          />
-        </>
-      }
-    />
+    <>
+      {authStore.user && <Navigate to={'/'} />}
+      <MainTemplate
+        className={className}
+        content={
+          <>
+            <p>Enter email</p>
+            <Input placeholder="email" />
+            <p>Enter password</p>
+            <Input placeholder="password" />
+            <Button children={<span>Login</span>} />
+            <Button
+              variant="outlined"
+              startIcon={<FcGoogle />}
+              children={<span>Continue with google</span>}
+              onClick={Login}
+            />
+          </>
+        }
+      />
+    </>
   );
 });
 
