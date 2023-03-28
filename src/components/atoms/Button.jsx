@@ -1,5 +1,6 @@
 import styles from '../../styles/atoms/ButtonBase.module.css';
 import { Link, NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Button = ({
   children,
@@ -10,26 +11,39 @@ const Button = ({
   isActive = false,
   startIcon,
   endIcon,
+  disabled,
   ...rest
 }) => {
   let Component = 'button';
-  const classNames = [
-    styles.container,
-    className,
-    isActive ? activeClassName : '',
-  ];
 
-  to && (Component = Link);
-  activeClassName && (Component = NavLink);
-  variant === 'filled' && classNames.push(styles.filled);
-  variant === 'outlined' && classNames.push(styles.outlined);
-  variant === 'text' && classNames.push(styles.text);
+  useEffect(() => {
+    const variants = ['text', 'outlined', 'filled'];
+    if (!variants.includes(variant)) {
+      console.error(`The button variant "${variant}" does not exist`);
+    }
+  }, [variant]);
+
+  if (to && activeClassName) {
+    Component = NavLink;
+  } else if (to) {
+    Component = Link;
+  }
 
   return (
-    <Component to={to} className={classNames.join(' ')} {...rest}>
-      {startIcon}
+    <Component
+      to={to}
+      disabled={disabled}
+      className={[
+        styles.container,
+        className,
+        styles[`${variant}`],
+        isActive ? activeClassName : '',
+      ].join(' ')}
+      {...rest}
+    >
+      <div className={styles.icon}>{startIcon}</div>
       {children}
-      {endIcon}
+      <div className={styles.icon}>{endIcon}</div>
     </Component>
   );
 };
