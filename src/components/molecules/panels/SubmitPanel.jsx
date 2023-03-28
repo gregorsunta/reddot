@@ -84,6 +84,7 @@ const SubmitPanel = () => {
       activeClassName: styles.active,
       onClick: changeType.bind(this, 'poll'),
       isActive: activeType === 'poll',
+      disabled: true,
     },
     {
       variant: 'outlined',
@@ -94,6 +95,7 @@ const SubmitPanel = () => {
       activeClassName: styles.active,
       onClick: changeType.bind(this, 'live'),
       isActive: activeType === 'live',
+      disabled: true,
     },
   ];
   return (
