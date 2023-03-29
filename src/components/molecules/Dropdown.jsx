@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../atoms';
 import styles from '../../styles/molecules/Dropdown.module.css';
 import { ButtonsGroup } from './ButtonsGroup';
@@ -11,6 +11,11 @@ const Dropdown = ({ buttons, className }) => {
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
+  const MainButtonProps = {
+    ...mainButton.props,
+    onClick: toggleList,
+  };
+  const MainButton = React.cloneElement(mainButton, MainButtonProps);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -25,9 +30,11 @@ const Dropdown = ({ buttons, className }) => {
 
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
-      <Button {...mainButton} onClick={toggleList} />
+      {MainButton}
       <ul className={`${isOpen && styles['active']}`}>
-        <ButtonsGroup buttons={listButtons} />
+        <ButtonsGroup variant="outlined" orientation="vertical">
+          {listButtons}
+        </ButtonsGroup>
       </ul>
     </div>
   );
