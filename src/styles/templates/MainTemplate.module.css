@@ -1,5 +1,5 @@
 .main-background {
-  background-color: var(--gray-3);
+  background-color: hsl(0 0% 90%);
 }
 .main-wrapper {
   margin: 0 auto;

@@ -29,25 +29,26 @@
 .variant-outlined {
   padding: var(--size-2) var(--size-6-5);
 
-  border: var(--size-0) solid var(--teal-7);
+  border: var(--size-0) solid
+    hsl(var(--accent-hue), var(--accent-saturation), 30%);
   white-space: nowrap;
   border-radius: var(--size-5);
   background-color: white;
-  color: var(--teal-7);
+  color: hsl(var(--accent-hue), var(--accent-saturation), 30%);
 }
 .variant-outlined:hover {
-  background-color: var(--teal-1);
+  background-color: hsl(var(--accent-hue), var(--accent-saturation), 20%);
 }
 .variant-filled {
   padding: var(--size-2) var(--size-6-5);
 
   white-space: nowrap;
   border-radius: var(--size-5);
-  background-color: var(--teal-7);
+  background-color: hsl(var(--accent-hue), var(--accent-saturation), 50%);
   color: white;
 }
 .variant-filled:hover {
-  background-color: var(--teal-8);
+  background-color: hsl(var(--accent-hue), var(--accent-saturation), 50%);
 }
 .variant-text {
   padding: var(--size-2) var(--size-6-5);
@@ -56,10 +57,10 @@
   border-bottom: 2px solid hsl(0, 0%, 80%);
 }
 .variant-text:hover {
-  background-color: var(--gray-2);
+  background-color: hsl(0, 0%, 80%);
 }
 .variant-text.active {
-  background-color: var(--gray-1);
+  background-color: hsl(0, 0%, 90%);
   border-bottom: 2px solid hsl(0, 0%, 50%);
 }
 .variant-text.disabled {
