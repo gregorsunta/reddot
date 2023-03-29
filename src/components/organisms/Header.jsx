@@ -10,7 +10,6 @@ import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
 
 import styles from '../../styles/organisms/Header.module.css';
-import ButtonDropdownItem from '../../styles/atoms/ButtonDropdownItem.module.css';
 
 const RedirectLogo = withRedirect(Logo);
 
@@ -74,20 +73,20 @@ const Header = observer(({ className, authStore }) => {
     <Button
       variant="text"
       children={<span>Dark mode</span>}
-      className={`${ButtonDropdownItem.container}`}
+      className={``}
       key={uuidv4()}
     />,
     <Button
       variant="text"
       children={<span>Log out</span>}
-      className={`${ButtonDropdownItem.container}`}
+      className={``}
       onClick={AuthService.signOut}
       key={uuidv4()}
     />,
     <Button
       variant="text"
       children={<span>Terms & policies</span>}
-      className={`${ButtonDropdownItem.container}`}
+      className={``}
       key={uuidv4()}
     />,
 
@@ -95,7 +94,7 @@ const Header = observer(({ className, authStore }) => {
       variant="text"
       children={<span>Account</span>}
       to="/account"
-      className={`${ButtonDropdownItem.container}`}
+      className={`$`}
       startIcon={<MdOutlineAccountCircle />}
       key={uuidv4()}
     />,
