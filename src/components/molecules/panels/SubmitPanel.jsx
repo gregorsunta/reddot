@@ -7,7 +7,6 @@ import {
   AlbumsOutline,
   MicOutline,
 } from 'react-ionicons';
-import indexStyles from '../../../styles/molecules/panels/index.module.css';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { ButtonsGroup } from '../';
@@ -47,7 +46,7 @@ const SubmitPanel = () => {
   };
 
   return (
-    <div className={`${`${indexStyles.container}`} ${styles.container}`}>
+    <div className={`panel ${styles.container}`}>
       <ButtonsGroup orientation="horizontal" variant="outlined">
         <Button
           variant="text"
