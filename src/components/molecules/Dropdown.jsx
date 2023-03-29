@@ -3,8 +3,8 @@ import { Button } from '../atoms';
 import styles from '../../styles/molecules/Dropdown.module.css';
 import { ButtonsGroup } from './ButtonsGroup';
 
-const Dropdown = ({ buttons, className }) => {
-  const [mainButton, ...listButtons] = buttons;
+const Dropdown = ({ className, children }) => {
+  const [mainButton, ...listButtons] = children; //the first button is always the list opener
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
 

@@ -120,10 +120,9 @@ const Header = observer(({ className, authStore }) => {
       >
         {authStore.user ? authButtons : anonymousButtons}
       </ButtonsGroup>
-      <Dropdown
-        className={styles['dropdown-container']}
-        buttons={authStore.user ? authDropdown : anonymousDropdown}
-      />
+      <Dropdown className={styles['dropdown-container']}>
+        {authStore.user ? authDropdown : anonymousDropdown}
+      </Dropdown>
     </div>
   );
 });
