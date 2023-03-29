@@ -7,6 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import AuthService from '../../services/AuthService';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../../context/authStoreContext';
+import PropTypes from 'prop-types';
 
 const LoginPage = observer(({ className }) => {
   const authStore = useAuthStore();
@@ -48,5 +49,9 @@ const LoginPage = observer(({ className }) => {
     </>
   );
 });
+
+LoginPage.propTypes = {
+  className: PropTypes.string,
+};
 
 export default LoginPage;
