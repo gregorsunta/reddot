@@ -26,7 +26,7 @@ const Header = observer(({ className, authStore }) => {
         key={uuidv4()}
       />
       <Button
-        variant="outlined"
+        variant="solid"
         children={<span>Sign up</span>}
         to="/signup"
         // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
