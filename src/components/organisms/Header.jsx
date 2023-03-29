@@ -33,7 +33,6 @@ const Header = observer(({ className, authStore }) => {
       />
     </>
   );
-
   const anonymousDropdown = [
     <Button
       variant="icon"
@@ -74,7 +73,6 @@ const Header = observer(({ className, authStore }) => {
       />
     </>
   );
-
   const authDropdown = [
     <Button variant="icon" className="" startIcon={<CgProfile />} />,
     <Button
@@ -106,6 +104,7 @@ const Header = observer(({ className, authStore }) => {
       key={uuidv4()}
     />,
   ];
+
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
