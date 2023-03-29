@@ -1,116 +1,121 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { useRoot } from '../../context/rootStoreContext';
+import { uuidv4 } from '@firebase/util';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
-import { Input } from '../atoms/';
+import { Button, Input } from '../atoms/';
 import { withRedirect } from '../../utils';
-import { AiOutlinePlus, AiOutlineUser } from 'react-icons/ai';
+import { CgProfile } from 'react-icons/cg';
 import { IoIosArrowDropdown } from 'react-icons/io';
-import { MdOutlineAccountCircle, MdOutlinePageview } from 'react-icons/md';
+import { MdOutlineAccountCircle } from 'react-icons/md';
+import AuthService from '../../services/AuthService';
 
 import styles from '../../styles/organisms/Header.module.css';
 import ButtonDropdownItem from '../../styles/atoms/ButtonDropdownItem.module.css';
 
-const anonymousButtons = [
-  {
-    children: <span>Login</span>,
-    to: '/login',
-    variant: 'outlined',
-    // className: ButtonBasic.container,
-    key: 'login',
-  },
-  {
-    children: <span>Sign up</span>,
-    to: '/signup',
-    variant: 'filled',
-    // className: [ButtonBasic.container, ButtonBasic.highlight].join(' '),
-    key: 'signup',
-  },
-];
-const anonymousDropdown = [
-  {
-    variant: 'text',
-    startIcon: <AiOutlineUser />,
-    endIcon: <IoIosArrowDropdown />,
-    className: '',
-  },
-  {
-    variant: 'text',
-    children: <span>Dark mode</span>,
-    key: 'mode',
-    className: '',
-  },
-  {
-    variant: 'text',
-    children: <span>Terms & policies</span>,
-    key: 'terms',
-    className: '',
-  },
-  {
-    variant: 'text',
-    children: <span>Register or Sign Up</span>,
-    href: '/signup',
-    key: 'alternative',
-    className: '',
-  },
-];
-const authButtons = [
-  {
-    title: 'Add post',
-    variant: 'text',
-    startIcon: <AiOutlinePlus />,
-    to: '/submit',
-    className: '',
-    key: 'submit',
-  },
-];
-const authDropdown = [
-  {
-    variant: 'text',
-    className: '',
-    startIcon: <AiOutlineUser />,
-  },
-  {
-    variant: 'text',
-    children: <span>Dark mode</span>,
-    key: 'mode',
-    className: `${ButtonDropdownItem.container}`,
-  },
-  {
-    variant: 'text',
-    children: <span>Terms & policies</span>,
-    key: 'terms',
-    className: `${ButtonDropdownItem.container}`,
-  },
-  {
-    variant: 'text',
-    children: <span>Account</span>,
-    to: '/account',
-    key: 'account',
-    className: `${ButtonDropdownItem.container}`,
-    startIcon: <MdOutlineAccountCircle />,
-  },
-];
-
 const RedirectLogo = withRedirect(Logo);
 
-const Header = observer(({ className, userStore }) => {
+const Header = observer(({ className, authStore }) => {
+  const anonymousButtons = [
+    <Button
+      variant="outlined"
+      children={<span>Login</span>}
+      to="/login"
+      // className= {ButtonBasic.container}
+      key={uuidv4()}
+    />,
+    <Button
+      variant="solid"
+      children={<span>Sign up</span>}
+      to="/signup"
+      // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
+      key={uuidv4()}
+    />,
+  ];
+  const anonymousDropdown = [
+    <Button
+      variant="icon"
+      startIcon={<CgProfile />}
+      endIcon={<IoIosArrowDropdown />}
+      className=""
+      key={uuidv4()}
+    />,
+    <Button
+      variant="text"
+      children={<span>Dark mode</span>}
+      className=""
+      key={uuidv4()}
+    />,
+    <Button
+      variant="text"
+      children={<span>Terms & policies</span>}
+      className=""
+      key={uuidv4()}
+    />,
+    <Button
+      variant="text"
+      children={<span>Register or Sign Up</span>}
+      href="/signup"
+      className=""
+      key={uuidv4()}
+    />,
+  ];
+  const authButtons = [
+    <Button
+      variant="icon"
+      title="Add post"
+      endIcon={<CgProfile />}
+      to="/submit"
+      className=""
+      key={uuidv4()}
+    />,
+  ];
+  const authDropdown = [
+    <Button variant="icon" className="" startIcon={<CgProfile />} />,
+    <Button
+      variant="text"
+      children={<span>Dark mode</span>}
+      className={`${ButtonDropdownItem.container}`}
+      key={uuidv4()}
+    />,
+    <Button
+      variant="text"
+      children={<span>Log out</span>}
+      className={`${ButtonDropdownItem.container}`}
+      onClick={AuthService.signOut}
+      key={uuidv4()}
+    />,
+    <Button
+      variant="text"
+      children={<span>Terms & policies</span>}
+      className={`${ButtonDropdownItem.container}`}
+      key={uuidv4()}
+    />,
+
+    <Button
+      variant="text"
+      children={<span>Account</span>}
+      to="/account"
+      className={`${ButtonDropdownItem.container}`}
+      startIcon={<MdOutlineAccountCircle />}
+      key={uuidv4()}
+    />,
+  ];
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
         <RedirectLogo link={'/'} />
       </div>
       <Input
-        className={`${styles['search-bar-container']}`}
+        className={styles['search-bar-container']}
         placeholder={'Search reddot'}
       />
       <ButtonsGroup
         className={styles['btn-container']}
-        buttons={userStore.user ? authButtons : anonymousButtons}
+        buttons={authStore.user ? authButtons : anonymousButtons}
       />
       <Dropdown
         className={styles['dropdown-container']}
-        buttons={userStore.user ? authDropdown : anonymousDropdown}
+        buttons={authStore.user ? authDropdown : anonymousDropdown}
       />
     </div>
   );

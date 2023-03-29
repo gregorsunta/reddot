@@ -12,60 +12,16 @@ import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { ButtonsGroup } from '../';
 
-const buttons = [
-  {
-    variant: 'outlined',
-    children: 'Text',
-    startIcon: <TextOutline />,
-    type: 'text',
-    className: styles.btn,
-    activeClassName: styles.active,
-  },
-  {
-    variant: 'outlined',
-    children: 'Image & Video',
-    startIcon: <ImageOutline />,
-    type: 'visual',
-    className: styles.btn,
-    activeClassName: styles.active,
-  },
-  {
-    variant: 'outlined',
-    children: 'Link',
-    startIcon: <LinkOutline />,
-    type: 'link',
-    className: styles.btn,
-    activeClassName: styles.active,
-  },
-  {
-    variant: 'outlined',
-    children: 'Poll',
-    startIcon: <AlbumsOutline />,
-    type: 'poll',
-    className: styles.btn,
-    activeClassName: styles.active,
-    disabled: true,
-  },
-  {
-    variant: 'outlined',
-    children: 'Live',
-    startIcon: <MicOutline />,
-    type: 'live',
-    className: styles.btn,
-    activeClassName: styles.active,
-    disabled: true,
-  },
-];
-
 const SubmitPanel = () => {
   const [activeType, setActiveType] = useState('text');
   const isActive = (type) => {
-    return type === activeType ? styles.active : '';
+    console.log(activeType);
+    return type === activeType;
   };
   const changeType = (type) => {
     setActiveType(type);
   };
-  const displayType = () => {
+  const displayPanelType = () => {
     switch (activeType) {
       case 'text':
         return (
@@ -92,16 +48,64 @@ const SubmitPanel = () => {
 
   return (
     <div className={`${`${indexStyles.container}`} ${styles.container}`}>
-      <ButtonsGroup
-        className={styles['btns-container']}
-        buttons={buttons.map((btn) => ({
-          ...btn,
-          onClick: changeType.bind(btn, btn.type),
-          isActive: isActive(btn.type),
-        }))}
-      />
+      <ButtonsGroup orientation="horizontal" variant="outlined">
+        <Button
+          variant="text"
+          children="Text"
+          startIcon={<TextOutline />}
+          className={styles.btn}
+          activeClassName={styles.active}
+          type="text"
+          isActive={'text' === activeType}
+          onClick={() => changeType('text')}
+        />
+        <Button
+          variant="text"
+          children="Image & Video"
+          startIcon={<ImageOutline />}
+          className={styles.btn}
+          activeClassName={styles.active}
+          type="visual"
+          isActive={'visual' === activeType}
+          onClick={() => changeType('visual')}
+        />
+
+        <Button
+          variant="text"
+          children="Link"
+          startIcon={<LinkOutline />}
+          className={styles.btn}
+          activeClassName={styles.active}
+          type="link"
+          isActive={'link' === activeType}
+          onClick={() => changeType('link')}
+        />
+
+        <Button
+          variant="text"
+          children="Poll"
+          startIcon={<AlbumsOutline />}
+          className={styles.btn}
+          activeClassName={styles.active}
+          isDisabled={true}
+          type="poll"
+          isActive={'poll' === activeType}
+          onClick={() => changeType('poll')}
+        />
+        <Button
+          variant="text"
+          children="Live"
+          startIcon={<MicOutline />}
+          className={styles.btn}
+          activeClassName={styles.active}
+          isDisabled={true}
+          type="live"
+          isActive={'live' === activeType}
+          onClick={() => changeType('live')}
+        />
+      </ButtonsGroup>
       <input className={`${styles.input}`} type="text" placeholder="Title" />
-      {displayType()}
+      {displayPanelType()}
       <div className={styles['form-btn']}>
         <Link to={'/'}>
           <button>Cancel</button>
