@@ -4,7 +4,7 @@ import styles from '../../styles/molecules/Dropdown.module.css';
 import { ButtonsGroup } from './ButtonsGroup';
 
 const Dropdown = ({ className, children }) => {
-  const [mainButton, ...listButtons] = children; //the first button is always the list opener
+  const [mainButton, ...listItems] = children; //the first button is always the list opener
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
   const toggleList = () => {
@@ -30,11 +30,14 @@ const Dropdown = ({ className, children }) => {
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
       {MainButton}
-      <ul className={`${isOpen && styles['active']}`}>
-        <ButtonsGroup variant="outlined" orientation="vertical">
-          {listButtons}
-        </ButtonsGroup>
-      </ul>
+      {console.log(isOpen)}
+      <ButtonsGroup
+        variant="outlined"
+        orientation="vertical"
+        ownerClasses={`${isOpen && styles.active} ${styles.list}`}
+      >
+        {listItems}
+      </ButtonsGroup>
     </div>
   );
 };

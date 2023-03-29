@@ -1,9 +1,8 @@
 .container {
   position: relative;
 }
-.container > ul {
+.list {
   position: absolute;
-
   display: flex;
   flex-direction: column;
   gap: var(--size-3);
@@ -12,13 +11,13 @@
 
   overflow: hidden;
 }
-.container .active {
+.active {
   height: auto;
   padding: 2vh 2vh;
   border: var(--size-09) solid hsl(0 0% 60%);
   border-radius: var(--size-3);
 }
-.container > ul * {
+.list * {
   text-align: left;
   white-space: nowrap;
 }
