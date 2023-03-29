@@ -5,6 +5,7 @@ import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Button, Input } from '../atoms/';
 import { withRedirect } from '../../utils';
 import { CgProfile } from 'react-icons/cg';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
@@ -14,22 +15,25 @@ import styles from '../../styles/organisms/Header.module.css';
 const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
-  const anonymousButtons = [
-    <Button
-      variant="outlined"
-      children={<span>Login</span>}
-      to="/login"
-      // className= {ButtonBasic.container}
-      key={uuidv4()}
-    />,
-    <Button
-      variant="solid"
-      children={<span>Sign up</span>}
-      to="/signup"
-      // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
-      key={uuidv4()}
-    />,
-  ];
+  const anonymousButtons = (
+    <>
+      <Button
+        variant="outlined"
+        children={<span>Login</span>}
+        to="/login"
+        // className= {ButtonBasic.container}
+        key={uuidv4()}
+      />
+      <Button
+        variant="outlined"
+        children={<span>Sign up</span>}
+        to="/signup"
+        // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
+        key={uuidv4()}
+      />
+    </>
+  );
+
   const anonymousDropdown = [
     <Button
       variant="icon"
@@ -58,16 +62,19 @@ const Header = observer(({ className, authStore }) => {
       key={uuidv4()}
     />,
   ];
-  const authButtons = [
-    <Button
-      variant="icon"
-      title="Add post"
-      endIcon={<CgProfile />}
-      to="/submit"
-      className=""
-      key={uuidv4()}
-    />,
-  ];
+  const authButtons = (
+    <>
+      <Button
+        variant="icon"
+        title="Add post"
+        endIcon={<AiOutlinePlus />}
+        to="/submit"
+        className=""
+        key={uuidv4()}
+      />
+    </>
+  );
+
   const authDropdown = [
     <Button variant="icon" className="" startIcon={<CgProfile />} />,
     <Button
@@ -109,9 +116,11 @@ const Header = observer(({ className, authStore }) => {
         placeholder={'Search reddot'}
       />
       <ButtonsGroup
+        orientation={'horizontal'}
         className={styles['btn-container']}
-        buttons={authStore.user ? authButtons : anonymousButtons}
-      />
+      >
+        {authStore.user ? authButtons : anonymousButtons}
+      </ButtonsGroup>
       <Dropdown
         className={styles['dropdown-container']}
         buttons={authStore.user ? authDropdown : anonymousDropdown}
