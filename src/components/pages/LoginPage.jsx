@@ -35,7 +35,7 @@ const LoginPage = observer(({ className }) => {
             <Input placeholder="email" />
             <p>Enter password</p>
             <Input placeholder="password" />
-            <Button children={<span>Login</span>} />
+            <Button variant="outlined" children={<span>Login</span>} />
             <Button
               variant="outlined"
               startIcon={<FcGoogle />}
