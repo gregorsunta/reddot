@@ -7,6 +7,7 @@ import {
   AlbumsOutline,
   MicOutline,
 } from 'react-ionicons';
+import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { ButtonsGroup } from '../';
@@ -57,6 +58,7 @@ const SubmitPanel = () => {
           type="text"
           isActive={'text' === activeType}
           onClick={() => changeType('text')}
+          key={uuidv4()}
         />
         <Button
           variant="text"
@@ -67,6 +69,7 @@ const SubmitPanel = () => {
           type="visual"
           isActive={'visual' === activeType}
           onClick={() => changeType('visual')}
+          key={uuidv4()}
         />
 
         <Button
@@ -78,6 +81,7 @@ const SubmitPanel = () => {
           type="link"
           isActive={'link' === activeType}
           onClick={() => changeType('link')}
+          key={uuidv4()}
         />
 
         <Button
@@ -90,6 +94,7 @@ const SubmitPanel = () => {
           type="poll"
           isActive={'poll' === activeType}
           onClick={() => changeType('poll')}
+          key={uuidv4()}
         />
         <Button
           variant="text"
@@ -101,6 +106,7 @@ const SubmitPanel = () => {
           type="live"
           isActive={'live' === activeType}
           onClick={() => changeType('live')}
+          key={uuidv4()}
         />
       </ButtonsGroup>
       <input className={`${styles.input}`} type="text" placeholder="Title" />
