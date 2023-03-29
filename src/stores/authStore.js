@@ -17,7 +17,7 @@ class AuthStore {
   init = (app) => {
     this.auth = getAuth(app);
     onAuthStateChanged(this.auth, (user) => {
-      user ? this.setUser(user) : (this.user = null);
+      this.setUser(user ? user : null);
     });
   };
   setUser = (user) => {
