@@ -1,4 +1,6 @@
 import './App.css';
+import './utils/utilityStyles.css';
+
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
