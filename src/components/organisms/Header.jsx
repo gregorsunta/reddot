@@ -16,24 +16,22 @@ import styles from '../../styles/organisms/Header.module.css';
 const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
-  const anonymousButtons = (
-    <>
-      <Button
-        variant="outlined"
-        children={<span>Login</span>}
-        to="/login"
-        // className= {ButtonBasic.container}
-        key={uuidv4()}
-      />
-      <Button
-        variant="solid"
-        children={<span>Sign up</span>}
-        to="/signup"
-        // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
-        key={uuidv4()}
-      />
-    </>
-  );
+  const anonymousButtons = [
+    <Button
+      variant="outlined"
+      children={<span>Login</span>}
+      to="/login"
+      // className= {ButtonBasic.container}
+      key={uuidv4()}
+    />,
+    <Button
+      variant="solid"
+      children={<span>Sign up</span>}
+      to="/signup"
+      // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
+      key={uuidv4()}
+    />,
+  ];
   const anonymousDropdown = [
     <Button
       variant="icon"
@@ -62,18 +60,16 @@ const Header = observer(({ className, authStore }) => {
       key={uuidv4()}
     />,
   ];
-  const authButtons = (
-    <>
-      <Button
-        variant="icon"
-        title="Add post"
-        endIcon={<AiOutlinePlus />}
-        to="/submit"
-        className=""
-        key={uuidv4()}
-      />
-    </>
-  );
+  const authButtons = [
+    <Button
+      variant="icon"
+      title="Add post"
+      endIcon={<AiOutlinePlus />}
+      to="/submit"
+      className=""
+      key={uuidv4()}
+    />,
+  ];
   const authDropdown = [
     <Button variant="icon" className="" startIcon={<CgProfile />} />,
     <Button
