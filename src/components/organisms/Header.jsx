@@ -9,6 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
+import PropTypes from 'prop-types';
 
 import styles from '../../styles/organisms/Header.module.css';
 
@@ -126,5 +127,10 @@ const Header = observer(({ className, authStore }) => {
     </div>
   );
 });
+
+Header.propTypes = {
+  className: PropTypes.string,
+  authStore: PropTypes.object,
+};
 
 export default Header;
