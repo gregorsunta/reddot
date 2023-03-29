@@ -1,13 +1,10 @@
 .container {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 
   gap: var(--size-4);
   color: black;
   text-decoration: none;
-  /* margin: 0; */
-  /* border: 0; */
   min-width: min-content;
 }
 .container span {
@@ -23,8 +20,6 @@
 .variant-icon {
   display: grid;
   place-content: center;
-  /* width: 20px;
-  height: 20px; */
 }
 .variant-outlined {
   padding: var(--size-2) var(--size-6-5);
@@ -34,21 +29,21 @@
   white-space: nowrap;
   border-radius: var(--size-5);
   background-color: white;
-  color: hsl(var(--accent-hue), var(--accent-saturation), 30%);
+  color: hsl(var(--accent-hue), var(--accent-saturation), var(--lightness-300));
 }
 .variant-outlined:hover {
-  background-color: hsl(var(--accent-hue), var(--accent-saturation), 20%);
+  background-color: hsl(var(--accent-hue), var(--accent-saturation), 90%);
 }
-.variant-filled {
+.variant-solid {
   padding: var(--size-2) var(--size-6-5);
 
   white-space: nowrap;
   border-radius: var(--size-5);
-  background-color: hsl(var(--accent-hue), var(--accent-saturation), 50%);
+  background-color: hsl(var(--accent-hue) var(--accent-saturation) 30%);
   color: white;
 }
-.variant-filled:hover {
-  background-color: hsl(var(--accent-hue), var(--accent-saturation), 50%);
+.variant-solid:hover {
+  background-color: hsl(var(--accent-hue) var(--accent-saturation) 35%);
 }
 .variant-text {
   padding: var(--size-2) var(--size-6-5);
