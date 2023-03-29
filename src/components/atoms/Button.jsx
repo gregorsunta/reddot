@@ -1,29 +1,33 @@
+import PropTypes from 'prop-types';
 import styles from '../../styles/atoms/ButtonBase.module.css';
 import { Link, NavLink } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+const createExpectedClasses = (expectedProps) => {
+  return [styles[`variant-${expectedProps.variant}`], styles.container].join(
+    ' ',
+  );
+};
 
 const Button = ({
+  variant,
   children,
   to = null,
-  className,
-  variant = 'filled',
-  activeClassName = null,
-  isActive = false,
+  ownerClasses = [],
+  // activeClassName = null,
+  // disabledClassName = null,
   startIcon = null,
   endIcon = null,
-  disabled = false,
-  ...rest
+  isActive = null,
+  isDisabled = false,
+  onClick,
 }) => {
   let Component = 'button';
+  const [dynamicClasses, setDynamicClasses] = useState();
+  const expectedProps = { variant };
+  const expectedClasses = createExpectedClasses(expectedProps);
 
-  useEffect(() => {
-    const variants = ['text', 'outlined', 'filled', 'icon'];
-    if (!variants.includes(variant)) {
-      console.error(`The button variant "${variant}" does not exist`);
-    }
-  }, [variant]);
-
-  if (to && activeClassName) {
+  if (to && isActive) {
     Component = NavLink;
   } else if (to) {
     Component = Link;
@@ -32,14 +36,11 @@ const Button = ({
   return (
     <Component
       to={to}
-      disabled={disabled}
-      className={[
-        styles.container,
-        className,
-        styles[`${variant}`],
-        isActive ? activeClassName : '',
-      ].join(' ')}
-      {...rest}
+      disabled={isDisabled}
+      className={`${expectedClasses} ${ownerClasses} ${
+        isActive && styles.active
+      } ${isDisabled && styles.disabled}`}
+      onClick={onClick}
     >
       {startIcon && <div className={styles.icon}>{startIcon}</div>}
       {children}
@@ -47,5 +48,17 @@ const Button = ({
     </Component>
   );
 };
-
+Button.propTypes = {
+  variant: PropTypes.oneOf(['outlined', 'icon', 'solid', 'text']).isRequired,
+  // children: PropTypes.arrayOf(PropTypes.element),
+  to: PropTypes.string,
+  ownerClasses: PropTypes.arrayOf(PropTypes.string),
+  activeClassName: PropTypes.string,
+  disabledClassName: PropTypes.string,
+  startIcon: PropTypes.element,
+  endIcon: PropTypes.element,
+  // isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onClick: PropTypes.func,
+};
 export { Button };
