@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/organisms/Header';
-import AuthStore from '../../stores/authStore';
+import { useAuthStore } from '../../context/authStoreContext';
 
 const MainLayout = ({ className }) => {
-  const [userStore] = useState(AuthStore);
+  const authStore = useAuthStore();
 
   return (
     <div className={className}>
-      <Header userStore={userStore} />
+      <Header authStore={authStore} />
       <Outlet />
     </div>
   );
