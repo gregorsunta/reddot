@@ -30,7 +30,6 @@ const Dropdown = ({ className, children }) => {
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
       {MainButton}
-      {console.log(isOpen)}
       <ButtonsGroup
         variant="outlined"
         orientation="vertical"
