@@ -6,10 +6,15 @@ import { Button } from '../atoms';
 const Modal = ({ children, onClose }) => {
   return (
     <div className={`${styles.window}`}>
-      <div className={`${styles.container}`}>{children}</div>
-      <Button onClick={onClose}>
-        <GrClose />
-      </Button>
+      <div className={`${styles.container} panel`}>
+        <div className={styles['button-close']}>
+          <Button onClick={onClose} variant="icon">
+            <GrClose />
+          </Button>
+        </div>
+
+        {children}
+      </div>
     </div>
   );
 };
