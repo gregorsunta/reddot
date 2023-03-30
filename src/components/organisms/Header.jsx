@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { createPortal } from 'react-dom';
 import { uuidv4 } from '@firebase/util';
 import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
 import { Button, Input } from '../atoms/';
@@ -10,25 +11,40 @@ import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
 import PropTypes from 'prop-types';
-
+import { Modal } from '../molecules/';
+import { FcGoogle } from 'react-icons/fc';
 import styles from '../../styles/organisms/Header.module.css';
+import { LogInForm } from './LogInForm.jsx';
 
 const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState();
+
+  const showSignInModal = () => {
+    setModalContent(
+      <form>
+        <Button
+          onClose={closeModal}
+          startIcon={<FcGoogle />}
+          variant="outlined"
+        />
+      </form>,
+    );
+    setShowModal(true);
+  };
+  const closeModal = (e) => {
+    setShowModal(false);
+    setModalContent(null);
+  };
+
   const anonymousButtons = [
     <Button
-      variant="outlined"
-      children={<span>Login</span>}
-      to="/login"
-      // className= {ButtonBasic.container}
-      key={uuidv4()}
-    />,
-    <Button
       variant="solid"
-      children={<span>Sign up</span>}
-      to="/signup"
-      // className= {[ButtonBasic.container, ButtonBasic.highlight].join(' ')}
+      children={<span>Login</span>}
+      onClick={showSignInModal}
+      // className= {ButtonBasic.container}
       key={uuidv4()}
     />,
   ];
@@ -54,8 +70,8 @@ const Header = observer(({ className, authStore }) => {
     />,
     <Button
       variant="text"
-      children={<span>Register or Sign Up</span>}
-      href="/signup"
+      children={<span>Log In / Sign Up</span>}
+      to="/login"
       className=""
       key={uuidv4()}
     />,
@@ -102,6 +118,10 @@ const Header = observer(({ className, authStore }) => {
     />,
   ];
 
+  useEffect(() => {
+    showModal && authStore.user && closeModal();
+  }, [showModal, authStore.user]);
+
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles['logo-container']}>
@@ -120,6 +140,11 @@ const Header = observer(({ className, authStore }) => {
       <Dropdown className={styles['dropdown-container']}>
         {authStore.user ? authDropdown : anonymousDropdown}
       </Dropdown>
+      {showModal &&
+        createPortal(
+          <Modal onClose={closeModal}>{<LogInForm />}</Modal>,
+          document.getElementById('root'),
+        )}
     </div>
   );
 });
