@@ -1,3 +1,3 @@
 export * from './Header';
-export * from './Modal';
+export * from './LogInForm';
 export * from './Notification';
