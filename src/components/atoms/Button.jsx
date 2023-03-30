@@ -10,6 +10,7 @@ const createExpectedClasses = (expectedProps) => {
 };
 
 const Button = ({
+  type,
   variant,
   children,
   to = null,
@@ -23,7 +24,6 @@ const Button = ({
   onClick,
 }) => {
   let Component = 'button';
-  const [dynamicClasses, setDynamicClasses] = useState();
   const expectedProps = { variant };
   const expectedClasses = createExpectedClasses(expectedProps);
 
@@ -35,6 +35,7 @@ const Button = ({
 
   return (
     <Component
+      type={type}
       to={to}
       disabled={isDisabled}
       className={`${expectedClasses} ${ownerClasses} ${
