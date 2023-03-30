@@ -1,4 +1,6 @@
 .container {
+  --accent-color-hs: var(--accent-hue) var(--accent-saturation);
+
   display: flex;
   align-items: center;
 
@@ -6,6 +8,9 @@
   color: black;
   text-decoration: none;
   min-width: min-content;
+
+  /*to make all buttons the same size*/
+  border: var(--size-0) solid transparent;
 }
 .container span {
   background-color: transparent;
@@ -24,26 +29,24 @@
 .variant-outlined {
   padding: var(--size-2) var(--size-6-5);
 
-  border: var(--size-0) solid
-    hsl(var(--accent-hue), var(--accent-saturation), 30%);
   white-space: nowrap;
   border-radius: var(--size-5);
-  background-color: white;
-  color: hsl(var(--accent-hue), var(--accent-saturation), var(--lightness-300));
+  border-color: hsl(var(--accent-color-hs) 35%);
+  color: hsl(var(--accent-color-hs) 35%);
 }
 .variant-outlined:hover {
-  background-color: hsl(var(--accent-hue), var(--accent-saturation), 90%);
+  background-color: hsl(var(--accent-color-hs) 90%);
 }
 .variant-solid {
-  padding: var(--size-2) var(--size-6-5);
+  padding: var(--size-1) var(--size-6-5);
 
   white-space: nowrap;
   border-radius: var(--size-5);
-  background-color: hsl(var(--accent-hue) var(--accent-saturation) 30%);
+  background-color: hsl(var(--accent-color-hs) 35%);
   color: white;
 }
 .variant-solid:hover {
-  background-color: hsl(var(--accent-hue) var(--accent-saturation) 35%);
+  background-color: hsl(var(--accent-color-hs) 35%);
 }
 .variant-text {
   padding: var(--size-2) var(--size-6-5);
