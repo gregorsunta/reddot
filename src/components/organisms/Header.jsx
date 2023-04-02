@@ -87,7 +87,12 @@ const Header = observer(({ className, authStore }) => {
     />,
   ];
   const authDropdown = [
-    <Button variant="icon" className="" startIcon={<CgProfile />} />,
+    <Button
+      variant="icon"
+      className=""
+      startIcon={<CgProfile />}
+      key={uuidv4()}
+    />,
     <Button
       variant="text"
       children={<span>Dark mode</span>}
