@@ -1,3 +1,6 @@
 - Add stack and grid components
 - Change ButtonsGroup component to stack in header
 - Rename ButtonsGroup to ButtonGroup
+x- Add post creation functionality
+x- Add post display functionality
+- Add firebase storage functionality (for images of posts)
