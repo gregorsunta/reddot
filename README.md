@@ -12,4 +12,4 @@ Live DEMO: [here](https://reddot-b1116.web.app/)
 - Submit post of text type
 - Load posts
 
-See the [text.txt](text.txt) file for what features are currently being built. 
+See the [todo.txt](todo.txt) file for what features are currently being built. 
