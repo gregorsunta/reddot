@@ -11,9 +11,17 @@ import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { ButtonsGroup } from '../';
+import { observer } from 'mobx-react';
+import { useFirestoreService } from '../../../context/firestoreServiceContext';
+import { useAuthStore } from '../../../context/authStoreContext';
 
-const SubmitPanel = () => {
+const SubmitPanel = observer(() => {
+  const firestoreService = useFirestoreService();
+  const authStore = useAuthStore();
   const [activeType, setActiveType] = useState('text');
+  const [title, setTitle] = useState('');
+  const [postContent, setPostContent] = useState('');
+
   const isActive = (type) => {
     console.log(activeType);
     return type === activeType;
@@ -29,23 +37,45 @@ const SubmitPanel = () => {
             className={`${styles['text-area']}`}
             type="text"
             placeholder="Text (optional)"
+            onChange={(e) => {
+              setPostContent(e.target.value);
+            }}
           />
         );
       case 'visual':
-        return <input></input>;
+        return (
+          <input
+            onChange={(e) => {
+              setPostContent(e.target.value);
+            }}
+          ></input>
+        );
       case 'link':
         return (
           <textarea
             className={`${styles['text-area']}`}
             type="text"
             placeholder="Url"
+            onChange={(e) => {
+              setPostContent(e.target.value);
+            }}
           />
         );
       default:
         console.error(`The entered panel type is invalid. Type: ${activeType}`);
     }
   };
-
+  const savePost = () => {
+    const type = activeType;
+    console.log(postContent);
+    if (type === 'text') {
+      firestoreService.saveTextPost({
+        owner: authStore.user.displayName,
+        title: title,
+        text: postContent,
+      });
+    }
+  };
   return (
     <div className={`panel ${styles.container}`}>
       <ButtonsGroup orientation="horizontal" variant="outlined">
@@ -109,18 +139,21 @@ const SubmitPanel = () => {
           key={uuidv4()}
         />
       </ButtonsGroup>
-      <input className={`${styles.input}`} type="text" placeholder="Title" />
+      <input
+        className={`${styles.input}`}
+        type="text"
+        placeholder="Title"
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+      />
       {displayPanelType()}
       <div className={styles['form-btn']}>
-        <Link to={'/'}>
-          <button>Cancel</button>
-        </Link>
-        <Link to={'/'}>
-          <button>Post</button>
-        </Link>
+        <Button to={'/'}>Cancel</Button>
+        <Button onClick={savePost}>Post</Button>
       </div>
     </div>
   );
-};
+});
 
 export { SubmitPanel };
