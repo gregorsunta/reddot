@@ -4,14 +4,16 @@ import './utils/utilityStyles.css';
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
-import FirestoneService from './services/FirestoreService';
+import { firestoreService } from './services/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
 import AuthStore from './stores/authStore';
 import { AuthStoreContext } from './context/authStoreContext';
+import { FirestoreServiceContext } from './context/firestoreServiceContext';
+
 import { RouterConfig } from './navigation';
 
 const app = initializeApp(getFirebaseConfig());
-FirestoneService.init(app);
+firestoreService.init(app);
 
 const App = () => {
   const [authStore] = useState(() => AuthStore);
@@ -20,11 +22,13 @@ const App = () => {
   }, [authStore]);
 
   return (
-    <IconContext.Provider value={{ size: '100%' }}>
+    <FirestoreServiceContext.Provider value={firestoreService}>
       <AuthStoreContext.Provider value={authStore}>
-        <RouterConfig />
+        <IconContext.Provider value={{ size: '100%' }}>
+          <RouterConfig />
+        </IconContext.Provider>
       </AuthStoreContext.Provider>
-    </IconContext.Provider>
+    </FirestoreServiceContext.Provider>
   );
 };
 
