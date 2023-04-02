@@ -1,7 +1,11 @@
-const FeedPanel = () => {
+const FeedPanel = ({ post }) => {
   return (
     <div className={`panel`}>
-      <p>EXAMPLE</p>
+      <div>
+        <p>{post.owner}</p>
+        <h2>{post.title}</h2>
+        <p>{post.text}</p>
+      </div>
     </div>
   );
 };
