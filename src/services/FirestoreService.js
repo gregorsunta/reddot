@@ -72,7 +72,9 @@ class FirestoreService {
       );
       const querySnapshot = await getDocs(q);
       const extractedPosts = [];
-      querySnapshot.forEach((doc) => extractedPosts.push(doc.data()));
+      querySnapshot.forEach((doc) =>
+        extractedPosts.push({ ...doc.data(), id: doc.id }),
+      );
       return extractedPosts;
     } catch (err) {
       console.error(err);

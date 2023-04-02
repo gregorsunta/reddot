@@ -20,7 +20,7 @@ const HomePage = () => {
         <>
           <CreatePostPanel />
           {posts?.map((post) => (
-            <FeedPanel post={post}></FeedPanel>
+            <FeedPanel post={post} key={post.id}></FeedPanel>
           ))}
         </>
       }
