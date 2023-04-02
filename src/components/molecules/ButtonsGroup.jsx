@@ -23,7 +23,7 @@ const ButtonsGroup = ({ children, ownerClasses, orientation, variant }) => {
 
 ButtonsGroup.propTypes = {
   children: PropTypes.array, //only two ore more items are allowed
-  ownerClasses: PropTypes.array,
+  ownerClasses: PropTypes.string,
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   variant: PropTypes.oneOf(['outlined', 'solid', 'text', 'icon']),
 };
