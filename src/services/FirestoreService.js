@@ -1,9 +1,7 @@
-import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   addDoc,
   collection,
-  getDoc,
   getDocs,
   getFirestore,
   limit,
@@ -11,7 +9,6 @@ import {
   query,
   serverTimestamp,
   updateDoc,
-  where,
 } from 'firebase/firestore';
 import {
   getDownloadURL,
@@ -19,13 +16,13 @@ import {
   ref,
   uploadBytesResumable,
 } from 'firebase/storage';
-import { getFirebaseConfig } from './firebase-config';
 
 class FirestoreService {
   init = (app) => {
     this.firestore = getFirestore(app);
   };
   saveTextPost = async (post) => {
+    // save only structured text (w/o images etc.)
     try {
       await addDoc(collection(this.firestore, 'posts'), {
         owner: post.owner,
@@ -35,13 +32,11 @@ class FirestoreService {
       });
     } catch (err) {
       console.error(err);
-    } finally {
-      console.log('Should be posted');
     }
   };
   saveImagePost = async (post) => {
     try {
-      // create a new post in firestore
+      // save the post in firestore (structured text) and firebase storage (images etc)
       const postRef = await addDoc(collection(this.firestore, 'posts'), {
         name: '',
         title: post.title,
@@ -63,7 +58,7 @@ class FirestoreService {
       console.error(err);
     }
   };
-  getPost = async () => {
+  getPosts = async () => {
     try {
       const q = query(
         collection(this.firestore, 'posts'),
