@@ -1,14 +1,15 @@
 ## Key features
 
-- [x] Add text post creation functionality
-- [ ] Add image, link post creation functionality
-- [x] Add post display functionality
-- [ ] Add post display based on search bar
-- [ ] Add pagination on post display
-- [ ] Add loading screens (loading icon and skeleton loading)
+- [x] basic text post creation functionality
+- [ ] image and link post creation functionality
+- [x] basic post display functionality
+- [ ] post display based on search bar
+- [ ] pagination on post display
+- [ ] post interaction (comments and votes). Tracking votes (maybe comments?) should be done implemented with Distributed counters
 
 ## Other
 
-- [ ] Add stack and grid components
-- [ ] Change ButtonsGroup component to stack in header
-- [ ] Rename ButtonsGroup to ButtonGroup
+- [ ] loading screens (loading icon and skeleton loading)
+- [ ] stack and grid components
+- [ ] change ButtonsGroup component to stack in header
+- [ ] rename ButtonsGroup to ButtonGroup
