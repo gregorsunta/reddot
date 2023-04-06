@@ -1,4 +1,4 @@
-# Reddit-clone
+# Reddot
 
 Live DEMO: [here](https://reddot-b1116.web.app/)
 
