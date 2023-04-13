@@ -18,3 +18,4 @@
 - [ ] stack and grid components
 - [ ] change ButtonsGroup component to stack in header
 - [ ] rename ButtonsGroup to ButtonGroup
+- [ ] search functionality - should use a trigram
