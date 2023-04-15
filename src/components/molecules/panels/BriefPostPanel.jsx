@@ -2,7 +2,7 @@ import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../../atoms/Button.jsx';
 import { Stack } from '../Stack.jsx';
 
-const PostPanel = ({ post }) => {
+const BriefPostPanel = ({ post }) => {
   const { owner, title, text, comments } = post;
 
   return (
@@ -30,4 +30,4 @@ const PostPanel = ({ post }) => {
   );
 };
 
-export { PostPanel };
+export { BriefPostPanel };

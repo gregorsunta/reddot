@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useFirestoreService } from '../../context/firestoreServiceContext';
-import { CreatePostPanel, PageInfoPanel, PostPanel } from '../molecules/panels';
+import { Panel, PostPanel, BriefPostPanel } from '../molecules/';
 import MainTemplate from '../templates/MainTemplate';
+import { Input } from '../atoms';
 
 const HomePage = () => {
   const firestoreService = useFirestoreService();
@@ -18,13 +20,31 @@ const HomePage = () => {
     <MainTemplate
       content={
         <>
-          <CreatePostPanel />
+          <Panel>
+            <div
+            // className={`panel ${styles.container}`}
+            >
+              <p>PI</p>
+              <Link to="/submit">
+                <Input
+                  // className={`${styles.input}`}
+                  type="text"
+                  placeholder="Create post"
+                  readOnly={true}
+                />
+              </Link>
+            </div>
+          </Panel>
           {posts?.map((post) => (
-            <PostPanel post={post} key={post.id}></PostPanel>
+            <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
         </>
       }
-      side={<PageInfoPanel />}
+      side={
+        <Panel>
+          <p>sum stuff</p>
+        </Panel>
+      }
     />
   );
 };

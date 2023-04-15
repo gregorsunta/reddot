@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../../styles/molecules/panels/CreatePostPanel.module.css';
 import { Input } from '../../atoms';
 
-const CreatePostPanel = () => {
+const CreatePost = () => {
   return (
     <div className={`panel ${styles.container}`}>
       <p>PI</p>
@@ -17,4 +17,4 @@ const CreatePostPanel = () => {
     </div>
   );
 };
-export { CreatePostPanel };
+export { CreatePost };
