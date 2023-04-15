@@ -7,6 +7,7 @@ import {
   AlbumsOutline,
   MicOutline,
 } from 'react-ionicons';
+import { ButtonGroup } from '../';
 import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
