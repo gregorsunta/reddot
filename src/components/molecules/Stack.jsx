@@ -10,6 +10,7 @@ const Stack = ({
   children,
   orientation = 'vertical',
   ownerClasses, //user defined optional
+  spacing,
 }) => {
   const expectedProps = { orientation };
   const expectedClassesString = createExpectedClassesString(expectedProps);
@@ -25,6 +26,7 @@ Stack.propTypes = {
   children: PropTypes.array, //only two ore more items are allowed
   orientation: PropTypes.oneOf('vertical', 'horizontal'),
   ownerClasses: PropTypes.string,
+  spacing: PropTypes.string,
 };
 
 export { Stack };
