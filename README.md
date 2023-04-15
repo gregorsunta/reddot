@@ -1,4 +1,4 @@
-# Reddit-clone
+# Reddot
 
 Live DEMO: [here](https://reddot-b1116.web.app/)
 
@@ -14,4 +14,4 @@ Live DEMO: [here](https://reddot-b1116.web.app/)
 - Submit post of text type
 - Load posts
 
-See the [todo.txt](todo.txt) file for what features are currently being built.
+See the [todo.md](todo.md) file for what features are currently being built.
