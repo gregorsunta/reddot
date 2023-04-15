@@ -10,7 +10,6 @@ import {
 import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
-import { ButtonGroup } from '../';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
