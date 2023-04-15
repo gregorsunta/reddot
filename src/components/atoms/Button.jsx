@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const createExpectedClasses = (expectedProps) => {
+  // predefined non optional classes + predefined optional
   return [styles[`variant-${expectedProps.variant}`], styles.container].join(
     ' ',
   );
@@ -14,7 +15,7 @@ const Button = ({
   variant,
   children,
   to = null,
-  ownerClasses = [],
+  ownerClasses = [], //only two ore more items are allowed
   // activeClassName = null,
   // disabledClassName = null,
   startIcon = null,
@@ -53,7 +54,7 @@ Button.propTypes = {
   variant: PropTypes.oneOf(['outlined', 'icon', 'solid', 'text']).isRequired,
   // children: PropTypes.arrayOf(PropTypes.element),
   to: PropTypes.string,
-  ownerClasses: PropTypes.arrayOf(PropTypes.string),
+  ownerClasses: PropTypes.string,
   activeClassName: PropTypes.string,
   disabledClassName: PropTypes.string,
   startIcon: PropTypes.element,

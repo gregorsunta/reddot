@@ -1,19 +1,25 @@
 import PropTypes from 'prop-types';
 import styles from '../../styles/molecules/ButtonsGroup.module.css';
 
-const createExpectedClasses = (expectedProps) => {
+const createExpectedClassesString = (expectedProps) => {
+  // predefined non optional classes + predefined optional
   return [
+    styles.container,
     `flex-${expectedProps.orientation}`,
     `variant-${expectedProps.variant}`,
-    styles.container,
   ].join(' ');
 };
-const ButtonsGroup = ({ children, ownerClasses, orientation, variant }) => {
+const ButtonsGroup = ({
+  children,
+  ownerClasses, //user defined optional
+  orientation,
+  variant,
+}) => {
   const expectedProps = { orientation, variant };
-  const expectedClasses = createExpectedClasses(expectedProps);
+  const expectedClassesString = createExpectedClassesString(expectedProps);
 
   return (
-    <ul className={`${expectedClasses} ${ownerClasses}`}>
+    <ul className={`${expectedClassesString} ${ownerClasses}`}>
       {children.map((item) => (
         <li key={item.key}>{item}</li>
       ))}
