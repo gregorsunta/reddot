@@ -9,7 +9,7 @@ const createExpectedClassesString = (expectedProps) => {
     `variant-${expectedProps.variant}`,
   ].join(' ');
 };
-const ButtonsGroup = ({
+const ButtonGroup = ({
   children,
   ownerClasses, //user defined optional
   orientation,
@@ -27,10 +27,10 @@ const ButtonsGroup = ({
   );
 };
 
-ButtonsGroup.propTypes = {
+ButtonGroup.propTypes = {
   children: PropTypes.array, //only two ore more items are allowed
   ownerClasses: PropTypes.string,
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   variant: PropTypes.oneOf(['outlined', 'solid', 'text', 'icon']),
 };
-export { ButtonsGroup };
+export { ButtonGroup };

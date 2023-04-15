@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { createPortal } from 'react-dom';
 import { uuidv4 } from '@firebase/util';
-import { ButtonsGroup, Dropdown, Logo } from '../molecules/';
+import { ButtonGroup, Dropdown, Logo } from '../molecules/';
 import { Button, Input } from '../atoms/';
 import { withRedirect } from '../../utils';
 import { CgProfile } from 'react-icons/cg';
@@ -136,12 +136,12 @@ const Header = observer(({ className, authStore }) => {
         className={styles['search-bar-container']}
         placeholder={'Search reddot'}
       />
-      <ButtonsGroup
+      <ButtonGroup
         orientation={'horizontal'}
         className={styles['btn-container']}
       >
         {authStore.user ? authButtons : anonymousButtons}
-      </ButtonsGroup>
+      </ButtonGroup>
       <Dropdown className={styles['dropdown-container']}>
         {authStore.user ? authDropdown : anonymousDropdown}
       </Dropdown>

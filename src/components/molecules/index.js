@@ -1,4 +1,4 @@
-export * from './ButtonsGroup.jsx';
+export * from './ButtonGroup.jsx';
 export * from './Dropdown.jsx';
 export * from './Modal.jsx';
 export * from './Logo.jsx';

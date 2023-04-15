@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles/molecules/Dropdown.module.css';
-import { ButtonsGroup } from './ButtonsGroup';
+import { ButtonGroup } from './';
 
 const Dropdown = ({ className, children }) => {
   const [mainButton, ...listItems] = children; //the first button is always the list opener
@@ -30,13 +30,13 @@ const Dropdown = ({ className, children }) => {
   return (
     <div className={`${styles.container} ${className}`} ref={container}>
       {MainButton}
-      <ButtonsGroup
+      <ButtonGroup
         variant="outlined"
         orientation="vertical"
         ownerClasses={`${isOpen && styles.active} ${styles.list}`}
       >
         {listItems}
-      </ButtonsGroup>
+      </ButtonGroup>
     </div>
   );
 };

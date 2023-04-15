@@ -10,7 +10,7 @@ import {
 import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
-import { ButtonsGroup } from '../';
+import { ButtonGroup } from '../';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
@@ -78,7 +78,7 @@ const SubmitPanel = observer(() => {
   };
   return (
     <div className={`panel ${styles.container}`}>
-      <ButtonsGroup orientation="horizontal" variant="outlined">
+      <ButtonGroup orientation="horizontal" variant="outlined">
         <Button
           variant="text"
           children="Text"
@@ -138,7 +138,7 @@ const SubmitPanel = observer(() => {
           onClick={() => changeType('live')}
           key={uuidv4()}
         />
-      </ButtonsGroup>
+      </ButtonGroup>
       <input
         className={`${styles.input}`}
         type="text"
