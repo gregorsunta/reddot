@@ -1,4 +1,4 @@
 export * from './CreatePostPanel';
-export * from './FeedPanel';
+export * from './PostPanel';
 export * from './PageInfoPanel';
 export * from './SubmitPanel';

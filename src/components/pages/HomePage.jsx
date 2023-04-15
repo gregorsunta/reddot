@@ -1,14 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useFirestoreService } from '../../context/firestoreServiceContext';
-import { CreatePostPanel, PageInfoPanel, FeedPanel } from '../molecules/panels';
+import { CreatePostPanel, PageInfoPanel, PostPanel } from '../molecules/panels';
 import MainTemplate from '../templates/MainTemplate';
 
 const HomePage = () => {
   const firestoreService = useFirestoreService();
   const [posts, setPosts] = useState(null);
   const getPosts = async () => {
-    const posts = await firestoreService.getPost();
+    const posts = await firestoreService.getPosts();
     setPosts(posts);
   };
   useEffect(() => {
@@ -20,7 +20,7 @@ const HomePage = () => {
         <>
           <CreatePostPanel />
           {posts?.map((post) => (
-            <FeedPanel post={post} key={post.id}></FeedPanel>
+            <PostPanel post={post} key={post.id}></PostPanel>
           ))}
         </>
       }
