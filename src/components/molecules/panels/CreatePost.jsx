@@ -2,11 +2,12 @@ import { Link } from 'react-router-dom';
 import styles from '../../../styles/molecules/panels/CreatePostPanel.module.css';
 import { Input } from '../../atoms';
 import { useAuthStore } from '../../../context/authStoreContext';
+import { Panel } from './Panel.jsx';
 
 const CreatePost = () => {
   const authStore = useAuthStore();
   return (
-    <div className={`panel ${styles.container}`}>
+    <Panel className={`${styles.container}`}>
       <img
         className={styles['profile-icon']}
         src={authStore?.user?.photoURL}
@@ -20,7 +21,7 @@ const CreatePost = () => {
           readOnly={true}
         />
       </Link>
-    </div>
+    </Panel>
   );
 };
 export { CreatePost };

@@ -1,12 +1,13 @@
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../../atoms/Button.jsx';
 import { Stack } from '../Stack.jsx';
+import { Panel } from './Panel.jsx';
 
 const PostPanel = ({ post }) => {
   const { owner, title, text, comments } = post;
 
   return (
-    <div className={`panel`}>
+    <Panel>
       <Stack orientation="vertical">
         <p>{owner}</p>
         <h2>{title}</h2>
@@ -26,7 +27,7 @@ const PostPanel = ({ post }) => {
           ))}
         </Stack>
       </Stack>
-    </div>
+    </Panel>
   );
 };
 

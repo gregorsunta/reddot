@@ -14,6 +14,7 @@ import { Button } from '../../atoms/Button';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
+import { Panel } from './Panel.jsx';
 
 const SubmitPanel = observer(() => {
   const firestoreService = useFirestoreService();
@@ -77,7 +78,7 @@ const SubmitPanel = observer(() => {
     }
   };
   return (
-    <div className={`panel ${styles.container}`}>
+    <Panel className={`${styles.container}`}>
       <ButtonGroup orientation="horizontal" variant="outlined">
         <Button
           variant="text"
@@ -152,7 +153,7 @@ const SubmitPanel = observer(() => {
         <Button to={'/'}>Cancel</Button>
         <Button onClick={savePost}>Post</Button>
       </div>
-    </div>
+    </Panel>
   );
 });
 
