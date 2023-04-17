@@ -76,7 +76,7 @@ const Header = observer(({ className, authStore }) => {
       key={uuidv4()}
     />,
   ];
-  const authButtons = [
+  const authenticatedButtons = [
     <Button
       variant="icon"
       title="Add post"
@@ -86,7 +86,7 @@ const Header = observer(({ className, authStore }) => {
       key={uuidv4()}
     />,
   ];
-  const authDropdown = [
+  const authenticatedDropdown = [
     <Button
       variant="icon"
       className=""
@@ -140,10 +140,10 @@ const Header = observer(({ className, authStore }) => {
         orientation={'horizontal'}
         className={styles['btn-container']}
       >
-        {authStore.user ? authButtons : anonymousButtons}
+        {authStore.user ? authenticatedButtons : anonymousButtons}
       </ButtonGroup>
       <Dropdown className={styles['dropdown-container']}>
-        {authStore.user ? authDropdown : anonymousDropdown}
+        {authStore.user ? authenticatedDropdown : anonymousDropdown}
       </Dropdown>
       {showModal &&
         createPortal(

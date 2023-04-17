@@ -20,7 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     getPosts();
   }, []);
-  const authSide = (
+  const authenticatedSide = (
     <Stack orientation="vertical">
       <Panel>
         <p>gregorsunta</p>
@@ -32,7 +32,7 @@ const HomePage = () => {
       </Panel>
     </Stack>
   );
-  const anonSide = (
+  const anonymousSide = (
     <Stack orientation="vertical">
       <Panel>
         <p>gregorsunta</p>
@@ -48,19 +48,13 @@ const HomePage = () => {
     <MainTemplate
       content={
         <Stack orientation="vertical">
-          <Panel>
-            <div
-            // className={`panel ${styles.container}`}
-            >
-              <CreatePost />
-            </div>
-          </Panel>
+          <Panel>{authStore.user ? <CreatePost /> : null}</Panel>
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
         </Stack>
       }
-      side={authStore.user ? authSide : anonSide}
+      side={authStore.user ? authenticatedSide : anonymousSide}
     />
   );
 };
