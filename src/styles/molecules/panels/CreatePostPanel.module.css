@@ -3,6 +3,10 @@
   align-items: center;
   gap: var(--size-5);
 }
+.profile-icon {
+  width: 2rem;
+  height: 2rem;
+}
 .input {
   flex: 1;
 }
