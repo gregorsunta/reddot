@@ -43,7 +43,10 @@ const Dropdown = ({ className, children }) => {
 
 Dropdown.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
 };
 
 export { Dropdown };

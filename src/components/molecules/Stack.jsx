@@ -23,7 +23,10 @@ const Stack = ({
 };
 
 Stack.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   orientation: PropTypes.oneOf(['vertical', 'horizontal']),
   ownerClasses: PropTypes.string,
   spacing: PropTypes.string,

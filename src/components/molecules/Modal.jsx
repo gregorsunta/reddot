@@ -20,7 +20,10 @@ const Modal = ({ children, onClose }) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
 };
 
 export { Modal };
