@@ -21,7 +21,7 @@ const HomePage = () => {
     getPosts();
   }, []);
   const authenticatedSide = (
-    <Stack orientation="vertical">
+    <Stack>
       <Panel>
         <p>gregorsunta</p>
       </Panel>
@@ -33,7 +33,7 @@ const HomePage = () => {
     </Stack>
   );
   const anonymousSide = (
-    <Stack orientation="vertical">
+    <Stack>
       <Panel>
         <p>gregorsunta</p>
       </Panel>
@@ -47,7 +47,7 @@ const HomePage = () => {
   return (
     <MainTemplate
       content={
-        <Stack orientation="vertical">
+        <Stack orientation="column">
           <Panel>{authStore.user ? <CreatePost /> : null}</Panel>
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>

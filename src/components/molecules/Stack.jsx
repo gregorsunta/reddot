@@ -1,23 +1,30 @@
 import PropTypes, { array } from 'prop-types';
+import { createUseStyles } from 'react-jss';
 import styles from '../../styles/molecules/Stack.module.css';
 
-const createExpectedClassesString = (expectedProps) => {
-  // predefined non optional classes + predefined optional
-  return [styles.container, `flex-${expectedProps.orientation}`].join(' ');
-};
+const useStyles = createUseStyles({
+  container: (props) => ({
+    display: 'flex',
+    flexDirection: props.orientation,
+    gap: props.spacing,
+  }),
+});
 
 const Stack = ({
   component: Component = 'div',
   children,
-  orientation = 'vertical',
+  orientation = 'column',
   ownerClasses, //user defined optional
   spacing,
 }) => {
-  const expectedProps = { orientation };
-  const expectedClassesString = createExpectedClassesString(expectedProps);
+  const ownerStyles = {};
+  const styles = useStyles({ orientation, spacing });
 
   return (
-    <Component className={[expectedClassesString, ownerClasses].join(' ')}>
+    <Component
+      className={[styles.container, ownerClasses].join(' ')}
+      styles={ownerStyles}
+    >
       {children}
     </Component>
   );
@@ -28,7 +35,7 @@ Stack.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
-  orientation: PropTypes.oneOf(['vertical', 'horizontal']),
+  orientation: PropTypes.oneOf(['column', 'row']),
   ownerClasses: PropTypes.string,
   spacing: PropTypes.string,
   component: PropTypes.oneOf([

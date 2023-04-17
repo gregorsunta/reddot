@@ -8,11 +8,11 @@ const PostPanel = ({ post }) => {
 
   return (
     <Panel>
-      <Stack orientation="vertical">
+      <Stack>
         <p>{owner}</p>
         <h2>{title}</h2>
         <p>{text}</p>
-        <Stack orientation={'horizontal'}>
+        <Stack orientation="row">
           <Button type="button" variant="icon" startIcon={<BiUpvote />} />
           <Button type="button" variant="icon" startIcon={<BiDownvote />} />
           <Button type="button" variant="icon" startIcon={<BiComment />} />
