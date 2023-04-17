@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import styles from '../../styles/molecules/Stack.module.css';
 
 const createExpectedClassesString = (expectedProps) => {
@@ -23,8 +23,8 @@ const Stack = ({
 };
 
 Stack.propTypes = {
-  children: PropTypes.array, //only two ore more items are allowed
-  orientation: PropTypes.oneOf('vertical', 'horizontal'),
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  orientation: PropTypes.oneOf(['vertical', 'horizontal']),
   ownerClasses: PropTypes.string,
   spacing: PropTypes.string,
 };
