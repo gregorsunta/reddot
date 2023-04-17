@@ -1,9 +1,0 @@
-.container {
-  display: flex;
-}
-.flex-horizontal {
-  flex-direction: row;
-}
-.flex-vertical {
-  flex-direction: column;
-}
