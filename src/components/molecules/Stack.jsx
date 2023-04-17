@@ -7,6 +7,7 @@ const createExpectedClassesString = (expectedProps) => {
 };
 
 const Stack = ({
+  component: Component = 'div',
   children,
   orientation = 'vertical',
   ownerClasses, //user defined optional
@@ -16,9 +17,9 @@ const Stack = ({
   const expectedClassesString = createExpectedClassesString(expectedProps);
 
   return (
-    <div className={[expectedClassesString, ownerClasses].join(' ')}>
+    <Component className={[expectedClassesString, ownerClasses].join(' ')}>
       {children}
-    </div>
+    </Component>
   );
 };
 
@@ -30,6 +31,53 @@ Stack.propTypes = {
   orientation: PropTypes.oneOf(['vertical', 'horizontal']),
   ownerClasses: PropTypes.string,
   spacing: PropTypes.string,
+  component: PropTypes.oneOf([
+    'div',
+    'section',
+    'article',
+    'nav',
+    'header',
+    'footer',
+    'main',
+    'aside',
+    'ul',
+    'ol',
+    'li',
+    'dl',
+    'dt',
+    'dd',
+    'p',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'span',
+    'a',
+    'em',
+    'strong',
+    'small',
+    'img',
+    'figure',
+    'figcaption',
+    'form',
+    'input',
+    'textarea',
+    'button',
+    'label',
+    'select',
+    'option',
+    'optgroup',
+    'fieldset',
+    'legend',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'th',
+    'td',
+  ]),
 };
 
 export { Stack };
