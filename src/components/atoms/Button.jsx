@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import { SIZES, ACCENT } from '../../constants/';
+import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
   container: () => ({
@@ -48,11 +48,11 @@ const useVariantsStyles = createUseStyles({
     padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES.SIZE_16}`,
-    borderColor: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
+    borderColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     borderWidth: '2px',
-    color: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
+    color: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     '&:hover': {
-      backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L95})`,
+      backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_95})`,
     },
   },
   solid: {
@@ -60,16 +60,14 @@ const useVariantsStyles = createUseStyles({
 
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES.SIZE_16}`,
-    backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
+    backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     color: 'white',
-    '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L45})` },
+    '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
   },
   text: {
     padding: `${SIZES.SIZE_16} ${SIZES.SIZE_32}`,
     backgroundColor: 'transparent',
-    border: `1px solid hsl(0, 0%, 80%)`,
-    borderBottom: `2px solid hsl(0, 0%, 80%)`,
-    '&:hover': { backgroundColor: 'hsl(0, 0%, 80%)' },
+    '&:hover': { backgroundColor: `${NEUTRAL.HS} ${LIGHTNESS.L10}` },
   },
 });
 const Button = ({
