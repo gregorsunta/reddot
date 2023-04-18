@@ -1,11 +1,12 @@
+import classNames from 'classnames';
 import PropTypes, { array } from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  container: (props) => ({
+  container: ({ orientation, spacing }) => ({
     display: 'flex',
-    flexDirection: props.orientation,
-    gap: props.spacing,
+    flexDirection: orientation,
+    gap: spacing,
   }),
 });
 
@@ -13,20 +14,16 @@ const Stack = ({
   component: Component = 'div',
   children,
   orientation = 'column',
-  ownerClasses, //user defined optional
+  customClassName, //user defined optional
   spacing,
 }) => {
-  const ownerStyles = {};
-  const styles = useStyles({ orientation, spacing });
-
-  return (
-    <Component
-      className={[styles.container, ownerClasses].join(' ')}
-      styles={ownerStyles}
-    >
-      {children}
-    </Component>
+  const containerClassNames = useStyles({ orientation, spacing });
+  const allClassNames = classNames(
+    containerClassNames.container,
+    customClassName,
   );
+
+  return <Component className={allClassNames}>{children}</Component>;
 };
 
 Stack.propTypes = {
@@ -52,31 +49,11 @@ Stack.propTypes = {
     'dl',
     'dt',
     'dd',
-    'p',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'span',
-    'a',
-    'em',
-    'strong',
-    'small',
-    'img',
-    'figure',
-    'figcaption',
     'form',
     'input',
     'textarea',
-    'button',
     'label',
     'select',
-    'option',
-    'optgroup',
-    'fieldset',
-    'legend',
     'table',
     'thead',
     'tbody',
