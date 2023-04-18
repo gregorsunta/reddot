@@ -8,6 +8,7 @@ import { Button, Input } from '../atoms';
 import { CreatePost } from '../molecules/panels/CreatePost';
 import { Stack } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
+import { SIZES } from '../../constants';
 
 const HomePage = () => {
   const authStore = useAuthStore();
@@ -47,8 +48,12 @@ const HomePage = () => {
   return (
     <MainTemplate
       content={
-        <Stack orientation="column">
-          <Panel>{authStore.user ? <CreatePost /> : null}</Panel>
+        <Stack orientation="column" spacing={SIZES.SIZE_16}>
+          {authStore.user && (
+            <Panel>
+              <CreatePost />
+            </Panel>
+          )}
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
