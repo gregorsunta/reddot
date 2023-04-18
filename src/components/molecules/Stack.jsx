@@ -1,6 +1,5 @@
 import PropTypes, { array } from 'prop-types';
 import { createUseStyles } from 'react-jss';
-import styles from '../../styles/molecules/Stack.module.css';
 
 const useStyles = createUseStyles({
   container: (props) => ({
