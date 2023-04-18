@@ -1,5 +1,5 @@
 import Protected from '../../navigation/Protected';
-import { SubmitPanel } from '../molecules/';
+import { SubmitPanel } from '../organisms/';
 import MainTemplate from '../templates/MainTemplate.jsx';
 
 const SubmitPage = () => {

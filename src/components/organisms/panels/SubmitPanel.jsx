@@ -7,14 +7,14 @@ import {
   AlbumsOutline,
   MicOutline,
 } from 'react-ionicons';
-import { ButtonGroup } from '../';
+import { ButtonGroup } from '../../molecules/ButtonGroup.jsx';
 import { uuidv4 } from '@firebase/util';
 import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
-import { Panel } from './Panel.jsx';
+import { Panel } from '../../molecules/Panel.jsx';
 
 const SubmitPanel = observer(() => {
   const firestoreService = useFirestoreService();

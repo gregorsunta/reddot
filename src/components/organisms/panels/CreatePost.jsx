@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../../styles/molecules/panels/CreatePostPanel.module.css';
 import { Input } from '../../atoms';
 import { useAuthStore } from '../../../context/authStoreContext';
-import { Panel } from './Panel.jsx';
-import { Stack } from '../Stack';
+import { Panel, Stack } from '../../molecules/';
 import { SIZES } from '../../../constants';
 
 const CreatePost = () => {

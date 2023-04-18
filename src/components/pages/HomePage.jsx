@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useFirestoreService } from '../../context/firestoreServiceContext';
-import { Panel, PostPanel, BriefPostPanel } from '../molecules/';
+import { PostPanel, BriefPostPanel, CreatePost } from '../organisms/';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
-import { CreatePost } from '../molecules/panels/CreatePost';
-import { Stack } from '../molecules/';
+import { Stack, Panel } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
 import { SIZES } from '../../constants';
 

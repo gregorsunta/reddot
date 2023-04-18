@@ -1,7 +1,7 @@
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../../atoms/Button.jsx';
-import { Stack } from '../Stack.jsx';
-import { Panel } from './Panel.jsx';
+import { Stack } from '../../molecules/Stack.jsx';
+import { Panel } from '../../molecules/Panel.jsx';
 
 const PostPanel = ({ post }) => {
   const { owner, title, text, comments } = post;
