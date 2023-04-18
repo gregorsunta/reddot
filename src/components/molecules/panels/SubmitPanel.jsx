@@ -150,8 +150,12 @@ const SubmitPanel = observer(() => {
       />
       {displayPanelType()}
       <div className={styles['form-btn']}>
-        <Button to={'/'}>Cancel</Button>
-        <Button onClick={savePost}>Post</Button>
+        <Button variant="outlined" to={'/'}>
+          Cancel
+        </Button>
+        <Button variant="solid" onClick={savePost}>
+          Post
+        </Button>
       </div>
     </Panel>
   );
