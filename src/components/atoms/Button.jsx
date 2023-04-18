@@ -71,6 +71,7 @@ const useVariantsStyles = createUseStyles({
   },
 });
 const Button = ({
+  type,
   variant,
   children,
   to = null,
@@ -101,6 +102,7 @@ const Button = ({
   }
   return (
     <Component
+      type={type}
       to={to}
       disabled={isDisabled}
       className={allClassNames}
