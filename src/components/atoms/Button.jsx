@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
 import { SIZES, ACCENT } from '../../constants/';
 
-const useStyles = createUseStyles({
+const useContainerStyles = createUseStyles({
   container: () => ({
     display: 'flex',
     alignItems: 'center',
@@ -16,7 +16,10 @@ const useStyles = createUseStyles({
     minWidth: 'min-content',
 
     /*to make all buttons the same size*/
-    border: `${SIZES.SIZE_2} solid transparent`,
+    borderWidth: `${SIZES.SIZE_2}`,
+    borderStyle: 'solid',
+    borderColor: 'transparent',
+
     '& span': {
       backgroundColor: 'transparent',
     },
@@ -24,46 +27,49 @@ const useStyles = createUseStyles({
       backgroundColor: 'transparent',
     },
   }),
-  icon: {
+  container__icon: {
     width: '20px',
     height: '20px',
   },
-  variantIcon: {
+  active: {
+    backgroundColor: 'hsl(0, 0%, 90%)',
+    borderBottom: '2px solid hsl(0, 0%, 50%)',
+  },
+  disabled: {
+    color: 'hsl(0, 0%, 50%)',
+  },
+});
+const useVariantsStyles = createUseStyles({
+  icon: {
     display: 'grid',
     placeContent: 'center',
   },
-  variantOutlined: {
+  outlined: {
     padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES.SIZE_16}`,
-    borderColor: `hsl(${ACCENT.HS} ${ACCENT.L4})`,
-    color: `hsl(${ACCENT.HS} ${ACCENT.L4})`,
+    borderColor: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
+    borderWidth: '2px',
+    color: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
     '&:hover': {
-      backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L4})`,
+      backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L95})`,
     },
   },
-  variantSolid: {
+  solid: {
     padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
 
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES.SIZE_16}`,
-    backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L4})`,
+    backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L40})`,
     color: 'white',
-    '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L5})` },
+    '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${ACCENT.L45})` },
   },
-  variantText: {
+  text: {
     padding: `${SIZES.SIZE_16} ${SIZES.SIZE_32}`,
     backgroundColor: 'transparent',
     border: `1px solid hsl(0, 0%, 80%)`,
     borderBottom: `2px solid hsl(0, 0%, 80%)`,
     '&:hover': { backgroundColor: 'hsl(0, 0%, 80%)' },
-    active: {
-      backgroundColor: 'hsl(0, 0%, 90%)',
-      borderBottom: '2px solid hsl(0, 0%, 50%)',
-    },
-    disabled: {
-      color: 'hsl(0, 0%, 50%)',
-    },
   },
 });
 const Button = ({
@@ -71,9 +77,9 @@ const Button = ({
   variant,
   children,
   to = null,
-  ownerClasses = [], //only two ore more items are allowed
-  // activeClassName = null,
-  // disabledClassName = null,
+  ownerClasses = [],
+  activeClassName = null,
+  disabledClassName = null,
   startIcon = null,
   endIcon = null,
   isActive = null,
@@ -81,31 +87,36 @@ const Button = ({
   onClick,
 }) => {
   let Component = 'button';
-  const definedClassNames = useStyles({ variant });
-  const containerClassNames = classNames(
-    definedClassNames.container,
-    variant === 'solid' && definedClassNames.variantSolid,
-    variant === 'outlined' && definedClassNames.variantOutlined,
-    variant === 'text' && definedClassNames.variantText,
-    variant === 'icon' && definedClassNames.variantIcon,
+  const containerClassNames = useContainerStyles();
+  const variantsClassNames = useVariantsStyles({ variant });
+
+  const allClassNames = classNames(
+    containerClassNames.container,
+    variantsClassNames[variant],
+    isDisabled && (disabledClassName || containerClassNames.disabled),
+    isActive && (activeClassName || containerClassNames.active),
   );
   if (to && isActive) {
     Component = NavLink;
   } else if (to) {
     Component = Link;
   }
-
   return (
     <Component
       type={type}
       to={to}
       disabled={isDisabled}
-      className={containerClassNames}
+      className={allClassNames}
       onClick={onClick}
     >
-      {startIcon && <div className={definedClassNames.icon}>{startIcon}</div>}
+      {console.log(containerClassNames['outlined'])}
+      {startIcon && (
+        <div className={containerClassNames.container__icon}>{startIcon}</div>
+      )}
       {children}
-      {endIcon && <div className={definedClassNames.icon}>{endIcon}</div>}
+      {endIcon && (
+        <div className={containerClassNames.container__icon}>{endIcon}</div>
+      )}
     </Component>
   );
 };
@@ -118,7 +129,7 @@ Button.propTypes = {
   disabledClassName: PropTypes.string,
   startIcon: PropTypes.element,
   endIcon: PropTypes.element,
-  // isActive: PropTypes.bool,
+  isActive: PropTypes.bool,
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
