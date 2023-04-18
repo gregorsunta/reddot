@@ -73,18 +73,17 @@ const useVariantsStyles = createUseStyles({
   },
 });
 const Button = ({
-  type,
   variant,
   children,
   to = null,
-  ownerClasses = [],
-  activeClassName = null,
-  disabledClassName = null,
-  startIcon = null,
-  endIcon = null,
+  onClick,
   isActive = null,
   isDisabled = false,
-  onClick,
+  startIcon = null,
+  endIcon = null,
+  customClassName = null,
+  activeClassName = null,
+  disabledClassName = null,
 }) => {
   let Component = 'button';
   const containerClassNames = useContainerStyles();
@@ -95,6 +94,7 @@ const Button = ({
     variantsClassNames[variant],
     isDisabled && (disabledClassName || containerClassNames.disabled),
     isActive && (activeClassName || containerClassNames.active),
+    customClassName,
   );
   if (to && isActive) {
     Component = NavLink;
@@ -103,13 +103,11 @@ const Button = ({
   }
   return (
     <Component
-      type={type}
       to={to}
       disabled={isDisabled}
       className={allClassNames}
       onClick={onClick}
     >
-      {console.log(containerClassNames['outlined'])}
       {startIcon && (
         <div className={containerClassNames.container__icon}>{startIcon}</div>
       )}
@@ -122,9 +120,12 @@ const Button = ({
 };
 Button.propTypes = {
   variant: PropTypes.oneOf(['outlined', 'icon', 'solid', 'text']).isRequired,
-  // children: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   to: PropTypes.string,
-  ownerClasses: PropTypes.string,
+  customClassName: PropTypes.string,
   activeClassName: PropTypes.string,
   disabledClassName: PropTypes.string,
   startIcon: PropTypes.element,
