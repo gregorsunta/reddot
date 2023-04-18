@@ -65,9 +65,9 @@ const useVariantsStyles = createUseStyles({
     '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
   },
   text: {
-    padding: `${SIZES.SIZE_16} ${SIZES.SIZE_32}`,
+    padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
     backgroundColor: 'transparent',
-    '&:hover': { backgroundColor: `${NEUTRAL.HS} ${LIGHTNESS.L_10}` },
+    '&:hover': { backgroundColor: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_95})` },
   },
 });
 const Button = ({
