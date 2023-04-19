@@ -21,26 +21,28 @@ const HomePage = () => {
     getPosts();
   }, []);
   const authenticatedSide = (
-    <Stack>
-      <Panel>
-        <p>gregorsunta</p>
-      </Panel>
+    <Stack orientation="column" spacing={SIZES.SIZE_16}>
       <Panel>
         <p>
           Hi {authStore?.user?.displayName}, this is your personal home page
         </p>
       </Panel>
-    </Stack>
-  );
-  const anonymousSide = (
-    <Stack>
       <Panel>
         <p>gregorsunta</p>
       </Panel>
+    </Stack>
+  );
+  const anonymousSide = (
+    <Stack spacing={SIZES.SIZE_16}>
       <Panel>
         <p>Log in or Sign up to view reddot with all of its features.</p>
-        <Button variant="outlined">Log in</Button>
-        <Button variant="solid">Sign up</Button>
+        <Stack orientation="row" spacing={SIZES.SIZE_8}>
+          <Button variant="outlined">Log in</Button>
+          <Button variant="solid">Sign up</Button>
+        </Stack>
+      </Panel>
+      <Panel>
+        <p>gregorsunta</p>
       </Panel>
     </Stack>
   );
