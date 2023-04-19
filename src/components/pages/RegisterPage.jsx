@@ -6,13 +6,13 @@ const RegisterPage = () => {
     <MainTemplate
       content={
         <>
-          <p>Enter email</p>
-          <Input />
-          <p>Enter password</p>
-          <Input />
-          <p>Repeat password</p>
-          <Input />
-          <Button text={'Register'} />
+          <p>
+            Signing up with email and password is not supported at the moment,
+            but you can sign up google instead. Click on the button below.
+          </p>
+          <Button variant="solid" to={'/login'}>
+            Take me to the login page
+          </Button>
         </>
       }
     />

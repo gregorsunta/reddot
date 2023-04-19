@@ -24,7 +24,8 @@ const HomePage = () => {
     <Stack orientation="column" spacing={SIZES.SIZE_16}>
       <Panel>
         <p>
-          Hi {authStore?.user?.displayName}, this is your personal home page
+          Hi {authStore?.user?.displayName}, currently we can't show your
+          personal home page, but we are implementing this feature.
         </p>
       </Panel>
       <Panel>
@@ -35,10 +36,16 @@ const HomePage = () => {
   const anonymousSide = (
     <Stack spacing={SIZES.SIZE_16}>
       <Panel>
-        <p>Log in or Sign up to view reddot with all of its features.</p>
+        <p>
+          Log in or Sign up to view reddot with all of its (limited) features.
+        </p>
         <Stack orientation="row" spacing={SIZES.SIZE_8}>
-          <Button variant="outlined">Log in</Button>
-          <Button variant="solid">Sign up</Button>
+          <Button variant="outlined" to={'/login'}>
+            Log in
+          </Button>
+          <Button variant="solid" to={'/signup'}>
+            Sign up
+          </Button>
         </Stack>
       </Panel>
       <Panel>
