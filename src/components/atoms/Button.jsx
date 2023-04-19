@@ -5,25 +5,28 @@ import { Link, NavLink } from 'react-router-dom';
 import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
-  container: ({ width }) => ({
-    display: 'inline-block',
+  container: {
+    display: 'inline-flex',
+    flexDirection: (direction) => direction,
+    gap: (gap) => gap,
+    alignItems: 'center',
+
     color: 'black',
     textDecoration: 'none',
 
     minWidth: 'min-content',
-    width: `${width}`,
+    width: (width) => width,
     /*to make all buttons the same size*/
     borderWidth: `${SIZES.SIZE_2}`,
     borderStyle: 'solid',
     borderColor: 'transparent',
-
     '& span': {
       backgroundColor: 'transparent',
     },
     '& svg': {
       backgroundColor: 'transparent',
     },
-  }),
+  },
   active: {
     backgroundColor: 'hsl(0, 0%, 90%)',
     borderBottom: '2px solid hsl(0, 0%, 50%)',
@@ -31,16 +34,13 @@ const useContainerStyles = createUseStyles({
   disabled: {
     color: 'hsl(0, 0%, 50%)',
   },
-});
-const useContentStyles = createUseStyles({
-  main: ({ direction, gap }) => ({
-    display: 'flex',
-    flexDirection: `${direction}`,
-    gap: `${gap}`,
-  }),
   icon: {
-    width: `${SIZES.SIZE_20}`,
-    height: `${SIZES.SIZE_20}`,
+    width: `20px`,
+    height: `20px`,
+    '& svg': {
+      width: `inherit`,
+      height: `inherit`,
+    },
   },
 });
 const useVariantStyles = createUseStyles({
@@ -94,22 +94,27 @@ const Button = ({
   disabledClassName = null,
 }) => {
   let Component = 'button';
-  const containerClassNames = useContainerStyles({ width });
-  const containerVariantClassNames = useVariantStyles();
-  const contentClassNames = useContentStyles({ direction, gap });
 
-  const allContainerClassNames = classNames(
-    containerClassNames.container,
-    containerVariantClassNames[variant],
-    isDisabled && (disabledClassName || containerClassNames.disabled),
-    isActive && (activeClassName || containerClassNames.active),
-    customClassName,
-  );
   if (to && isActive) {
     Component = NavLink;
   } else if (to) {
     Component = Link;
   }
+
+  const containerClassNames = useContainerStyles({ width, direction, gap });
+  const containerVariantClassNames = useVariantStyles();
+
+  const allContainerClassNames = classNames(
+    containerClassNames.container,
+    variant === 'text' && containerVariantClassNames.text,
+    variant === 'outlined' && containerVariantClassNames.outlined,
+    variant === 'solid' && containerVariantClassNames.solid,
+    variant === 'icon' && containerVariantClassNames.icon,
+    isDisabled && (disabledClassName || containerClassNames.disabled),
+    isActive && (activeClassName || containerClassNames.active),
+    customClassName,
+  );
+
   return (
     <Component
       type={type}
@@ -118,11 +123,11 @@ const Button = ({
       className={allContainerClassNames}
       onClick={onClick}
     >
-      <div className={contentClassNames.main}>
-        {startIcon && <div className={contentClassNames.icon}>{startIcon}</div>}
-        {children}
-        {endIcon && <div className={contentClassNames.icon}>{endIcon}</div>}
-      </div>
+      {startIcon && (
+        <span className={containerClassNames.icon}>{startIcon}</span>
+      )}
+      {children}
+      {endIcon && <span className={containerClassNames.icon}>{endIcon}</span>}
     </Component>
   );
 };
