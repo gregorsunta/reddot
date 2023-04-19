@@ -41,9 +41,10 @@ const LoginPage = observer(({ className }) => {
                 gap={SIZES.SIZE_8}
                 variant="outlined"
                 startIcon={<FcGoogle />}
-                children={<span>Continue with google</span>}
                 onClick={Login}
-              />
+              >
+                Continue with google
+              </Button>
             </Stack>
           </Stack>
         }
