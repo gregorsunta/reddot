@@ -6,10 +6,6 @@ import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
   container: ({ width }) => ({
-    display: 'flex',
-    alignItems: 'center',
-
-    gap: `${SIZES.SIZE_600}`,
     color: 'black',
     textDecoration: 'none',
 
@@ -27,16 +23,23 @@ const useContainerStyles = createUseStyles({
       backgroundColor: 'transparent',
     },
   }),
-  container__icon: {
-    width: '20px',
-    height: '20px',
-  },
   active: {
     backgroundColor: 'hsl(0, 0%, 90%)',
     borderBottom: '2px solid hsl(0, 0%, 50%)',
   },
   disabled: {
     color: 'hsl(0, 0%, 50%)',
+  },
+});
+const useContentStyles = createUseStyles({
+  main: ({ direction, gap }) => ({
+    display: 'flex',
+    flexDirection: `${direction}`,
+    gap: `${gap}`,
+  }),
+  icon: {
+    width: '20px',
+    height: '20px',
   },
 });
 const useVariantsStyles = createUseStyles({
@@ -49,8 +52,8 @@ const useVariantsStyles = createUseStyles({
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES.SIZE_16}`,
     borderColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
-    borderWidth: '2px',
     color: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
+    backgroundColor: 'white',
     '&:hover': {
       backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_95})`,
     },
@@ -76,6 +79,8 @@ const Button = ({
   children,
   to = null,
   width = 'min-content',
+  direction,
+  gap = SIZES.SIZE_8,
   onClick,
   isActive = null,
   isDisabled = false,
@@ -87,6 +92,7 @@ const Button = ({
 }) => {
   let Component = 'button';
   const containerClassNames = useContainerStyles({ width });
+  const contentClassNames = useContentStyles({ direction, gap });
   const variantsClassNames = useVariantsStyles();
 
   const allClassNames = classNames(
@@ -109,13 +115,11 @@ const Button = ({
       className={allClassNames}
       onClick={onClick}
     >
-      {startIcon && (
-        <div className={containerClassNames.container__icon}>{startIcon}</div>
-      )}
-      {children}
-      {endIcon && (
-        <div className={containerClassNames.container__icon}>{endIcon}</div>
-      )}
+      <div className={contentClassNames.main}>
+        {startIcon && <div className={contentClassNames.icon}>{startIcon}</div>}
+        {children}
+        {endIcon && <div className={contentClassNames.icon}>{endIcon}</div>}
+      </div>
     </Component>
   );
 };
@@ -125,6 +129,8 @@ Button.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  direction: PropTypes.oneOf(['row', 'column']),
+  gap: PropTypes.string,
   to: PropTypes.string,
   customClassName: PropTypes.string,
   activeClassName: PropTypes.string,
