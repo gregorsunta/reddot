@@ -38,14 +38,16 @@ const useContentStyles = createUseStyles({
     gap: `${gap}`,
   }),
   icon: {
-    width: '20px',
-    height: '20px',
+    width: `${SIZES.SIZE_20}`,
+    height: `${SIZES.SIZE_20}`,
   },
 });
-const useVariantsStyles = createUseStyles({
+const useVariantStyles = createUseStyles({
   icon: {
-    display: 'grid',
-    placeContent: 'center',
+    '& div': {
+      display: 'grid',
+      placeContent: 'center',
+    },
   },
   outlined: {
     padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
@@ -78,7 +80,7 @@ const Button = ({
   variant,
   children,
   to = null,
-  width = 'min-content',
+  width,
   direction,
   gap = SIZES.SIZE_8,
   onClick,
@@ -92,12 +94,12 @@ const Button = ({
 }) => {
   let Component = 'button';
   const containerClassNames = useContainerStyles({ width });
+  const containerVariantClassNames = useVariantStyles();
   const contentClassNames = useContentStyles({ direction, gap });
-  const variantsClassNames = useVariantsStyles();
 
-  const allClassNames = classNames(
+  const allContainerClassNames = classNames(
     containerClassNames.container,
-    variantsClassNames[variant],
+    containerVariantClassNames[variant],
     isDisabled && (disabledClassName || containerClassNames.disabled),
     isActive && (activeClassName || containerClassNames.active),
     customClassName,
@@ -112,7 +114,7 @@ const Button = ({
       type={type}
       to={to}
       disabled={isDisabled}
-      className={allClassNames}
+      className={allContainerClassNames}
       onClick={onClick}
     >
       <div className={contentClassNames.main}>
