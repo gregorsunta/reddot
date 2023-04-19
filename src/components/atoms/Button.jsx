@@ -6,6 +6,7 @@ import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
   container: ({ width }) => ({
+    display: 'inline-block',
     color: 'black',
     textDecoration: 'none',
 
