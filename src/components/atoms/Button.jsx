@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
-  container: () => ({
+  container: ({ width }) => ({
     display: 'flex',
     alignItems: 'center',
 
@@ -14,7 +14,7 @@ const useContainerStyles = createUseStyles({
     textDecoration: 'none',
 
     minWidth: 'min-content',
-
+    width: `${width}`,
     /*to make all buttons the same size*/
     borderWidth: `${SIZES.SIZE_2}`,
     borderStyle: 'solid',
@@ -75,6 +75,7 @@ const Button = ({
   variant,
   children,
   to = null,
+  width = 'min-content',
   onClick,
   isActive = null,
   isDisabled = false,
@@ -85,8 +86,8 @@ const Button = ({
   disabledClassName = null,
 }) => {
   let Component = 'button';
-  const containerClassNames = useContainerStyles();
-  const variantsClassNames = useVariantsStyles({ variant });
+  const containerClassNames = useContainerStyles({ width });
+  const variantsClassNames = useVariantsStyles();
 
   const allClassNames = classNames(
     containerClassNames.container,
