@@ -38,7 +38,6 @@ const Header = observer(({ className, authStore }) => {
     setShowModal(false);
     setModalContent(null);
   };
-
   const anonymousButtons = [
     <Button
       variant="solid"
@@ -50,7 +49,7 @@ const Header = observer(({ className, authStore }) => {
   ];
   const anonymousDropdown = [
     <Button
-      variant="icon"
+      variant="text"
       startIcon={<CgProfile />}
       endIcon={<IoIosArrowDropdown />}
       className=""
@@ -88,7 +87,7 @@ const Header = observer(({ className, authStore }) => {
   ];
   const authenticatedDropdown = [
     <Button
-      variant="icon"
+      variant="text"
       className=""
       startIcon={<CgProfile />}
       key={uuidv4()}
