@@ -3,13 +3,13 @@ import styles from '../../../styles/molecules/panels/CreatePostPanel.module.css'
 import { Input } from '../../atoms';
 import { useAuthStore } from '../../../context/authStoreContext';
 import { Panel, Stack } from '../../molecules/';
-import { SIZES } from '../../../constants';
+import { SIZES_REM } from '../../../constants';
 
 const CreatePost = () => {
   const authStore = useAuthStore();
   return (
     <Panel className={`${styles.container}`}>
-      <Stack orientation="row" spacing={SIZES.SIZE_16}>
+      <Stack orientation="row" spacing={SIZES_REM.SIZE_16}>
         <img
           className={styles['profile-icon']}
           src={authStore?.user?.photoURL}

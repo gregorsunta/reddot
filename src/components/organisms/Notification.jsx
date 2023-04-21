@@ -1,9 +1,9 @@
 import { createUseStyles } from 'react-jss';
-import { SIZES } from '../../constants';
+import { SIZES_REM } from '../../constants';
 
 const useStyles = createUseStyles({
   container: {
-    padding: `${SIZES.SIZE_64}`,
+    padding: `${SIZES_REM.SIZE_64}`,
   },
 });
 

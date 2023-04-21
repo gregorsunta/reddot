@@ -9,7 +9,7 @@ import AuthService from '../../services/AuthService';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../../context/authStoreContext';
 import PropTypes from 'prop-types';
-import { SIZES } from '../../constants';
+import { SIZES_REM } from '../../constants';
 
 const LoginPage = observer(({ className }) => {
   const authStore = useAuthStore();
@@ -33,12 +33,12 @@ const LoginPage = observer(({ className }) => {
       <MainTemplate
         className={className}
         content={
-          <Stack spacing={SIZES.SIZE_16}>
+          <Stack spacing={SIZES_REM.SIZE_16}>
             <Stack>
               <h1>Sign up</h1>
               <h3>Currently we only support Google sign in.</h3>
               <Button
-                gap={SIZES.SIZE_8}
+                gap={SIZES_REM.SIZE_8}
                 variant="outlined"
                 startIcon={<FcGoogle />}
                 onClick={Login}

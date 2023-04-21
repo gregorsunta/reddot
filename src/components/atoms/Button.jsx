@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import { SIZES, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
+import { SIZES_REM, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
 
 const useContainerStyles = createUseStyles({
   container: {
@@ -17,7 +17,7 @@ const useContainerStyles = createUseStyles({
     minWidth: 'min-content',
     width: (width) => width,
     /*to make all buttons the same size*/
-    borderWidth: `${SIZES.SIZE_2}`,
+    borderWidth: `${SIZES_REM.SIZE_2}`,
     borderStyle: 'solid',
     borderColor: 'transparent',
     '& span': {
@@ -51,9 +51,9 @@ const useVariantStyles = createUseStyles({
     },
   },
   outlined: {
-    padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
+    padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
     whiteSpace: 'nowrap',
-    borderRadius: `${SIZES.SIZE_16}`,
+    borderRadius: `${SIZES_REM.SIZE_16}`,
     borderColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     color: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     backgroundColor: 'white',
@@ -62,16 +62,16 @@ const useVariantStyles = createUseStyles({
     },
   },
   solid: {
-    padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
+    padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
 
     whiteSpace: 'nowrap',
-    borderRadius: `${SIZES.SIZE_16}`,
+    borderRadius: `${SIZES_REM.SIZE_16}`,
     backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
     color: 'white',
     '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
   },
   text: {
-    padding: `${SIZES.SIZE_2} ${SIZES.SIZE_16}`,
+    padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
     backgroundColor: 'transparent',
     '&:hover': { backgroundColor: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_95})` },
   },
@@ -83,7 +83,7 @@ const Button = ({
   to = null,
   width,
   direction,
-  gap = SIZES.SIZE_8,
+  gap = SIZES_REM.SIZE_8,
   onClick,
   isActive = null,
   isDisabled = false,

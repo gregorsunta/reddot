@@ -7,7 +7,7 @@ import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { Stack, Panel } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
-import { SIZES } from '../../constants';
+import { SIZES_REM } from '../../constants';
 
 const HomePage = () => {
   const authStore = useAuthStore();
@@ -21,7 +21,7 @@ const HomePage = () => {
     getPosts();
   }, []);
   const authenticatedSide = (
-    <Stack orientation="column" spacing={SIZES.SIZE_16}>
+    <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
       <Panel>
         <p>
           Hi {authStore?.user?.displayName}, currently we can't show your
@@ -34,12 +34,12 @@ const HomePage = () => {
     </Stack>
   );
   const anonymousSide = (
-    <Stack spacing={SIZES.SIZE_16}>
+    <Stack spacing={SIZES_REM.SIZE_16}>
       <Panel>
         <p>
           Log in or Sign up to view reddot with all of its (limited) features.
         </p>
-        <Stack orientation="row" spacing={SIZES.SIZE_8}>
+        <Stack orientation="row" spacing={SIZES_REM.SIZE_8}>
           <Button variant="outlined" to={'/login'}>
             Log in
           </Button>
@@ -56,7 +56,7 @@ const HomePage = () => {
   return (
     <MainTemplate
       content={
-        <Stack orientation="column" spacing={SIZES.SIZE_16}>
+        <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
           {authStore.user && (
             <Panel>
               <CreatePost />

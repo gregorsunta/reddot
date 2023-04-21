@@ -1,13 +1,14 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { Stack } from '../molecules/';
-import { LIGHTNESS, NEUTRAL, SIZES } from '../../constants';
+import { LIGHTNESS, NEUTRAL, SIZES_REM } from '../../constants';
 
 const useContainerStyles = createUseStyles({
   container: {
     maxWidth: '1100px',
     margin: `0 auto`,
-    padding: `${SIZES.SIZE_56}`,
+    paddingTop: `80px`,
+    minHeight: '100lvh',
   },
   background: {
     backgroundColor: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_90})`,
@@ -15,12 +16,12 @@ const useContainerStyles = createUseStyles({
 });
 const useContentStyles = createUseStyles({
   content: {
-    flex: 4,
+    width: '640px',
   },
 });
 const useSideStyles = createUseStyles({
   side: {
-    flex: 2,
+    width: '310px',
   },
 });
 
@@ -33,7 +34,7 @@ const MainTemplate = ({ auth, content, side }) => {
     <div className={containerClassNames.background}>
       <Stack
         orientation="row"
-        spacing={SIZES.SIZE_16}
+        spacing={SIZES_REM.SIZE_16}
         customClassName={containerClassNames.container}
       >
         <section className={contentClassNames.content}>{content}</section>
