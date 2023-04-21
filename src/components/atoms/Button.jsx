@@ -10,6 +10,7 @@ const useContainerStyles = createUseStyles({
     flexDirection: (direction) => direction,
     gap: (gap) => gap,
     alignItems: 'center',
+    justifyContent: 'center',
 
     color: 'black',
     textDecoration: 'none',
@@ -35,8 +36,8 @@ const useContainerStyles = createUseStyles({
     color: 'hsl(0, 0%, 50%)',
   },
   icon: {
-    width: `20px`,
-    height: `20px`,
+    width: `${SIZES_REM.SIZE_24}`,
+    height: `${SIZES_REM.SIZE_24}`,
     '& svg': {
       width: `inherit`,
       height: `inherit`,
