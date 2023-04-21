@@ -7,7 +7,7 @@ import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { Stack, Panel } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
-import { SIZES_REM } from '../../constants';
+import { SIZES_REM, SIZES_PX } from '../../constants';
 
 const HomePage = () => {
   const authStore = useAuthStore();
@@ -39,7 +39,7 @@ const HomePage = () => {
         <p>
           Log in or Sign up to view reddot with all of its (limited) features.
         </p>
-        <Stack orientation="row" spacing={SIZES_REM.SIZE_8}>
+        <Stack orientation="column" spacing={SIZES_REM.SIZE_8}>
           <Button variant="outlined" to={'/login'}>
             Log in
           </Button>
@@ -56,7 +56,7 @@ const HomePage = () => {
   return (
     <MainTemplate
       content={
-        <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
+        <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
           {authStore.user && (
             <Panel>
               <CreatePost />
