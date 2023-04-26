@@ -63,7 +63,7 @@ const HomePage = () => {
             </Panel>
           )}
           {posts?.map((post) => (
-            <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
+            <BriefPostPanel key={post.id}></BriefPostPanel>
           ))}
         </Stack>
       }
