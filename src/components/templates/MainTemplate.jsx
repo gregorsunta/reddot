@@ -18,7 +18,7 @@ const useContainerStyles = createUseStyles({
 });
 const useContentStyles = createUseStyles({
   content: {
-    maxWidth: '640px',
+    width: 'clamp(320px,640px,640px)',
   },
 });
 const useSideStyles = createUseStyles({
