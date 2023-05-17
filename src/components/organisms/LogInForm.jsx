@@ -9,7 +9,7 @@ const LogInForm = observer(() => {
   const authStore = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const authService = AuthService;
-  const Login = async () => {
+  const login = async () => {
     setIsLoading(true);
     try {
       await authService.signInWithGooglePopup();
@@ -32,7 +32,7 @@ const LogInForm = observer(() => {
         variant="outlined"
         startIcon={<FcGoogle />}
         children={<span>Continue with google</span>}
-        onClick={Login}
+        onClick={login}
       />
     </form>
   );
