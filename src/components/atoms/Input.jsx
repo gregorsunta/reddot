@@ -1,5 +1,3 @@
-import styles from '../../styles/atoms/Input.module.css';
-
 const Input = ({
   placeholder = '',
   type = 'text',
@@ -9,7 +7,7 @@ const Input = ({
 }) => {
   return (
     <input
-      className={`${styles.container} ${className}`}
+      className={`${className}`}
       type={type}
       placeholder={placeholder}
       readOnly={readOnly}

@@ -10,13 +10,9 @@ const BriefPostPanel = ({ post }) => {
   return (
     <Panel>
       <Stack>
-        {owner ? <p>{owner}</p> : <ElementSkeleton></ElementSkeleton>}
-        {title ? <p>{title}</p> : <ElementSkeleton></ElementSkeleton>}
-        {text ? (
-          <p>{text}</p>
-        ) : (
-          <ElementSkeleton component={'p'}></ElementSkeleton>
-        )}
+        <p>{owner}</p>
+        <p>{title}</p>
+        <p>{text}</p>
         <Stack orientation="row">
           <Button type="button" variant="icon" startIcon={<BiUpvote />} />
           <Button type="button" variant="icon" startIcon={<BiDownvote />} />

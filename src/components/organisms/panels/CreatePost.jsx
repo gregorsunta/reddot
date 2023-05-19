@@ -1,24 +1,26 @@
 import { Link } from 'react-router-dom';
-import styles from '../../../styles/molecules/panels/CreatePostPanel.module.css';
-import { Input } from '../../atoms';
-import { useAuthStore } from '../../../context/authStoreContext';
-import { Panel, Stack } from '../../molecules/';
+import { createUseStyles } from 'react-jss';
 import { SIZES_REM } from '../../../constants';
+import { Input } from '../../atoms';
+import { Panel, Stack } from '../../molecules/';
+import { useAuthStore } from '../../../context/authStoreContext';
 
 const CreatePost = () => {
   const authStore = useAuthStore();
+  const { container, profileIcon, input } = useStyles();
+
   return (
-    <Panel className={`${styles.container}`}>
+    <Panel className={container}>
       <Stack orientation="row" spacing={SIZES_REM.SIZE_16}>
         <img
-          className={styles['profile-icon']}
+          className={profileIcon}
           src={authStore?.user?.photoURL}
-          alt=""
+          alt="Profile icon"
           referrerPolicy="no-referrer"
         />
         <Link to="/submit">
           <Input
-            className={`${styles.input}`}
+            className={input}
             type="text"
             placeholder="Create post"
             readOnly={true}
@@ -28,4 +30,20 @@ const CreatePost = () => {
     </Panel>
   );
 };
+
+const useStyles = createUseStyles({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--size-5)',
+  },
+  profileIcon: {
+    width: '2rem',
+    height: '2rem',
+  },
+  input: {
+    flex: 1,
+  },
+});
+
 export { CreatePost };

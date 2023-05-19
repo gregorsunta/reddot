@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react-lite';
 import { createPortal } from 'react-dom';
+import { createUseStyles } from 'react-jss';
+import { observer } from 'mobx-react-lite';
+import PropTypes from 'prop-types';
 import { uuidv4 } from '@firebase/util';
-import { ButtonGroup, Dropdown, Logo } from '../molecules/';
-import { Button, Input } from '../atoms/';
-import { withRedirect } from '../../utils';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
-import AuthService from '../../services/AuthService';
-import PropTypes from 'prop-types';
-import { Modal } from '../molecules/';
 import { FcGoogle } from 'react-icons/fc';
-import styles from '../../styles/organisms/Header.module.css';
-import { LogInForm } from './LogInForm.jsx';
+import AuthService from '../../services/AuthService';
+import { ButtonGroup, Dropdown, Logo, Modal } from '../molecules/';
+import { Button, Input } from '../atoms/';
+import { withRedirect } from '../../utils';
+import { LogInForm } from './';
+import classNames from 'classnames';
 
 const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const {
+    container,
+    logoContainer,
+    dropdownContainer,
+    btnContainer,
+    searchGroupContainer,
+    searchBarContainer,
+  } = useStyles();
+  const allContainerClasses = classNames(container, className);
 
   const showSignInModal = () => {
     setModalContent(
@@ -43,7 +52,6 @@ const Header = observer(({ className, authStore }) => {
       variant="solid"
       children={<span>Login</span>}
       onClick={showSignInModal}
-      // className= {ButtonBasic.container}
       key={uuidv4()}
     />,
   ];
@@ -127,21 +135,15 @@ const Header = observer(({ className, authStore }) => {
   }, [showModal, authStore.user]);
 
   return (
-    <div className={`${styles.container} ${className}`}>
-      <div className={styles['logo-container']}>
+    <div className={allContainerClasses}>
+      <div className={logoContainer}>
         <RedirectLogo link={'/'} />
       </div>
-      <Input
-        className={styles['search-bar-container']}
-        placeholder={'Search reddot'}
-      />
-      <ButtonGroup
-        orientation={'horizontal'}
-        className={styles['btn-container']}
-      >
+      <Input className={searchBarContainer} placeholder={'Search reddot'} />
+      <ButtonGroup orientation={'horizontal'} className={btnContainer}>
         {authStore.user ? authenticatedButtons : anonymousButtons}
       </ButtonGroup>
-      <Dropdown className={styles['dropdown-container']}>
+      <Dropdown className={dropdownContainer}>
         {authStore.user ? authenticatedDropdown : anonymousDropdown}
       </Dropdown>
       {showModal &&
@@ -157,5 +159,81 @@ Header.propTypes = {
   className: PropTypes.string,
   authStore: PropTypes.object,
 };
+
+const useStyles = createUseStyles({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2vw',
+    position: 'fixed',
+    top: 0,
+    height: '6vh',
+    padding: '0 3vw',
+    width: '100vw',
+    backgroundColor: 'white',
+  },
+  logoContainer: {
+    flex: '0 0 auto',
+    height: '100%',
+    textDecoration: 'none',
+    '& > *': {
+      textDecoration: 'none',
+    },
+    '& > *:visited': {
+      color: 'inherit',
+    },
+    '& img': {
+      height: '100%',
+    },
+    '& p': {
+      fontSize: 'var(--size-6)',
+      textShadow: '1px 1px hsl(0 0% 60%)',
+      letterSpacing: '-1px',
+      '@media (max-width: 920px)': {
+        display: 'none',
+      },
+    },
+  },
+  searchBarContainer: {
+    flex: '0 1 auto',
+    border: 'var(--size-09) solid hsl(0 0% 60%)',
+    borderRadius: '50px',
+    padding: '0 2vw',
+    fontSize: 'var(--size-5)',
+    height: '80%',
+    fontWeight: 400,
+    backgroundColor: 'var(--gray-2)',
+    color: 'hsl(0 0% 60%)',
+  },
+  searchGroupContainer: {
+    alignSelf: 'stretch',
+    border: 'var(--size-08) solid hsl(0 0% 60%)',
+    borderRadius: 'var(--size-3)',
+  },
+  btnContainer: {
+    height: '70%',
+    display: 'flex',
+    gap: 'var(--size-5)',
+    '@media (max-width: 780px)': {
+      display: 'none',
+    },
+  },
+  dropdownContainer: {
+    height: '70%',
+    '& > button': {
+      display: 'flex',
+      height: '100%',
+      width: '2.5rem',
+    },
+    '& > ul': {
+      right: '0',
+      backgroundColor: 'white',
+    },
+    '& *': {
+      border: 'none',
+      backgroundColor: 'white',
+    },
+  },
+});
 
 export default Header;

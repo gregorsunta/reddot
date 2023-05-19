@@ -9,12 +9,12 @@ import {
 } from 'react-ionicons';
 import { ButtonGroup } from '../../molecules/ButtonGroup.jsx';
 import { uuidv4 } from '@firebase/util';
-import styles from '../../../styles/molecules/panels/SubmitPanel.module.css';
 import { Button } from '../../atoms/Button';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
 import { Panel } from '../../molecules/Panel.jsx';
+import { createUseStyles } from 'react-jss';
 
 const SubmitPanel = observer(() => {
   const firestoreService = useFirestoreService();
@@ -23,8 +23,10 @@ const SubmitPanel = observer(() => {
   const [title, setTitle] = useState('');
   const [postContent, setPostContent] = useState('');
 
+  const { container, btnsContainer, btn, input, textArea, active } =
+    useStyles();
+
   const isActive = (type) => {
-    console.log(activeType);
     return type === activeType;
   };
   const changeType = (type) => {
@@ -35,7 +37,7 @@ const SubmitPanel = observer(() => {
       case 'text':
         return (
           <textarea
-            className={`${styles['text-area']}`}
+            className={textArea}
             type="text"
             placeholder="Text (optional)"
             onChange={(e) => {
@@ -54,7 +56,7 @@ const SubmitPanel = observer(() => {
       case 'link':
         return (
           <textarea
-            className={`${styles['text-area']}`}
+            className={textArea}
             type="text"
             placeholder="Url"
             onChange={(e) => {
@@ -78,14 +80,14 @@ const SubmitPanel = observer(() => {
     }
   };
   return (
-    <Panel className={`${styles.container}`}>
+    <Panel className={container}>
       <ButtonGroup orientation="horizontal" variant="outlined">
         <Button
           variant="text"
           children="Text"
           startIcon={<TextOutline />}
-          className={styles.btn}
-          activeClassName={styles.active}
+          className={btn}
+          activeClassName={active}
           type="text"
           isActive={'text' === activeType}
           onClick={() => changeType('text')}
@@ -95,8 +97,8 @@ const SubmitPanel = observer(() => {
           variant="text"
           children="Image & Video"
           startIcon={<ImageOutline />}
-          className={styles.btn}
-          activeClassName={styles.active}
+          className={btn}
+          activeClassName={active}
           type="visual"
           isActive={'visual' === activeType}
           onClick={() => changeType('visual')}
@@ -107,8 +109,8 @@ const SubmitPanel = observer(() => {
           variant="text"
           children="Link"
           startIcon={<LinkOutline />}
-          className={styles.btn}
-          activeClassName={styles.active}
+          className={btn}
+          activeClassName={active}
           type="link"
           isActive={'link' === activeType}
           onClick={() => changeType('link')}
@@ -119,8 +121,8 @@ const SubmitPanel = observer(() => {
           variant="text"
           children="Poll"
           startIcon={<AlbumsOutline />}
-          className={styles.btn}
-          activeClassName={styles.active}
+          className={btn}
+          activeClassName={active}
           isDisabled={true}
           type="poll"
           isActive={'poll' === activeType}
@@ -131,8 +133,8 @@ const SubmitPanel = observer(() => {
           variant="text"
           children="Live"
           startIcon={<MicOutline />}
-          className={styles.btn}
-          activeClassName={styles.active}
+          className={btn}
+          activeClassName={active}
           isDisabled={true}
           type="live"
           isActive={'live' === activeType}
@@ -141,7 +143,7 @@ const SubmitPanel = observer(() => {
         />
       </ButtonGroup>
       <input
-        className={`${styles.input}`}
+        className={input}
         type="text"
         placeholder="Title"
         onChange={(e) => {
@@ -149,7 +151,7 @@ const SubmitPanel = observer(() => {
         }}
       />
       {displayPanelType()}
-      <div className={styles['form-btn']}>
+      <div>
         <Button variant="outlined" to={'/'}>
           Cancel
         </Button>
@@ -159,6 +161,59 @@ const SubmitPanel = observer(() => {
       </div>
     </Panel>
   );
+});
+
+const useStyles = createUseStyles({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--size-4)',
+    maxWidth: '100vw',
+    // samsung internet support?
+    // maxWidth: '100dvw',
+  },
+  // btnsContainer: {
+  //   display: 'flex',
+  //   overflowY: 'scroll',
+  //   '@media screen and (max-width: 500px)': {
+  //     overflowY: 'auto',
+  //   },
+  // },
+  btn: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 'var(--size-3)',
+    color: 'black',
+    borderRadius: 0,
+    borderColor: 'var(--gray-4)',
+    borderBottom: 'var(--size-1) solid var(--gray-4)',
+    padding: 'var(--size-4)',
+    '&.long': {
+      flex: 1.3,
+    },
+    '&:hover': {
+      backgroundColor: 'var(--gray-1)',
+    },
+    '@media screen and (max-width: 600px)': {
+      flexDirection: 'column',
+    },
+  },
+  input: {
+    height: 'var(--size-7)',
+    width: '100%',
+  },
+  textArea: {
+    width: '100%',
+    minHeight: 'var(--size-9)',
+    height: 'var(--size-10)',
+    resize: 'vertical',
+  },
+  active: {
+    borderBottom: 'var(--size-1) solid var(--gray-9)',
+    backgroundColor: 'var(--gray-1)',
+  },
 });
 
 export { SubmitPanel };

@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
-import styles from '../../styles/molecules/ButtonsGroup.module.css';
 
 const createExpectedClassesString = (expectedProps) => {
   // predefined non optional classes + predefined optional
   return [
-    styles.container,
     `flex-${expectedProps.orientation}`,
     `variant-${expectedProps.variant}`,
   ].join(' ');

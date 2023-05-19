@@ -1,19 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
-import styles from '../../styles/molecules/Dropdown.module.css';
+import classNames from 'classnames';
 import { ButtonGroup } from './';
 
 const Dropdown = ({ className, children }) => {
   const [mainButton, ...listItems] = children; //the first button is always the list opener
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
+  const expectedClassesString = useStyles();
+  const containerClassNames = classNames(
+    expectedClassesString.container,
+    className,
+  );
+
   const toggleList = () => {
     setIsOpen(!isOpen);
   };
+
   const MainButtonProps = {
     ...mainButton.props,
     onClick: toggleList,
   };
+
   const MainButton = React.cloneElement(mainButton, MainButtonProps);
 
   useEffect(() => {
@@ -28,12 +37,14 @@ const Dropdown = ({ className, children }) => {
   }, [container]);
 
   return (
-    <div className={`${styles.container} ${className}`} ref={container}>
+    <div className={containerClassNames} ref={container}>
       {MainButton}
       <ButtonGroup
         variant="outlined"
         orientation="vertical"
-        ownerClasses={`${isOpen && styles.active} ${styles.list}`}
+        ownerClasses={`${isOpen && expectedClassesString.active} ${
+          expectedClassesString.list
+        }`}
       >
         {listItems}
       </ButtonGroup>
@@ -48,5 +59,33 @@ Dropdown.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
   ]),
 };
+
+const useStyles = createUseStyles({
+  container: {
+    position: 'relative',
+  },
+  list: {
+    position: 'absolute',
+    display: 'flex',
+    list: {},
+    flexDirection: 'column',
+    gap: 'var(--size-3)',
+    padding: 0,
+    height: 0,
+
+    overflow: 'hidden',
+
+    '& *': {
+      textAlign: 'left',
+      whiteSpace: 'nowrap',
+    },
+  },
+  active: {
+    height: 'auto',
+    padding: '2vh 2vh',
+    border: 'var(--size-09) solid hsl(0 0% 60%)',
+    borderRadius: 'var(--size-3)',
+  },
+});
 
 export { Dropdown };
