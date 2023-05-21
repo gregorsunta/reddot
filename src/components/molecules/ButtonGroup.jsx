@@ -1,23 +1,25 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { createUseStyles } from 'react-jss';
 
-const createExpectedClassesString = (expectedProps) => {
-  // predefined non optional classes + predefined optional
-  return [
-    `flex-${expectedProps.orientation}`,
-    `variant-${expectedProps.variant}`,
-  ].join(' ');
-};
+const useStyles = createUseStyles({
+  container: ({ orientation }) => ({
+    flexDirection: orientation,
+    listStyleType: 'none',
+  }),
+});
+
 const ButtonGroup = ({
   children,
   ownerClasses, //user defined optional
   orientation,
   variant,
 }) => {
-  const expectedProps = { orientation, variant };
-  const expectedClassesString = createExpectedClassesString(expectedProps);
+  const { container } = useStyles(orientation, variant);
+  const containerClasses = classNames(container, ownerClasses);
 
   return (
-    <ul className={`${expectedClassesString} ${ownerClasses}`}>
+    <ul className={containerClasses}>
       {children.map((item) => (
         <li key={item.key}>{item}</li>
       ))}
