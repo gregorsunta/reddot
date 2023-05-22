@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Button } from '../atoms';
 import { Panel } from './';
+import { SIZES_PX, SIZES_REM } from '../../constants/StyleConstants';
 
 const Modal = ({ children, onClose }) => {
-  const allClasses = useStyles();
-  const { window, container, exitButton } = allClasses;
+  const { window, container, exitButton } = useStyles();
 
   return (
     <div className={window}>
@@ -16,7 +16,6 @@ const Modal = ({ children, onClose }) => {
             <GrClose />
           </Button>
         </div>
-
         {children}
       </Panel>
     </div>
@@ -45,15 +44,14 @@ const useStyles = createUseStyles({
     placeItems: 'center',
   },
   container: {
-    maxWidth: '400px',
     position: 'relative',
-    padding: 'var(--size-6) var(--size-6)',
+    maxWidth: `400px`,
     backgroundColor: 'white',
   },
   exitButton: {
     position: 'absolute',
-    top: '0',
-    right: '0',
+    top: 0,
+    right: 0,
     width: '22px',
     height: '22px',
   },

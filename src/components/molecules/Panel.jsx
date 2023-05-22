@@ -6,20 +6,22 @@ import {
   NEUTRAL,
   LIGHTNESS,
 } from '../../constants/StyleConstants';
+import classNames from 'classnames';
 
 const useStyles = createUseStyles({
   container: () => ({
-    padding: `${SIZES_PX.SIZE_8}`,
-    borderRadius: `var(--size-2)`,
+    padding: `${SIZES_PX.SIZE_24}`,
+    // borderRadius: `${SIZES_PX.SIZE_6}`,
     border: `${SIZES_PX.SIZE_1} solid hsl(${NEUTRAL.HS} ${LIGHTNESS.L_80})`,
     backgroundColor: `white`,
   }),
 });
 
-const Panel = ({ children }) => {
-  const styles = useStyles();
+const Panel = ({ children, className }) => {
+  const { container } = useStyles();
+  const allContainerClasses = classNames(container, className);
 
-  return <div className={styles.container}>{children}</div>;
+  return <div className={allContainerClasses}>{children}</div>;
 };
 
 export { Panel };

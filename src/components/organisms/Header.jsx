@@ -195,7 +195,7 @@ const useStyles = createUseStyles({
     },
   },
   searchBarContainer: {
-    flex: '0 1 auto',
+    flexGrow: 1,
     border: 'var(--size-09) solid hsl(0 0% 60%)',
     borderRadius: '50px',
     padding: '0 2vw',
@@ -205,18 +205,10 @@ const useStyles = createUseStyles({
     backgroundColor: 'var(--gray-2)',
     color: 'hsl(0 0% 60%)',
   },
-  searchGroupContainer: {
-    alignSelf: 'stretch',
-    border: 'var(--size-08) solid hsl(0 0% 60%)',
-    borderRadius: 'var(--size-3)',
-  },
   btnContainer: {
     height: '70%',
     display: 'flex',
     gap: 'var(--size-5)',
-    '@media (max-width: 780px)': {
-      display: 'none',
-    },
   },
   dropdownContainer: {
     height: '70%',
@@ -232,6 +224,14 @@ const useStyles = createUseStyles({
     '& *': {
       border: 'none',
       backgroundColor: 'white',
+    },
+  },
+  '@media (max-width: 780px)': {
+    btnContainer: { display: 'none' },
+  },
+  '@media (max-width: 500px)': {
+    searchBarContainer: {
+      display: 'none',
     },
   },
 });
