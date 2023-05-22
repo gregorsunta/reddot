@@ -57,11 +57,7 @@ const HomePage = () => {
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
-          {authStore.user && (
-            <Panel>
-              <CreatePost />
-            </Panel>
-          )}
+          {authStore.user && <CreatePost />}
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}

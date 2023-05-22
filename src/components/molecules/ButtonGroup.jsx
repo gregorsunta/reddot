@@ -11,12 +11,12 @@ const useStyles = createUseStyles({
 
 const ButtonGroup = ({
   children,
-  ownerClasses, //user defined optional
+  className, //user defined optional
   orientation,
   variant,
 }) => {
   const { container } = useStyles(orientation, variant);
-  const containerClasses = classNames(container, ownerClasses);
+  const containerClasses = classNames(container, className);
 
   return (
     <ul className={containerClasses}>

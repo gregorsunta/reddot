@@ -42,7 +42,7 @@ const Dropdown = ({ className, children }) => {
       <ButtonGroup
         variant="outlined"
         orientation="vertical"
-        ownerClasses={`${isOpen && expectedClassesString.active} ${
+        className={`${isOpen && expectedClassesString.active} ${
           expectedClassesString.list
         }`}
       >

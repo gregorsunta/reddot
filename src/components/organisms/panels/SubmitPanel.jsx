@@ -81,7 +81,11 @@ const SubmitPanel = observer(() => {
   };
   return (
     <Panel className={container}>
-      <ButtonGroup orientation="horizontal" variant="outlined">
+      <ButtonGroup
+        className={btnsContainer}
+        orientation="horizontal"
+        variant="outlined"
+      >
         <Button
           variant="text"
           children="Text"
@@ -172,13 +176,13 @@ const useStyles = createUseStyles({
     // samsung internet support?
     // maxWidth: '100dvw',
   },
-  // btnsContainer: {
-  //   display: 'flex',
-  //   overflowY: 'scroll',
-  //   '@media screen and (max-width: 500px)': {
-  //     overflowY: 'auto',
-  //   },
-  // },
+  btnsContainer: {
+    display: 'flex',
+    overflowY: 'scroll',
+    '@media screen and (max-width: 500px)': {
+      overflowY: 'auto',
+    },
+  },
   btn: {
     flex: 1,
     display: 'flex',
