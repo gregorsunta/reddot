@@ -125,3 +125,16 @@ export const LIGHTNESS = {
   L_90: '90%',
   L_95: '95%',
 };
+export const THEMES = {
+  light: {
+    BASE_BACKGROUND: `white`,
+    // BASE_BACKGROUND: `${NEUTRAL.HS} ${LIGHTNESS.L_90}`,
+    BASE_TEXT: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_10})`,
+    ACCENT: `hsl(${ACCENT.HS} ${LIGHTNESS.L_70})`,
+  },
+  dark: {
+    BASE_BACKGROUND: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_20})`,
+    BASE_TEXT: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_90})`,
+    ACCENT: `hsl(${ACCENT.HS} ${LIGHTNESS.L_30})`,
+  },
+};

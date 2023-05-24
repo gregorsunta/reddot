@@ -1,21 +1,27 @@
+import { useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Button } from '../atoms';
 import { Panel } from './';
-import { SIZES_PX, SIZES_REM } from '../../constants/StyleConstants';
 
 const Modal = ({ children, onClose }) => {
   const { window, container, exitButton } = useStyles();
 
+  // enable/disable scroll on page
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <div className={window}>
       <Panel className={container}>
-        <div className={exitButton}>
-          <Button onClick={onClose} variant="icon">
-            <GrClose />
-          </Button>
-        </div>
+        <Button className={exitButton} onClick={onClose} variant="icon">
+          <GrClose />
+        </Button>
         {children}
       </Panel>
     </div>

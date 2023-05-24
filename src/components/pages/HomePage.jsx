@@ -9,6 +9,40 @@ import { Stack, Panel } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
 import { SIZES_REM, SIZES_PX } from '../../constants';
 
+const authenticatedSide = (authStore) => (
+  <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
+    <Panel>
+      <p>
+        Hi {authStore?.user?.displayName}, currently we can't show your personal
+        home page, but we are implementing this feature.
+      </p>
+    </Panel>
+    <Panel>
+      <p>gregorsunta</p>
+    </Panel>
+  </Stack>
+);
+const anonymousSide = (
+  <Stack spacing={SIZES_REM.SIZE_16}>
+    <Panel>
+      <p>
+        Log in or Sign up to view reddot with all of its (limited) features.
+      </p>
+      <Stack orientation="column" spacing={SIZES_REM.SIZE_8}>
+        <Button variant="outlined" to={'/login'}>
+          Log in
+        </Button>
+        <Button variant="solid" to={'/signup'}>
+          Sign up
+        </Button>
+      </Stack>
+    </Panel>
+    <Panel>
+      <p>gregorsunta</p>
+    </Panel>
+  </Stack>
+);
+
 const HomePage = () => {
   const authStore = useAuthStore();
   const firestoreService = useFirestoreService();
@@ -20,39 +54,7 @@ const HomePage = () => {
   useEffect(() => {
     getPosts();
   }, []);
-  const authenticatedSide = (
-    <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
-      <Panel>
-        <p>
-          Hi {authStore?.user?.displayName}, currently we can't show your
-          personal home page, but we are implementing this feature.
-        </p>
-      </Panel>
-      <Panel>
-        <p>gregorsunta</p>
-      </Panel>
-    </Stack>
-  );
-  const anonymousSide = (
-    <Stack spacing={SIZES_REM.SIZE_16}>
-      <Panel>
-        <p>
-          Log in or Sign up to view reddot with all of its (limited) features.
-        </p>
-        <Stack orientation="column" spacing={SIZES_REM.SIZE_8}>
-          <Button variant="outlined" to={'/login'}>
-            Log in
-          </Button>
-          <Button variant="solid" to={'/signup'}>
-            Sign up
-          </Button>
-        </Stack>
-      </Panel>
-      <Panel>
-        <p>gregorsunta</p>
-      </Panel>
-    </Stack>
-  );
+
   return (
     <MainTemplate
       content={
@@ -63,7 +65,7 @@ const HomePage = () => {
           ))}
         </Stack>
       }
-      side={authStore.user ? authenticatedSide : anonymousSide}
+      side={authStore.user ? authenticatedSide(authStore) : anonymousSide}
     />
   );
 };

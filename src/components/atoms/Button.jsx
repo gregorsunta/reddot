@@ -3,6 +3,7 @@ import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
 import { SIZES_REM, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
+import { useThemeContext } from '../../context';
 
 const useContainerStyles = createUseStyles({
   container: {
@@ -12,7 +13,7 @@ const useContainerStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
 
-    color: 'black',
+    color: ({ theme }) => theme.BASE_TEXT,
     textDecoration: 'none',
 
     minWidth: 'min-content',
@@ -55,9 +56,9 @@ const useVariantStyles = createUseStyles({
     padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES_REM.SIZE_16}`,
-    borderColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
-    color: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
-    backgroundColor: 'white',
+    color: ({ theme }) => theme.ACCENT,
+    borderColor: ({ theme }) => theme.ACCENT,
+    backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
     '&:hover': {
       backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_95})`,
     },
@@ -67,8 +68,8 @@ const useVariantStyles = createUseStyles({
 
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES_REM.SIZE_16}`,
-    backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_40})`,
-    color: 'white',
+    backgroundColor: ({ theme }) => theme.ACCENT,
+    color: ({ theme }) => theme.BASE_TEXT,
     '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
   },
   text: {
@@ -90,20 +91,25 @@ const Button = ({
   isDisabled = false,
   startIcon = null,
   endIcon = null,
-  customClassName = null,
+  className = null,
   activeClassName = null,
   disabledClassName = null,
 }) => {
   let Component = 'button';
-
+  const { theme } = useThemeContext();
   if (to && isActive) {
     Component = NavLink;
   } else if (to) {
     Component = Link;
   }
 
-  const containerClassNames = useContainerStyles({ width, direction, gap });
-  const containerVariantClassNames = useVariantStyles();
+  const containerClassNames = useContainerStyles({
+    theme,
+    width,
+    direction,
+    gap,
+  });
+  const containerVariantClassNames = useVariantStyles({ theme });
 
   const allContainerClassNames = classNames(
     containerClassNames.container,
@@ -113,7 +119,7 @@ const Button = ({
     variant === 'icon' && containerVariantClassNames.icon,
     isDisabled && (disabledClassName || containerClassNames.disabled),
     isActive && (activeClassName || containerClassNames.active),
-    customClassName,
+    className,
   );
 
   return (

@@ -10,17 +10,19 @@ import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import AuthService from '../../services/AuthService';
-import { ButtonGroup, Dropdown, Logo, Modal } from '../molecules/';
+import { ButtonGroup, Dropdown, Logo, Modal, Panel } from '../molecules/';
 import { Button, Input } from '../atoms/';
 import { withRedirect } from '../../utils';
 import { LogInForm } from './';
 import classNames from 'classnames';
+import { useThemeContext } from '../../context';
 
 const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const theme = useThemeContext();
   const {
     container,
     logoContainer,
@@ -28,19 +30,11 @@ const Header = observer(({ className, authStore }) => {
     btnContainer,
     searchGroupContainer,
     searchBarContainer,
-  } = useStyles();
+  } = useStyles(theme);
   const allContainerClasses = classNames(container, className);
 
   const showSignInModal = () => {
-    setModalContent(
-      <form>
-        <Button
-          onClose={closeModal}
-          startIcon={<FcGoogle />}
-          variant="outlined"
-        />
-      </form>,
-    );
+    setModalContent(<LogInForm />);
     setShowModal(true);
   };
   const closeModal = (e) => {
@@ -67,6 +61,7 @@ const Header = observer(({ className, authStore }) => {
       variant="text"
       children={<span>Dark mode</span>}
       className=""
+      onClick={theme.onToggleTheme}
       key={uuidv4()}
     />,
     <Button
@@ -104,6 +99,7 @@ const Header = observer(({ className, authStore }) => {
       variant="text"
       children={<span>Dark mode</span>}
       className={``}
+      onClick={theme.onToggleTheme}
       key={uuidv4()}
     />,
     <Button
@@ -148,7 +144,7 @@ const Header = observer(({ className, authStore }) => {
       </Dropdown>
       {showModal &&
         createPortal(
-          <Modal onClose={closeModal}>{<LogInForm />}</Modal>,
+          <Modal onClose={closeModal}>{modalContent}</Modal>,
           document.getElementById('root'),
         )}
     </div>
@@ -170,7 +166,7 @@ const useStyles = createUseStyles({
     height: '6vh',
     padding: '0 3vw',
     width: '100vw',
-    backgroundColor: 'white',
+    backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
   },
   logoContainer: {
     flex: '0 0 auto',
@@ -219,11 +215,11 @@ const useStyles = createUseStyles({
     },
     '& > ul': {
       right: '0',
-      backgroundColor: 'white',
+      backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
     },
     '& *': {
       border: 'none',
-      backgroundColor: 'white',
+      backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
     },
   },
   '@media (max-width: 780px)': {
