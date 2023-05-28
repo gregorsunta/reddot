@@ -2,6 +2,7 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { Stack } from '../molecules/';
 import { LIGHTNESS, NEUTRAL, SIZES_REM, SIZES_PX } from '../../constants';
+import { useThemeContext } from '../../context';
 
 const useContainerStyles = createUseStyles({
   container: {
@@ -13,7 +14,7 @@ const useContainerStyles = createUseStyles({
     justifyContent: 'center',
   },
   background: {
-    backgroundColor: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_90})`,
+    backgroundColor: (theme) => theme.PRIMARY_BACKGROUND,
   },
 });
 const useContentStyles = createUseStyles({
@@ -33,7 +34,8 @@ const useSideStyles = createUseStyles({
 });
 
 const MainTemplate = ({ auth, content, side }) => {
-  const containerClassNames = useContainerStyles();
+  const { theme } = useThemeContext();
+  const containerClassNames = useContainerStyles(theme);
   const contentClassNames = useContentStyles();
   const sideClassNames = useSideStyles();
 

@@ -3,12 +3,14 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ButtonGroup } from './';
+import { useThemeContext } from '../../context';
 
 const Dropdown = ({ className, children }) => {
+  const { theme } = useThemeContext();
   const [mainButton, ...listItems] = children; //the first button is always the list opener
   const [isOpen, setIsOpen] = useState(false);
   const container = useRef(null);
-  const expectedClassesString = useStyles();
+  const expectedClassesString = useStyles({ theme });
   const containerClassNames = classNames(
     expectedClassesString.container,
     className,
@@ -72,6 +74,7 @@ const useStyles = createUseStyles({
     gap: 'var(--size-3)',
     padding: 0,
     height: 0,
+    background: ({ theme }) => theme.SECONDARY_BACKGROUND,
 
     overflow: 'hidden',
 

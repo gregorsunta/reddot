@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 const Input = ({
   placeholder = '',
   type = 'text',
@@ -5,9 +7,11 @@ const Input = ({
   onChange = null,
   readOnly = false,
 }) => {
+  const containerClasses = classNames(className);
+
   return (
     <input
-      className={`${className}`}
+      className={containerClasses}
       type={type}
       placeholder={placeholder}
       readOnly={readOnly}

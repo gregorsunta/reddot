@@ -1,3 +1,24 @@
 import { ACCENT, LIGHTNESS, NEUTRAL } from '../constants/StyleConstants';
 
-const light = {};
+export const THEMES = {
+  light: {
+    PRIMARY_BACKGROUND: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_95})`,
+    SECONDARY_BACKGROUND: `white`,
+    PRIMARY_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_10})`,
+    LOW_FADED_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_25})`,
+    ACCENT: `hsl(${ACCENT.HS}, ${LIGHTNESS.L_40})`,
+    BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_85})`,
+    TRANSPARENT_ACTIVE: `hsla(${NEUTRAL.HS}, ${LIGHTNESS.L_90}, 1)`,
+  },
+  dark: {
+    PRIMARY_BACKGROUND: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_15})`,
+    SECONDARY_BACKGROUND: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_20})`,
+    PRIMARY_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_90})`,
+    LOW_FADED_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_65})`,
+    ACCENT: `hsl(${ACCENT.HS}, ${LIGHTNESS.L_30})`,
+    BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_30})`,
+    TRANSPARENT_ACTIVE: `hsla(${NEUTRAL.HS}, ${LIGHTNESS.L_30}, 1)`,
+
+    // TRANSPARENT_ACTIVE_BUTTON: `red`,
+  },
+};

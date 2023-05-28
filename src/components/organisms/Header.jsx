@@ -132,9 +132,8 @@ const Header = observer(({ className, authStore }) => {
 
   return (
     <div className={allContainerClasses}>
-      <div className={logoContainer}>
-        <RedirectLogo link={'/'} />
-      </div>
+      <Logo className={logoContainer} />
+
       <Input className={searchBarContainer} placeholder={'Search reddot'} />
       <ButtonGroup orientation={'horizontal'} className={btnContainer}>
         {authStore.user ? authenticatedButtons : anonymousButtons}
@@ -166,29 +165,7 @@ const useStyles = createUseStyles({
     height: '6vh',
     padding: '0 3vw',
     width: '100vw',
-    backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
-  },
-  logoContainer: {
-    flex: '0 0 auto',
-    height: '100%',
-    textDecoration: 'none',
-    '& > *': {
-      textDecoration: 'none',
-    },
-    '& > *:visited': {
-      color: 'inherit',
-    },
-    '& img': {
-      height: '100%',
-    },
-    '& p': {
-      fontSize: 'var(--size-6)',
-      textShadow: '1px 1px hsl(0 0% 60%)',
-      letterSpacing: '-1px',
-      '@media (max-width: 920px)': {
-        display: 'none',
-      },
-    },
+    backgroundColor: ({ theme }) => theme.SECONDARY_BACKGROUND,
   },
   searchBarContainer: {
     flexGrow: 1,

@@ -13,7 +13,7 @@ const useContainerStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
 
-    color: ({ theme }) => theme.BASE_TEXT,
+    color: ({ theme }) => theme.PRIMARY_TEXT,
     textDecoration: 'none',
 
     minWidth: 'min-content',
@@ -30,7 +30,7 @@ const useContainerStyles = createUseStyles({
     },
   },
   active: {
-    backgroundColor: 'hsl(0, 0%, 90%)',
+    backgroundColor: ({ theme }) => 'red',
     borderBottom: '2px solid hsl(0, 0%, 50%)',
   },
   disabled: {
@@ -47,9 +47,13 @@ const useContainerStyles = createUseStyles({
 });
 const useVariantStyles = createUseStyles({
   icon: {
+    backgroundColor: 'transparent',
     '& div': {
       display: 'grid',
       placeContent: 'center',
+    },
+    '&:hover': {
+      backgroundColor: ({ theme }) => theme.TRANSPARENT_ACTIVE,
     },
   },
   outlined: {
@@ -58,7 +62,7 @@ const useVariantStyles = createUseStyles({
     borderRadius: `${SIZES_REM.SIZE_16}`,
     color: ({ theme }) => theme.ACCENT,
     borderColor: ({ theme }) => theme.ACCENT,
-    backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
+    backgroundColor: 'transparent',
     '&:hover': {
       backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_95})`,
     },
@@ -69,13 +73,15 @@ const useVariantStyles = createUseStyles({
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES_REM.SIZE_16}`,
     backgroundColor: ({ theme }) => theme.ACCENT,
-    color: ({ theme }) => theme.BASE_TEXT,
+    color: 'white',
     '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
   },
   text: {
     padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
     backgroundColor: 'transparent',
-    '&:hover': { backgroundColor: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_95})` },
+    '&:hover': {
+      backgroundColor: ({ theme }) => theme.TRANSPARENT_ACTIVE,
+    },
   },
 });
 const Button = ({

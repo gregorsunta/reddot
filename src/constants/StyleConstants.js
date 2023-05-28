@@ -100,10 +100,10 @@ export const SIZES_PX = {
 export const ACCENT = {
   H: '145',
   S: '65%',
-  HS: '145 65%',
+  HS: '145, 65%',
 };
 export const NEUTRAL = {
-  HS: '0 0%',
+  HS: '0, 0%',
 };
 export const LIGHTNESS = {
   L_10: '10%',
@@ -124,17 +124,4 @@ export const LIGHTNESS = {
   L_85: '85%',
   L_90: '90%',
   L_95: '95%',
-};
-export const THEMES = {
-  light: {
-    BASE_BACKGROUND: `white`,
-    // BASE_BACKGROUND: `${NEUTRAL.HS} ${LIGHTNESS.L_90}`,
-    BASE_TEXT: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_10})`,
-    ACCENT: `hsl(${ACCENT.HS} ${LIGHTNESS.L_70})`,
-  },
-  dark: {
-    BASE_BACKGROUND: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_20})`,
-    BASE_TEXT: `hsl(${NEUTRAL.HS} ${LIGHTNESS.L_90})`,
-    ACCENT: `hsl(${ACCENT.HS} ${LIGHTNESS.L_30})`,
-  },
 };

@@ -14,7 +14,7 @@ import {
 } from './context/';
 import ErrorBoundary from './utils/ErrorBoundary.jsx';
 import { RouterConfig } from './navigation';
-import { THEMES } from './constants';
+import { THEMES } from './styles';
 
 const app = initializeApp(getFirebaseConfig());
 firestoreService.init(app);
