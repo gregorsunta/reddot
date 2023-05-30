@@ -6,6 +6,7 @@ import SubmitPage from '../components/pages/SubmitPage';
 import LoginPage from '../components/pages/LoginPage';
 import RegisterPage from '../components/pages/RegisterPage';
 import { useAuthStore } from '../context/authStoreContext.js';
+import { PostPage } from '../components/pages/PostPage.jsx';
 
 const RouterConfig = observer(() => {
   const authStore = useAuthStore();
@@ -20,9 +21,10 @@ const RouterConfig = observer(() => {
               authStore.user ? <SubmitPage /> : <Navigate to={'/login'} />
             }
           />
+          <Route path={'login'} element={<LoginPage />} />
+          <Route path={'signup'} element={<RegisterPage />} />
+          <Route path={'post/:postId'} element={<PostPage />} />
         </Route>
-        <Route path={'/login'} element={<LoginPage />} />
-        <Route path={'/signup'} element={<RegisterPage />} />
       </Routes>
     </>
   );

@@ -2,6 +2,8 @@ import { getAuth } from 'firebase/auth';
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   getFirestore,
   limit,
@@ -71,6 +73,15 @@ class FirestoreService {
         extractedPosts.push({ ...doc.data(), id: doc.id }),
       );
       return extractedPosts;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  getPost = async (id) => {
+    try {
+      const ref = doc(this.firestore, 'posts', id);
+      const docSnap = await getDoc(ref);
+      if (docSnap.exists()) return docSnap.data();
     } catch (err) {
       console.error(err);
     }

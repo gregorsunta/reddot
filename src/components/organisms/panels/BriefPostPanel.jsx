@@ -5,7 +5,7 @@ import { Panel } from '../../molecules/Panel.jsx';
 import { ElementSkeleton } from '../../atoms/ElementSkeleton.jsx';
 
 const BriefPostPanel = ({ post }) => {
-  const { owner, title, text, comments } = post;
+  const { owner, title, text, id } = post;
 
   return (
     <Panel>
@@ -16,7 +16,12 @@ const BriefPostPanel = ({ post }) => {
         <Stack orientation="row">
           <Button type="button" variant="icon" startIcon={<BiUpvote />} />
           <Button type="button" variant="icon" startIcon={<BiDownvote />} />
-          <Button type="button" variant="icon" startIcon={<BiComment />} />
+          <Button
+            type="button"
+            variant="icon"
+            startIcon={<BiComment />}
+            to={`post/${id}`}
+          />
         </Stack>
       </Stack>
     </Panel>

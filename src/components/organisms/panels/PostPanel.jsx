@@ -4,7 +4,8 @@ import { Stack } from '../../molecules/Stack.jsx';
 import { Panel } from '../../molecules/Panel.jsx';
 
 const PostPanel = ({ post }) => {
-  const { owner, title, text, comments } = post;
+  let fallbackPost = post ? post : {};
+  const { owner, title, text, comments } = fallbackPost;
 
   return (
     <Panel>
