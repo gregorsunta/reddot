@@ -13,8 +13,9 @@ import { Button } from '../../atoms/Button';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useAuthStore } from '../../../context/authStoreContext';
-import { Panel } from '../../molecules/Panel.jsx';
+import { Panel, Stack } from '../../molecules';
 import { createUseStyles } from 'react-jss';
+import { InputBox } from '../.';
 
 const SubmitPanel = observer(() => {
   const firestoreService = useFirestoreService();
@@ -31,42 +32,6 @@ const SubmitPanel = observer(() => {
   };
   const changeType = (type) => {
     setActiveType(type);
-  };
-  const displayPanelType = () => {
-    switch (activeType) {
-      case 'text':
-        return (
-          <textarea
-            className={textArea}
-            type="text"
-            placeholder="Text (optional)"
-            onChange={(e) => {
-              setPostContent(e.target.value);
-            }}
-          />
-        );
-      case 'visual':
-        return (
-          <input
-            onChange={(e) => {
-              setPostContent(e.target.value);
-            }}
-          ></input>
-        );
-      case 'link':
-        return (
-          <textarea
-            className={textArea}
-            type="text"
-            placeholder="Url"
-            onChange={(e) => {
-              setPostContent(e.target.value);
-            }}
-          />
-        );
-      default:
-        console.error(`The entered panel type is invalid. Type: ${activeType}`);
-    }
   };
   const savePost = () => {
     const type = activeType;
@@ -154,15 +119,15 @@ const SubmitPanel = observer(() => {
           setTitle(e.target.value);
         }}
       />
-      {displayPanelType()}
-      <div>
+      <InputBox type={activeType} />
+      <Stack orientation={'row'}>
         <Button variant="outlined" to={'/'}>
           Cancel
         </Button>
         <Button variant="solid" onClick={savePost}>
           Post
         </Button>
-      </div>
+      </Stack>
     </Panel>
   );
 });

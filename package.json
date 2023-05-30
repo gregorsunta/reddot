@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "classnames": "^2.3.2",
     "firebase": "^9.17.1",
+    "joi": "^17.9.2",
     "mobx": "^6.8.0",
     "mobx-react": "^7.6.0",
     "npm-save": "^1.0.2",

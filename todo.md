@@ -17,5 +17,6 @@
 
 - [x] stack component
 - [ ] grid component
-- [ ] make login component reusable
+- [x] make login component reusable
 - [ ] search functionality - should use a trigram
+- [x] add dark theme

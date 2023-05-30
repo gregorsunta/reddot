@@ -45,9 +45,11 @@ class FirestoreService {
         imageUrl: 'LOADING',
         timestamp: serverTimestamp(),
       });
+
       const filePath = `${getAuth().currentUser.uid}/${postRef.id}/${
         post.name
       }`;
+
       const imageRef = ref(getStorage(), filePath);
       const fileSnapshot = await uploadBytesResumable(imageRef, filePath);
       const publicImageUrl = getDownloadURL(imageRef);
@@ -59,6 +61,17 @@ class FirestoreService {
     } catch (err) {
       console.error(err);
     }
+  };
+  savePostComment = async (postId, comment) => {
+    const commentRef = await addDoc(
+      collection(this.firestore),
+      'comments',
+      comment,
+    );
+    const postRef = doc(this.firestore, 'posts', postId);
+    await updateDoc(postRef, {
+      comments: { commentIds: commentRef.id },
+    });
   };
   getPosts = async () => {
     try {
