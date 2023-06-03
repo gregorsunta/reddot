@@ -1,12 +1,13 @@
+import { useState } from 'react';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../../atoms/Button.jsx';
 import { Stack } from '../../molecules/Stack.jsx';
 import { Panel } from '../../molecules/Panel.jsx';
-import { useState } from 'react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 
 const PostPanel = ({ post }) => {
   const firestoreService = useFirestoreService();
+
   let fallbackPost = post ? post : {};
   const [commentContent, setCommentContent] = useState();
   const { owner, title, text, comments } = fallbackPost;

@@ -8,16 +8,12 @@ import { CgProfile } from 'react-icons/cg';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
-import { FcGoogle } from 'react-icons/fc';
 import AuthService from '../../services/AuthService';
 import { ButtonGroup, Dropdown, Logo, Modal, Panel } from '../molecules/';
 import { Button, Input } from '../atoms/';
-import { withRedirect } from '../../utils';
 import { LogInForm } from './';
 import classNames from 'classnames';
 import { useThemeContext } from '../../context';
-
-const RedirectLogo = withRedirect(Logo);
 
 const Header = observer(({ className, authStore }) => {
   const [showModal, setShowModal] = useState(false);

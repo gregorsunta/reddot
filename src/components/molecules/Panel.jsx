@@ -13,12 +13,16 @@ const useStyles = createUseStyles({
   },
 });
 
-const Panel = ({ children, className }) => {
+const Panel = ({ children, className, onClick, dataAttributes }) => {
   const { theme } = useThemeContext();
   const { container } = useStyles({ theme });
   const allContainerClasses = classNames(container, className);
 
-  return <div className={allContainerClasses}>{children}</div>;
+  return (
+    <div className={allContainerClasses} onClick={onClick} {...dataAttributes}>
+      {children}
+    </div>
+  );
 };
 
 export { Panel };

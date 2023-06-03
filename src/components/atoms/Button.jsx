@@ -100,6 +100,7 @@ const Button = ({
   className = null,
   activeClassName = null,
   disabledClassName = null,
+  dataAttributes,
 }) => {
   let Component = 'button';
   const { theme } = useThemeContext();
@@ -135,6 +136,7 @@ const Button = ({
       disabled={isDisabled}
       className={allContainerClassNames}
       onClick={onClick}
+      {...dataAttributes}
     >
       {startIcon && (
         <span className={containerClassNames.icon}>{startIcon}</span>

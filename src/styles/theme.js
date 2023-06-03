@@ -8,6 +8,7 @@ export const THEMES = {
     LOW_FADED_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_25})`,
     ACCENT: `hsl(${ACCENT.HS}, ${LIGHTNESS.L_40})`,
     BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_85})`,
+    HIGHLIGHTED_BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_40})`,
     TRANSPARENT_ACTIVE: `hsla(${NEUTRAL.HS}, ${LIGHTNESS.L_90}, 1)`,
   },
   dark: {
@@ -17,6 +18,7 @@ export const THEMES = {
     LOW_FADED_TEXT: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_65})`,
     ACCENT: `hsl(${ACCENT.HS}, ${LIGHTNESS.L_30})`,
     BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_30})`,
+    HIGHLIGHTED_BORDER: `hsl(${NEUTRAL.HS}, ${LIGHTNESS.L_70})`,
     TRANSPARENT_ACTIVE: `hsla(${NEUTRAL.HS}, ${LIGHTNESS.L_30}, 1)`,
 
     // TRANSPARENT_ACTIVE_BUTTON: `red`,
