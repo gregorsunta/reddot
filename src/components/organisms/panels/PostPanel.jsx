@@ -25,7 +25,7 @@ const PostPanel = ({ post, postId }) => {
   };
   const createCommentComponents = (commentList) => {
     return commentList?.map((comment) => (
-      <PostComment {...comment} key={comment.id} />
+      <PostComment {...comment.data} key={comment.id} />
     ));
   };
 

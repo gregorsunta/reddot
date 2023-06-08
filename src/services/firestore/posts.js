@@ -1,32 +1,23 @@
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
-  getFirestore,
   limit,
   orderBy,
   query,
   serverTimestamp,
-  updateDoc,
 } from 'firebase/firestore';
 import { firestoreService } from './FirestoreService';
 
-const { addDocument } = firestoreService;
-
-const addPostToDatabase = async (post) => {
-  return await addDocument('posts', {
+const addPost = async (post) => {
+  return await addDoc(collection(firestoreService.firestore, 'posts'), {
     author: post.author,
     title: post.title,
     text: post.text,
     timestamp: serverTimestamp(),
   });
-};
-
-const addPost = async (post) => {
-  addPostToDatabase(post);
 };
 
 const getPost = async (postId) => {
@@ -42,12 +33,12 @@ const getPost = async (postId) => {
   }
 };
 
-const getPosts = async () => {
+const getPosts = async (fieldToSortBy, sortDirection, postNumberLimit) => {
   try {
     const q = query(
       collection(firestoreService.firestore, 'posts'),
-      orderBy('timestamp', 'desc'),
-      limit(10),
+      orderBy(fieldToSortBy, sortDirection),
+      limit(postNumberLimit),
     );
     const querySnapshot = await getDocs(q);
     const extractedPosts = [];

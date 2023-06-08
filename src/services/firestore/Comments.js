@@ -11,30 +11,34 @@ import {
   query,
   serverTimestamp,
   updateDoc,
+  where,
+  writeBatch,
 } from 'firebase/firestore';
 import { firestoreService } from './FirestoreService';
-import { getPost } from './Posts';
+import { getPost } from './posts';
 
 const { addDocument } = firestoreService;
 
-const addCommentToDatabase = async (comment) => {
-  return await addDocument('comments', {
+const addComment = async (postId, comment) => {
+  const batch = writeBatch(firestoreService.firestore);
+  // add to the db
+  const commentRef = doc(collection(firestoreService.firestore, 'comments'));
+  batch.set(commentRef, {
     author: comment.author,
     text: comment.text,
     upvotes: comment.upvotes,
     downvotes: comment.downvotes,
     timestamp: serverTimestamp(),
   });
-};
-
-const addComment = async (postId, comment) => {
-  // add to the db
-  const commentRef = await addCommentToDatabase(comment);
   // add ref to the post
-  const postRef = firestoreService.getDocumentRef('posts', postId);
-  await updateDoc(postRef, {
-    commentIds: arrayUnion(commentRef.id),
-  });
+  const postRef = doc(collection(firestoreService.firestore, 'posts'), postId);
+  batch.update(postRef, { commentIds: arrayUnion(commentRef.id) });
+
+  try {
+    await batch.commit();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const getComment = async (commentId) => {
@@ -51,15 +55,21 @@ const getComment = async (commentId) => {
 
 const getCommentsByPostId = async (postId) => {
   const { commentIds } = await getPost(postId);
-
+  const fetchedDocuments = [];
   try {
-    const commentPromises = commentIds.map((commentId) => {
-      return getComment(commentId);
-    });
-    return Promise.all(commentPromises);
+    const q = query(
+      collection(firestoreService.firestore, 'comments'),
+      where('__name__', 'in', commentIds),
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) =>
+      fetchedDocuments.push({ id: doc.id, data: doc.data() }),
+    );
+
+    return fetchedDocuments;
   } catch (err) {
     console.error(err);
   }
 };
 
-export { addCommentToDatabase, addComment, getComment, getCommentsByPostId };
+export { addComment, getComment, getCommentsByPostId };

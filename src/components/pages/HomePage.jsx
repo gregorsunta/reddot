@@ -47,9 +47,16 @@ const HomePage = () => {
   const authStore = useAuthStore();
   const { firestoreService, postFunctions } = useFirestoreService();
   const [posts, setPosts] = useState(null);
+  const [postFieldFilter, setPostFilter] = useState('timestamp');
+  const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
+  const [postLimitFilter, setPostLimitFilter] = useState(10);
 
   const getPosts = async () => {
-    const posts = await postFunctions.getPosts();
+    const posts = await postFunctions.getPosts(
+      postFieldFilter,
+      postDirectionFilter,
+      postLimitFilter,
+    );
     setPosts(posts);
   };
 
