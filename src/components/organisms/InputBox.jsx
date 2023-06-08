@@ -1,10 +1,12 @@
+import { Input, TextArea } from '../atoms';
+
 const InputBox = ({ type, onChange }) => {
   const displayPanelType = (type) => {
     switch (type) {
       case 'text':
         return (
-          <textarea
-            type="text"
+          <TextArea
+            // type="text"
             placeholder="Text (optional)"
             onChange={(e) => {
               onChange(e.target.value);
@@ -13,16 +15,16 @@ const InputBox = ({ type, onChange }) => {
         );
       case 'visual':
         return (
-          <input
+          <Input
             onChange={(e) => {
               onChange(e.target.value);
             }}
-          ></input>
+          />
         );
       case 'link':
         return (
-          <textarea
-            type="text"
+          <TextArea
+            // type="text"
             placeholder="Url"
             onChange={(e) => {
               onChange(e.target.value);

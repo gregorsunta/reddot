@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import { SIZES_REM, ACCENT, NEUTRAL, LIGHTNESS } from '../../constants/';
+import { SIZES_REM, ACCENT, LIGHTNESS } from '../../constants/';
 import { useThemeContext } from '../../context';
 
 const useContainerStyles = createUseStyles({
@@ -17,7 +17,7 @@ const useContainerStyles = createUseStyles({
     textDecoration: 'none',
 
     minWidth: 'min-content',
-    width: (width) => width,
+    width: ({ width }) => width,
     /*to make all buttons the same size*/
     borderWidth: `${SIZES_REM.SIZE_2}`,
     borderStyle: 'solid',

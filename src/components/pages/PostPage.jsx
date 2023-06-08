@@ -7,17 +7,17 @@ import { useParams } from 'react-router-dom';
 
 const PostPage = () => {
   const { postId } = useParams();
-  const firestoreService = useFirestoreService();
+  const { postFunctions } = useFirestoreService();
   const [data, setData] = useState({});
   useEffect(() => {
     const getPost = async () => {
-      setData(await firestoreService.getPost(postId));
+      setData(await postFunctions.getPost(postId));
     };
     getPost().catch((err) => console.error(err));
   }, []);
   return (
     <MainTemplate
-      content={<PostPanel post={data}></PostPanel>}
+      content={<PostPanel post={data} postId={postId}></PostPanel>}
       side={<Panel></Panel>}
     />
   );

@@ -165,13 +165,11 @@ const useStyles = createUseStyles({
   },
   searchBarContainer: {
     flexGrow: 1,
-    border: 'var(--size-09) solid hsl(0 0% 60%)',
     borderRadius: '50px',
     padding: '0 2vw',
-    fontSize: 'var(--size-5)',
     height: '80%',
     fontWeight: 400,
-    backgroundColor: 'var(--gray-2)',
+    backgroundColor: ({ theme }) => theme.TERTIARY_BACKGROUND,
     color: 'hsl(0 0% 60%)',
   },
   btnContainer: {

@@ -34,18 +34,16 @@ const LoginPage = observer(({ className }) => {
         className={className}
         content={
           <Stack spacing={SIZES_REM.SIZE_16}>
-            <Stack>
-              <h1>Sign up</h1>
-              <h3>Currently we only support Google sign in.</h3>
-              <Button
-                gap={SIZES_REM.SIZE_8}
-                variant="outlined"
-                startIcon={<FcGoogle />}
-                onClick={Login}
-              >
-                Continue with google
-              </Button>
-            </Stack>
+            <h1>Sign up</h1>
+            <h3>Currently we only support Google sign in.</h3>
+            <Button
+              gap={SIZES_REM.SIZE_8}
+              variant="outlined"
+              startIcon={<FcGoogle />}
+              onClick={Login}
+            >
+              Continue with google
+            </Button>
           </Stack>
         }
       />

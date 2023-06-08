@@ -7,8 +7,8 @@ import { ElementSkeleton } from '../../atoms/ElementSkeleton.jsx';
 import { createUseStyles } from 'react-jss';
 import { useThemeContext } from '../../../context/themeContext.js';
 
-const BriefPostPanel = ({ post }) => {
-  const { owner, title, text, id } = post;
+const BriefPostPanel = ({ post, id }) => {
+  const { author, title, text } = post;
   const navigate = useNavigate();
 
   const { theme } = useThemeContext();
@@ -35,7 +35,7 @@ const BriefPostPanel = ({ post }) => {
       className={container}
     >
       <Stack data-click-id="post">
-        <p>{owner}</p>
+        <p>{author}</p>
         <p>{title}</p>
         <p>{text}</p>
         <Stack orientation="row">

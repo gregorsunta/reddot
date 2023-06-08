@@ -3,10 +3,12 @@ import PropTypes, { array } from 'prop-types';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  container: ({ orientation, spacing }) => ({
+  container: ({ orientation, spacing, justifyContent, alignItems }) => ({
     display: 'flex',
     flexDirection: orientation,
     gap: spacing,
+    justifyContent: justifyContent,
+    alignItems: alignItems,
   }),
 });
 
@@ -14,14 +16,18 @@ const Stack = ({
   component: Component = 'div',
   children,
   orientation = 'column',
-  customClassName, //user defined optional
+  className,
   spacing,
+  justifyContent,
+  alignItems,
 }) => {
-  const containerClassNames = useStyles({ orientation, spacing });
-  const allClassNames = classNames(
-    containerClassNames.container,
-    customClassName,
-  );
+  const containerClassNames = useStyles({
+    orientation,
+    spacing,
+    justifyContent,
+    alignItems,
+  });
+  const allClassNames = classNames(containerClassNames.container, className);
 
   return <Component className={allClassNames}>{children}</Component>;
 };
@@ -32,8 +38,10 @@ Stack.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
   ]),
   orientation: PropTypes.oneOf(['column', 'row']),
-  ownerClasses: PropTypes.string,
+  className: PropTypes.string,
   spacing: PropTypes.string,
+  justifyContent: PropTypes.oneOf(['space-between', 'center', 'start', 'end']),
+  alignItems: PropTypes.oneOf(['stretch', 'center', 'start', 'end']),
   component: PropTypes.oneOf([
     'div',
     'section',

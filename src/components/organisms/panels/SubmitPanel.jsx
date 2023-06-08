@@ -16,9 +16,10 @@ import { useAuthStore } from '../../../context/authStoreContext';
 import { Panel, Stack } from '../../molecules';
 import { createUseStyles } from 'react-jss';
 import { InputBox } from '../.';
+import { Input } from '../../atoms/Input.jsx';
 
 const SubmitPanel = observer(() => {
-  const firestoreService = useFirestoreService();
+  const { firestoreService, postFunctions } = useFirestoreService();
   const authStore = useAuthStore();
   const [activeType, setActiveType] = useState('text');
   const [title, setTitle] = useState('');
@@ -33,12 +34,11 @@ const SubmitPanel = observer(() => {
   const changeType = (type) => {
     setActiveType(type);
   };
-  const savePost = () => {
+  const submitPost = () => {
     const type = activeType;
-    console.log(postContent);
     if (type === 'text') {
-      firestoreService.saveTextPost({
-        owner: authStore.user.displayName,
+      postFunctions.addPost({
+        author: authStore.user.displayName,
         title: title,
         text: postContent,
       });
@@ -111,20 +111,18 @@ const SubmitPanel = observer(() => {
           key={uuidv4()}
         />
       </ButtonGroup>
-      <input
+      <Input
         className={input}
         type="text"
         placeholder="Title"
-        onChange={(e) => {
-          setTitle(e.target.value);
-        }}
+        onChange={setTitle}
       />
-      <InputBox type={activeType} />
+      <InputBox type={activeType} onChange={setPostContent} />
       <Stack orientation={'row'}>
         <Button variant="outlined" to={'/'}>
           Cancel
         </Button>
-        <Button variant="solid" onClick={savePost}>
+        <Button variant="solid" onClick={submitPost}>
           Post
         </Button>
       </Stack>

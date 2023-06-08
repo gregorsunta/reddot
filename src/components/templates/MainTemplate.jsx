@@ -44,7 +44,7 @@ const MainTemplate = ({ auth, content, side }) => {
       <Stack
         orientation="row"
         spacing={SIZES_PX.SIZE_16}
-        customClassName={containerClassNames.container}
+        className={containerClassNames.container}
       >
         <section className={contentClassNames.content}>{content}</section>
         <section className={sideClassNames.side}>{side}</section>

@@ -1,26 +1,19 @@
-import classNames from 'classnames';
 import { createUseStyles } from 'react-jss';
+import classNames from 'classnames';
 import { useThemeContext } from '../../context';
-const Input = ({
-  placeholder = '',
-  type = 'text',
-  className = '',
-  onChange = null,
-  readOnly = false,
-}) => {
+import PropTypes from 'prop-types';
+
+const TextArea = ({ placeholder, onChange, className, resizeDirection }) => {
   const { theme } = useThemeContext();
-  const { container } = useStyles({ theme });
-  const containerClasses = classNames(className, container);
+  const { container } = useStyles({ theme, resizeDirection });
+  const containerClasses = classNames(container, className);
+
   return (
-    <input
+    <textarea
       className={containerClasses}
-      type={type}
       placeholder={placeholder}
-      readOnly={readOnly}
-      onChange={(e) => {
-        onChange(e.target.value);
-      }}
-    />
+      onChange={onChange}
+    ></textarea>
   );
 };
 
@@ -29,16 +22,21 @@ const useStyles = createUseStyles({
     color: ({ theme }) => theme.PRIMARY_TEXT,
     backgroundColor: ({ theme }) => theme.TERTIARY_BACKGROUND,
     border: ({ theme }) => `1px solid ${theme.BORDER}`,
+    resize: ({ resizeDirection }) => resizeDirection,
     '&::placeholder': {
       color: ({ theme }) => theme.PRIMARY_TEXT,
     },
     '&:focus': {
       outline: ({ theme }) => `1.5px solid ${theme.HIGHLIGHTED_BORDER}`,
     },
-    '&:hover': {
-      outline: ({ theme }) => `1.5px solid ${theme.HIGHLIGHTED_BORDER}`,
-    },
   },
 });
 
-export { Input };
+TextArea.propTypes = {
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  className: PropTypes.string,
+  resizeDirection: PropTypes.oneOf(['horizontal', 'vertical', 'both', 'none']),
+};
+
+export { TextArea };

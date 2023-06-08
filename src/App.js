@@ -4,7 +4,7 @@ import './utils/utilityStyles.css';
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
-import { firestoreService } from './services/FirestoreService';
+import { firestoreService } from './services/firestore/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
 import AuthStore from './stores/authStore';
 import {
@@ -15,6 +15,7 @@ import {
 import ErrorBoundary from './utils/ErrorBoundary.jsx';
 import { RouterConfig } from './navigation';
 import { THEMES } from './styles';
+import { firestoreFunctions } from './services/firestore/';
 
 const app = initializeApp(getFirebaseConfig());
 firestoreService.init(app);
@@ -39,7 +40,9 @@ const App = () => {
 
   return (
     <ErrorBoundary fallback={<p>An error occured..</p>}>
-      <FirestoreServiceContext.Provider value={firestoreService}>
+      <FirestoreServiceContext.Provider
+        value={{ firestoreService, ...firestoreFunctions }}
+      >
         <AuthStoreContext.Provider value={authStore}>
           <ThemeContext.Provider
             value={{
