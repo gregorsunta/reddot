@@ -10,10 +10,13 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { firestoreService } from './FirestoreService';
+import { getUser } from './users';
+import authStore from '../../stores/authStore';
+import { debounce } from '../utils';
 
 const addPost = async (post) => {
   return await addDoc(collection(firestoreService.firestore, 'posts'), {
-    author: post.author,
+    authorId: authStore.user.uid,
     title: post.title,
     text: post.text,
     timestamp: serverTimestamp(),
@@ -21,12 +24,18 @@ const addPost = async (post) => {
 };
 
 const getPost = async (postId) => {
+  if (!postId) {
+    console.error('Expected postId, got:', postId);
+    return null;
+  }
   try {
-    const ref = doc(firestoreService.firestore, 'posts', postId);
-    const docSnap = await getDoc(ref);
+    const docRef = doc(firestoreService.firestore, 'posts', postId);
+    const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      const snapData = docSnap.data();
+      const author = await getUser(snapData.authorId);
+      return { id: docSnap.id, data: { ...snapData, author } };
     }
   } catch (err) {
     console.error(err);
@@ -41,14 +50,31 @@ const getPosts = async (fieldToSortBy, sortDirection, postNumberLimit) => {
       limit(postNumberLimit),
     );
     const querySnapshot = await getDocs(q);
-    const extractedPosts = [];
-    querySnapshot.forEach((doc) =>
-      extractedPosts.push({ ...doc.data(), id: doc.id }),
-    );
-    return extractedPosts;
+    const fetchedPosts = [];
+
+    querySnapshot.forEach((docSnap) => {
+      const snapData = docSnap.data();
+      fetchedPosts.push({
+        id: docSnap.id,
+        data: { ...snapData },
+      });
+    });
+    const postPromises = fetchedPosts.map(async (post) => {
+      const user = await getUser(post.data.authorId);
+      return { ...post, data: { ...post.data, author: user } };
+    });
+
+    return await Promise.all(postPromises);
   } catch (err) {
     console.error(err);
   }
 };
 
-export { getPosts, getPost, addPost };
+const addPostWithDebounce = debounce(addPost, 500);
+const getPostWithDebounce = debounce(getPost, 500);
+const getPostsWithDebounce = debounce(getPosts, 500);
+export {
+  getPostsWithDebounce as getPosts,
+  getPostWithDebounce as getPost,
+  addPostWithDebounce as addPost,
+};

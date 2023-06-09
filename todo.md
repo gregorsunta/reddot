@@ -5,6 +5,10 @@
 - [ ] pagination on post display
 - [ ] loading screens (loading icon and skeleton loading)
 
+## Code
+
+- [ ] implement batch for firestore
+
 ## CLIENT-SIDE LOGIC
 
 ### Posting

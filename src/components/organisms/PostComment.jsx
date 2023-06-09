@@ -6,25 +6,19 @@ import { SIZES_REM } from '../../constants';
 import { useThemeContext } from '../../context';
 import { number } from 'joi';
 
-const PostComment = ({
-  id,
-  authorProfileIcon,
-  author,
-  text,
-  upvotes,
-  downvotes,
-  timestamp,
-}) => {
+const PostComment = ({ comment }) => {
+  console.log(comment);
+  const { author, text, upvotes, downvotes } = comment?.data;
   const { theme } = useThemeContext();
   const { fadedButton } = useStyles({ theme });
 
   return (
     <Stack orientation="row">
       <Button variant="icon" type="button">
-        {authorProfileIcon}
+        {console.log(author)}
       </Button>
       <Stack>
-        <p>{author}</p>
+        <p>{author?.displayName}</p>
         <p>{text}</p>
         <Stack orientation="row">
           <Button

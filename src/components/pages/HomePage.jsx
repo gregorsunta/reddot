@@ -8,6 +8,7 @@ import { Button, Input } from '../atoms';
 import { Stack, Panel } from '../molecules/';
 import { useAuthStore } from '../../context/authStoreContext';
 import { SIZES_REM, SIZES_PX } from '../../constants';
+import { firestoreFunctions, getPosts } from '../../services/firestore';
 
 const authenticatedSide = (authStore) => (
   <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
@@ -47,35 +48,55 @@ const HomePage = () => {
   const authStore = useAuthStore();
   const { firestoreService, postFunctions } = useFirestoreService();
   const [posts, setPosts] = useState(null);
+  const [postComponents, setPostComponents] = useState(null);
   const [postFieldFilter, setPostFilter] = useState('timestamp');
   const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
   const [postLimitFilter, setPostLimitFilter] = useState(10);
 
-  const getPosts = async () => {
-    const posts = await postFunctions.getPosts(
-      postFieldFilter,
-      postDirectionFilter,
-      postLimitFilter,
-    );
-    setPosts(posts);
-  };
-
-  const createPostComponents = (posts) => {
-    return posts?.map((post) => (
-      <BriefPostPanel post={post} key={post.id} id={post.id}></BriefPostPanel>
-    ));
-  };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      console.log('Getting posts (in HomePage>useEffect>getPosts)');
+      try {
+        const posts = await postFunctions.getPosts(
+          postFieldFilter,
+          postDirectionFilter,
+          postLimitFilter,
+        );
+        console.log(
+          'Posts from getPosts (in HomePage>useEffect>getPosts):',
+          posts,
+        );
+        setPosts(posts);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPosts();
+    return () => {};
+  }, [postFieldFilter, postDirectionFilter, postLimitFilter]);
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    const createPostComponents = (posts) => {
+      const components = posts?.map((post) => (
+        <BriefPostPanel
+          post={post}
+          key={post.id}
+          postId={post.id}
+        ></BriefPostPanel>
+      ));
+      setPostComponents(components);
+    };
+
+    createPostComponents(posts);
+  }, [posts]);
 
   return (
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
           {authStore.user && <CreatePost />}
-          {createPostComponents(posts)}
+          {console.log('Post components in HomePage', postComponents)}
+          {postComponents}
         </Stack>
       }
       side={authStore.user ? authenticatedSide(authStore) : anonymousSide}

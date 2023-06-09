@@ -38,7 +38,6 @@ const SubmitPanel = observer(() => {
     const type = activeType;
     if (type === 'text') {
       postFunctions.addPost({
-        author: authStore.user.displayName,
         title: title,
         text: postContent,
       });

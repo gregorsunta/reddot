@@ -7,8 +7,8 @@ import { ElementSkeleton } from '../../atoms/ElementSkeleton.jsx';
 import { createUseStyles } from 'react-jss';
 import { useThemeContext } from '../../../context/themeContext.js';
 
-const BriefPostPanel = ({ post, id }) => {
-  const { author, title, text } = post;
+const BriefPostPanel = ({ post, postId }) => {
+  const { author, title, text } = post?.data;
   const navigate = useNavigate();
 
   const { theme } = useThemeContext();
@@ -20,7 +20,7 @@ const BriefPostPanel = ({ post, id }) => {
       .getAttribute('data-click-id');
 
     if (dataClickId === 'comments' || dataClickId === 'background') {
-      navigate(`post/${id}`);
+      navigate(`post/${postId}`);
     } else if (dataClickId === 'upvote') {
       // upvote
     } else if (dataClickId === 'downvote') {
@@ -35,7 +35,7 @@ const BriefPostPanel = ({ post, id }) => {
       className={container}
     >
       <Stack data-click-id="post">
-        <p>{author}</p>
+        <p>{author?.displayName}</p>
         <p>{title}</p>
         <p>{text}</p>
         <Stack orientation="row">

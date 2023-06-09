@@ -1,4 +1,4 @@
-import * as commentFunctions from './Comments';
+import * as commentFunctions from './comments';
 import * as postFunctions from './posts';
 import * as userFunctions from './users';
 

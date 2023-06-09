@@ -9,7 +9,7 @@ import {
 } from '../../context';
 import { SIZES_PX } from '../../constants';
 
-const CommentSubmitBox = ({ postId }) => {
+const CommentSubmitBox = ({ postId, authorId }) => {
   const [commentText, setCommentText] = useState();
   const { commentFunctions } = useFirestoreService();
   const [error, setError] = useState();
@@ -20,17 +20,15 @@ const CommentSubmitBox = ({ postId }) => {
   const handleError = (err) => {
     setError(err);
   };
-
   const submitComment = async (text, authStore, postId) => {
     // text validation!!!
     const obj = {
-      author: authStore.user.displayName,
       text: text,
       downvotes: 0,
       upvotes: 1,
     };
     try {
-      await commentFunctions.addComment(postId, obj);
+      await commentFunctions.addComment(postId, authStore.user.uid, obj);
     } catch (err) {
       handleError(err);
       console.error(err);

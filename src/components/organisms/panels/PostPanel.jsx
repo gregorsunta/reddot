@@ -11,8 +11,9 @@ import { createUseStyles } from 'react-jss';
 import { useThemeContext } from '../../../context/themeContext.js';
 
 const PostPanel = ({ post, postId }) => {
-  let fallbackPost = post ? post : {};
+  let fallbackPost = post.data ? post.data : {};
   const { author, title, text } = fallbackPost;
+  console.log(post);
   const { commentFunctions } = useFirestoreService();
   const [commentList, setCommentList] = useState([]);
   const [commentComponentList, setCommentComponentList] = useState([]);
@@ -25,7 +26,7 @@ const PostPanel = ({ post, postId }) => {
   };
   const createCommentComponents = (commentList) => {
     return commentList?.map((comment) => (
-      <PostComment {...comment.data} key={comment.id} />
+      <PostComment comment={comment} key={comment.id} />
     ));
   };
 
@@ -42,7 +43,7 @@ const PostPanel = ({ post, postId }) => {
     <Panel>
       <Stack spacing={SIZES_PX.SIZE_24}>
         <Stack>
-          <p>{author}</p>
+          <p>{author?.displayName}</p>
           <h2>{title}</h2>
           <p>{text}</p>
           <Stack orientation="row">
@@ -72,7 +73,10 @@ const PostPanel = ({ post, postId }) => {
             </Button>
           </Stack>
         </Stack>
-        <CommentSubmitBox postId={postId}></CommentSubmitBox>
+        <CommentSubmitBox
+          postId={postId}
+          authorId={author?.id}
+        ></CommentSubmitBox>
         <Stack>{commentComponentList}</Stack>
       </Stack>
     </Panel>
