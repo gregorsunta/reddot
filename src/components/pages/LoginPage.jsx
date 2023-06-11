@@ -2,17 +2,18 @@ import { observer } from 'mobx-react';
 import createAuthService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
-import { Stack } from '../molecules';
+import { Panel, Stack } from '../molecules';
+import { LogInForm } from '../organisms';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import AuthService from '../../services/AuthService';
 import { Navigate } from 'react-router-dom';
-import { useAuthStore } from '../../context/authStoreContext';
+import { useStores } from '../../context/authStoreContext';
 import PropTypes from 'prop-types';
 import { SIZES_REM } from '../../constants';
 
 const LoginPage = observer(({ className }) => {
-  const authStore = useAuthStore();
+  const authStore = useStores();
   const authService = AuthService;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,16 +35,9 @@ const LoginPage = observer(({ className }) => {
         className={className}
         content={
           <Stack spacing={SIZES_REM.SIZE_16}>
-            <h1>Sign up</h1>
-            <h3>Currently we only support Google sign in.</h3>
-            <Button
-              gap={SIZES_REM.SIZE_8}
-              variant="outlined"
-              startIcon={<FcGoogle />}
-              onClick={Login}
-            >
-              Continue with google
-            </Button>
+            <Panel>
+              <LogInForm></LogInForm>
+            </Panel>
           </Stack>
         }
       />

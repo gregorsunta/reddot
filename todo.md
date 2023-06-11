@@ -7,7 +7,7 @@
 
 ## Code
 
-- [ ] implement batch for firestore
+- [x] implement batch for firestore
 
 ## CLIENT-SIDE LOGIC
 

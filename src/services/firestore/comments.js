@@ -14,37 +14,6 @@ import { getPost } from './posts';
 import { debounce } from '../utils';
 import { getUser } from './users';
 
-const addComment = async (postId, authorId, comment) => {
-  const batch = writeBatch(firestoreService.firestore);
-
-  // add comment to the db
-  const commentRef = doc(collection(firestoreService.firestore, 'comments'));
-  batch.set(commentRef, {
-    authorId: authorId,
-    text: comment.text,
-    upvotes: comment.upvotes,
-    downvotes: comment.downvotes,
-    timestamp: serverTimestamp(),
-  });
-  // add id (ref id) to the user
-  const userRef = doc(
-    collection(firestoreService.firestore, 'users'),
-    authorId,
-  );
-  batch.update(userRef, { postIds: arrayUnion(commentRef.id) });
-
-  // add id (ref id) to the post
-  const postRef = doc(collection(firestoreService.firestore, 'posts'), postId);
-  batch.update(postRef, { commentIds: arrayUnion(commentRef.id) });
-
-  // execute writes
-  try {
-    await batch.commit();
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 const getComment = async (commentId) => {
   try {
     const ref = doc(firestoreService.firestore, 'comments', commentId);
@@ -62,9 +31,7 @@ const getComment = async (commentId) => {
     console.error(err);
   }
 };
-// težava je v tem ker se komponente komentarjev ne posodobijo ko nastanejo nove komponente
-// asinhrona težava
-// ali le render težava?
+
 const getCommentsByPostId = async (postId) => {
   const post = await getPost(postId);
   const commentIds = post.data.commentIds;
@@ -93,7 +60,7 @@ const getCommentsByPostId = async (postId) => {
   }
 };
 
-const addCommentWithDebounce = debounce(addComment);
+const addCommentWithDebounce = debounce();
 const getCommentWithDebounce = debounce(getComment);
 const getCommentsByPostIdWithDebounce = debounce(getCommentsByPostId);
 

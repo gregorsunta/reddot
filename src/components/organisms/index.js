@@ -2,6 +2,8 @@ export * from './Header';
 export * from './LogInForm';
 export * from './Notification';
 export * from './InputBox';
+export * from './PostComment';
+export * from './CommentSubmitBox';
 export * from './TextSubmitBox';
 export * from './panels/BriefPostPanel.jsx';
 export * from './panels/PostPanel.jsx';

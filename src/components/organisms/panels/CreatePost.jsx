@@ -3,10 +3,10 @@ import { createUseStyles } from 'react-jss';
 import { SIZES_REM } from '../../../constants';
 import { Input } from '../../atoms';
 import { Panel, Stack } from '../../molecules/';
-import { useAuthStore } from '../../../context/authStoreContext';
+import { useStores } from '../../../context/authStoreContext';
 
 const CreatePost = () => {
-  const authStore = useAuthStore();
+  const authStore = useStores();
   const { container, profileIcon, input } = useStyles();
 
   return (

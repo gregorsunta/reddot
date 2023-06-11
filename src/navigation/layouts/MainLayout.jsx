@@ -1,10 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/organisms/Header';
-import { useAuthStore } from '../../context/authStoreContext';
+import { useStores } from '../../context/authStoreContext';
 
 const MainLayout = ({ className }) => {
-  const authStore = useAuthStore();
+  const authStore = useStores();
 
   return (
     <div className={className}>

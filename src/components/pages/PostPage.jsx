@@ -7,13 +7,13 @@ import { useParams } from 'react-router-dom';
 
 const PostPage = () => {
   const { postId } = useParams();
-  const { postFunctions } = useFirestoreService();
+  const { getPost } = useFirestoreService();
   const [data, setData] = useState({});
   useEffect(() => {
-    const getPost = async () => {
-      setData(await postFunctions.getPost(postId));
+    const fetchPost = async () => {
+      setData(await getPost(postId));
     };
-    getPost().catch((err) => console.error(err));
+    fetchPost().catch((err) => console.error(err));
   }, []);
   return (
     <MainTemplate

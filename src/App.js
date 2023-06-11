@@ -1,27 +1,27 @@
 import './App.css';
-import './utils/utilityStyles.css';
 
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { IconContext } from 'react-icons';
 import { firestoreService } from './services/firestore/FirestoreService';
 import { getFirebaseConfig } from './services/firebase-config';
-import AuthStore from './stores/authStore';
 import {
-  AuthStoreContext,
+  StoreContext,
   FirestoreServiceContext,
   ThemeContext,
+  FirestoreStoreContext,
 } from './context/';
 import ErrorBoundary from './utils/ErrorBoundary.jsx';
 import { RouterConfig } from './navigation';
 import { THEMES } from './styles';
-import { firestoreFunctions } from './services/firestore/';
+import * as firestoreFunctions from './services/firestore/';
+import * as stores from './stores/';
 
 const app = initializeApp(getFirebaseConfig());
 firestoreService.init(app);
 
 const App = () => {
-  const [authStore] = useState(() => AuthStore);
+  const [authStore] = useState(() => stores.authStore);
   const { light, dark } = THEMES;
   const [theme, setTheme] = useState(light);
 
@@ -40,10 +40,10 @@ const App = () => {
 
   return (
     <ErrorBoundary fallback={<p>An error occured..</p>}>
-      <FirestoreServiceContext.Provider
-        value={{ firestoreService, ...firestoreFunctions }}
-      >
-        <AuthStoreContext.Provider value={authStore}>
+      <StoreContext.Provider value={stores}>
+        <FirestoreServiceContext.Provider
+          value={{ firestoreService, ...firestoreFunctions }}
+        >
           <ThemeContext.Provider
             value={{
               theme: theme,
@@ -56,8 +56,8 @@ const App = () => {
               <RouterConfig />
             </IconContext.Provider>
           </ThemeContext.Provider>
-        </AuthStoreContext.Provider>
-      </FirestoreServiceContext.Provider>
+        </FirestoreServiceContext.Provider>
+      </StoreContext.Provider>
     </ErrorBoundary>
   );
 };

@@ -1,27 +1,26 @@
-import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
-import { Button } from '../../atoms/Button.jsx';
-import { Stack, Panel } from '../../molecules';
-import { CommentSubmitBox } from '../CommentSubmitBox.jsx';
-import { PostComment } from '../PostComment.jsx';
 import { useEffect, useState } from 'react';
-import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
-import PropTypes from 'prop-types';
-import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
 import { createUseStyles } from 'react-jss';
+import PropTypes from 'prop-types';
+import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
+import { Button } from '../../atoms';
+import { Stack, Panel } from '../../molecules';
+import { PostComment, CommentSubmitBox } from '../';
+import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 import { useThemeContext } from '../../../context/themeContext.js';
+import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
 
 const PostPanel = ({ post, postId }) => {
   let fallbackPost = post.data ? post.data : {};
-  const { author, title, text } = fallbackPost;
-  console.log(post);
-  const { commentFunctions } = useFirestoreService();
+  const { author, title, text, upvotes, downvotes, profilePicURL } =
+    fallbackPost;
   const [commentList, setCommentList] = useState([]);
   const [commentComponentList, setCommentComponentList] = useState([]);
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });
+  const { getCommentsByPostId, incrementPostUpvotes } = useFirestoreService();
 
   const fetchComments = async (postId) => {
-    const comments = await commentFunctions.getCommentsByPostId(postId);
+    const comments = await getCommentsByPostId(postId);
     setCommentList(comments);
   };
   const createCommentComponents = (commentList) => {
@@ -55,6 +54,7 @@ const PostPanel = ({ post, postId }) => {
             >
               Upvote
             </Button>
+            {parseInt(upvotes) - parseInt(downvotes)}
             <Button
               className={fadedButton}
               type="button"

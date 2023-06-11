@@ -1,6 +1,7 @@
 import { makeObservable, observable, action, reaction, when } from 'mobx';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addUser, getUser } from '../services/firestore/users';
+import { userStore } from './';
 
 class AuthStore {
   user = null;
@@ -21,23 +22,40 @@ class AuthStore {
   init = (app) => {
     this.auth = getAuth(app);
     onAuthStateChanged(this.auth, (user) => {
-      this.setUser(user ? user : null);
-      !this.userExistsInDatabase(user) && this.addUserToDatabase();
+      let unsubscribe;
+      if (!!user) {
+        this.setUser(user);
+        unsubscribe = userStore.unsubscribeFromUser();
+        this.checkUser(user);
+      } else {
+        this.setUser(null);
+        unsubscribe && unsubscribe();
+      }
     });
   };
 
-  setUser = (user) => {
+  setUser(user) {
     this.user = user;
-  };
+  }
 
-  userExistsInDatabase = async (userObj) => {
+  get userId() {
+    return this.user.uid;
+  }
+
+  async checkUser(user) {
+    const userExists = await this.userExistsInDatabase(user);
+    !userExists && this.addUserToDatabase(user);
+  }
+
+  async userExistsInDatabase(userObj) {
     const user = await getUser(userObj.uid);
     return !!user;
-  };
+  }
 
-  addUserToDatabase = async (userObj) => {
+  async addUserToDatabase(userObj) {
     await addUser(userObj);
-  };
+  }
 }
+
 const authStore = new AuthStore();
-export default authStore;
+export { authStore };

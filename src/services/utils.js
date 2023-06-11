@@ -1,10 +1,7 @@
-import { limit, orderBy, where } from 'firebase/firestore';
+import { firestoreService } from './firestore/FirestoreService';
+const { firestore } = firestoreService;
 
-export const createDocumentIdFilter = (ids) => {
-  return where('__name__', 'in', ids);
-};
-
-export const debounce = (callback, delay = 500) => {
+export const debounce = (callback, delay = 200) => {
   let timer = null;
   return (...args) => {
     clearTimeout(timer);
@@ -16,3 +13,5 @@ export const debounce = (callback, delay = 500) => {
     });
   };
 };
+
+export const limit = (callback, limit) => {};

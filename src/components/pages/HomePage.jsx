@@ -1,14 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { toJS } from 'mobx';
 import { useFirestoreService } from '../../context/firestoreServiceContext';
 import { PostPanel, BriefPostPanel, CreatePost } from '../organisms/';
 import MainTemplate from '../templates/MainTemplate';
 import { Button, Input } from '../atoms';
 import { Stack, Panel } from '../molecules/';
-import { useAuthStore } from '../../context/authStoreContext';
+import { useStores } from '../../context/authStoreContext';
 import { SIZES_REM, SIZES_PX } from '../../constants';
-import { firestoreFunctions, getPosts } from '../../services/firestore';
+import { observer } from 'mobx-react';
 
 const authenticatedSide = (authStore) => (
   <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
@@ -44,29 +43,22 @@ const anonymousSide = (
   </Stack>
 );
 
-const HomePage = () => {
-  const authStore = useAuthStore();
-  const { firestoreService, postFunctions } = useFirestoreService();
-  const [posts, setPosts] = useState(null);
+const HomePage = observer(() => {
+  const { authStore, postStore } = useStores();
   const [postComponents, setPostComponents] = useState(null);
   const [postFieldFilter, setPostFilter] = useState('timestamp');
   const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
   const [postLimitFilter, setPostLimitFilter] = useState(10);
+  const posts = toJS(postStore.posts);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      console.log('Getting posts (in HomePage>useEffect>getPosts)');
       try {
-        const posts = await postFunctions.getPosts(
+        await postStore.getPostsForStore(
           postFieldFilter,
           postDirectionFilter,
           postLimitFilter,
         );
-        console.log(
-          'Posts from getPosts (in HomePage>useEffect>getPosts):',
-          posts,
-        );
-        setPosts(posts);
       } catch (err) {
         console.error(err);
       }
@@ -75,33 +67,38 @@ const HomePage = () => {
     return () => {};
   }, [postFieldFilter, postDirectionFilter, postLimitFilter]);
 
-  useEffect(() => {
-    const createPostComponents = (posts) => {
-      const components = posts?.map((post) => (
-        <BriefPostPanel
-          post={post}
-          key={post.id}
-          postId={post.id}
-        ></BriefPostPanel>
-      ));
-      setPostComponents(components);
-    };
+  // useEffect(() => {
+  //   const createPostComponents = (posts) => {
+  //     const components = posts?.map((post) => (
+  //       <BriefPostPanel
+  //         post={post}
+  //         key={post.id}
+  //         postId={post.id}
+  //       ></BriefPostPanel>
+  //     ));
+  //     setPostComponents(components);
+  //   };
 
-    createPostComponents(posts);
-  }, [posts]);
+  //   createPostComponents(posts);
+  // }, [posts]);
 
   return (
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
           {authStore.user && <CreatePost />}
-          {console.log('Post components in HomePage', postComponents)}
-          {postComponents}
+          {posts?.map((post) => (
+            <BriefPostPanel
+              post={post}
+              key={post.id}
+              postId={post.id}
+            ></BriefPostPanel>
+          ))}
         </Stack>
       }
       side={authStore.user ? authenticatedSide(authStore) : anonymousSide}
-    />
+    ></MainTemplate>
   );
-};
+});
 
 export default HomePage;

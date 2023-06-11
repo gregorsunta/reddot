@@ -12,7 +12,7 @@ import { uuidv4 } from '@firebase/util';
 import { Button } from '../../atoms/Button';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
-import { useAuthStore } from '../../../context/authStoreContext';
+import { useStores } from '../../../context/authStoreContext';
 import { Panel, Stack } from '../../molecules';
 import { createUseStyles } from 'react-jss';
 import { InputBox } from '../.';
@@ -20,7 +20,7 @@ import { Input } from '../../atoms/Input.jsx';
 
 const SubmitPanel = observer(() => {
   const { firestoreService, postFunctions } = useFirestoreService();
-  const authStore = useAuthStore();
+  const authStore = useStores();
   const [activeType, setActiveType] = useState('text');
   const [title, setTitle] = useState('');
   const [postContent, setPostContent] = useState('');

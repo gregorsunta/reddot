@@ -1,3 +1,3 @@
-export * from './firebase-auth';
-export * from './firebase-firestore';
-export * from './firebase-config';
+export * from './AuthService';
+export * from './firestore/index';
+export * from './utils';

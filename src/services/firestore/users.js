@@ -13,8 +13,13 @@ const addUser = async (user) => {
   return await setDoc(doc(firestoreService.firestore, 'users', user.uid), {
     displayName: user.displayName,
     timestamp: serverTimestamp(),
+    profilePicURL: user.photoURL,
     postIds: [],
     commentIds: [],
+    upvotedPosts: [],
+    downvotedPosts: [],
+    upvotedComments: [],
+    downvotedComments: [],
   });
 };
 
@@ -38,6 +43,14 @@ const getUser = async (userId) => {
   }
 };
 
+const getUserReferenceByUserId = (userId) => {
+  return doc(firestoreService.firestore, 'users', userId);
+};
+
 const getUserWithDebounce = debounce(getUser);
 const addUserWithDebounce = debounce(addUser);
-export { getUserWithDebounce as getUser, addUserWithDebounce as addUser };
+export {
+  getUserWithDebounce as getUser,
+  addUserWithDebounce as addUser,
+  getUserReferenceByUserId,
+};

@@ -1,9 +1,7 @@
-import * as commentFunctions from './comments';
-import * as postFunctions from './posts';
-import * as userFunctions from './users';
+export * from './comments';
+export * from './posts';
+export * from './users';
 
-export const firestoreFunctions = {
-  commentFunctions,
-  postFunctions,
-  userFunctions,
-};
+// export * from './comments';
+// export * from './posts';
+// export * from './users';

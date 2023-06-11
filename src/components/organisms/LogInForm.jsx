@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useAuthStore } from '../../context/authStoreContext';
+import { useStores } from '../../context/authStoreContext';
 import AuthService from '../../services/AuthService';
 import { Button } from '../atoms';
 import { FcGoogle } from 'react-icons/fc';
 
 const LogInForm = observer(() => {
-  const authStore = useAuthStore();
+  const authStore = useStores();
   const [isLoading, setIsLoading] = useState(false);
   const authService = AuthService;
   const login = async () => {

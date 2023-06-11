@@ -2,18 +2,14 @@ import { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Button, TextArea } from '../atoms';
 import { Stack } from '../molecules';
-import {
-  useAuthStore,
-  useFirestoreService,
-  useThemeContext,
-} from '../../context';
+import { useStores, useFirestoreService, useThemeContext } from '../../context';
 import { SIZES_PX } from '../../constants';
 
 const CommentSubmitBox = ({ postId, authorId }) => {
   const [commentText, setCommentText] = useState();
-  const { commentFunctions } = useFirestoreService();
+  const { addComment } = useFirestoreService();
   const [error, setError] = useState();
-  const authStore = useAuthStore();
+  const authStore = useStores();
   const { theme } = useThemeContext();
   const { container, textArea, buttonArea } = useStyles({ theme });
 
@@ -28,7 +24,7 @@ const CommentSubmitBox = ({ postId, authorId }) => {
       upvotes: 1,
     };
     try {
-      await commentFunctions.addComment(postId, authStore.user.uid, obj);
+      await addComment(postId, authStore.user.uid, obj);
     } catch (err) {
       handleError(err);
       console.error(err);

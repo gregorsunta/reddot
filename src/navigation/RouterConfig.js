@@ -5,11 +5,11 @@ import HomePage from '../components/pages/HomePage';
 import SubmitPage from '../components/pages/SubmitPage';
 import LoginPage from '../components/pages/LoginPage';
 import RegisterPage from '../components/pages/RegisterPage';
-import { useAuthStore } from '../context/authStoreContext.js';
+import { useStores } from '../context/authStoreContext.js';
 import { PostPage } from '../components/pages/PostPage.jsx';
 
 const RouterConfig = observer(() => {
-  const authStore = useAuthStore();
+  const authStore = useStores();
   return (
     <>
       <Routes>
