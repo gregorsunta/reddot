@@ -1,5 +1,4 @@
-import { firestoreService } from './firestore/FirestoreService';
-const { firestore } = firestoreService;
+import { onSnapshot } from 'firebase/firestore';
 
 export const debounce = (callback, delay = 200) => {
   let timer = null;
@@ -14,4 +13,9 @@ export const debounce = (callback, delay = 200) => {
   };
 };
 
-export const limit = (callback, limit) => {};
+export const attachOnSnapshot = async (docRef, cb) => {
+  // return an unsubscribe function
+  return onSnapshot(docRef, (doc) => {
+    cb(doc);
+  });
+};

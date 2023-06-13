@@ -13,12 +13,13 @@ import { ButtonGroup, Dropdown, Logo, Modal, Panel } from '../molecules/';
 import { Button, Input } from '../atoms/';
 import { LogInForm } from './';
 import classNames from 'classnames';
-import { useThemeContext } from '../../context';
+import { useStores, useThemeContext } from '../../context';
 
-const Header = observer(({ className, authStore }) => {
+const Header = observer(({ className }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState();
   const theme = useThemeContext();
+  const { authStore } = useStores();
   const {
     container,
     logoContainer,

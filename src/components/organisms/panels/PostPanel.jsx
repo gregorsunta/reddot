@@ -8,35 +8,15 @@ import { PostComment, CommentSubmitBox } from '../';
 import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
+import { commentStore } from '../../../stores';
+import { toJS } from 'mobx';
 
-const PostPanel = ({ post, postId }) => {
-  let fallbackPost = post.data ? post.data : {};
-  const { author, title, text, upvotes, downvotes, profilePicURL } =
-    fallbackPost;
-  const [commentList, setCommentList] = useState([]);
-  const [commentComponentList, setCommentComponentList] = useState([]);
+const PostPanel = ({ post }) => {
+  const { data = {}, id = {} } = post;
+  const { author, title, text, upvotes, downvotes, profilePicURL } = data;
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });
-  const { getCommentsByPostId, incrementPostUpvotes } = useFirestoreService();
-
-  const fetchComments = async (postId) => {
-    const comments = await getCommentsByPostId(postId);
-    setCommentList(comments);
-  };
-  const createCommentComponents = (commentList) => {
-    return commentList?.map((comment) => (
-      <PostComment comment={comment} key={comment.id} />
-    ));
-  };
-
-  useEffect(() => {
-    fetchComments(postId);
-  }, []);
-
-  useEffect(() => {
-    const commentComponents = createCommentComponents(commentList);
-    setCommentComponentList(commentComponents);
-  }, [commentList]);
+  const comments = toJS(commentStore.comments);
 
   return (
     <Panel>
@@ -73,11 +53,12 @@ const PostPanel = ({ post, postId }) => {
             </Button>
           </Stack>
         </Stack>
-        <CommentSubmitBox
-          postId={postId}
-          authorId={author?.id}
-        ></CommentSubmitBox>
-        <Stack>{commentComponentList}</Stack>
+        <CommentSubmitBox postId={id} authorId={author?.id}></CommentSubmitBox>
+        <Stack>
+          {comments?.map((comment) => (
+            <PostComment comment={comment}></PostComment>
+          ))}
+        </Stack>
       </Stack>
     </Panel>
   );

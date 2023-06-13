@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { SIZES_REM } from '../../constants';
 
 const LoginPage = observer(({ className }) => {
-  const authStore = useStores();
+  const { authStore } = useStores();
   const authService = AuthService;
   const [isLoading, setIsLoading] = useState(false);
 

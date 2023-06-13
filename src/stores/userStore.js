@@ -5,6 +5,7 @@ import {
   collection,
   arrayUnion,
   doc,
+  getDoc,
 } from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
 
@@ -26,6 +27,47 @@ class UserStore {
 
   get cachedUser() {
     return this._cachedUser;
+  }
+
+  fetchUserByUserId = async (userId) => {
+    try {
+      if (!userId) {
+        console.error('Expected userId, got:', userId);
+        return null;
+      }
+      const docRef = this.getUserRefById(userId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.warn(`Doc snap does not exist.`);
+        return null;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  checkUser = async (user) => {
+    const userExists = await this.userExistsInDatabase(user);
+    !userExists && this.addUserToDatabase(user);
+  };
+
+  userExistsInDatabase = async (userObj) => {
+    const user = await this.getUser(userObj.uid);
+    return !!user;
+  };
+
+  addUserToDatabase = async (userObj) => {
+    await this.addUser(userObj);
+  };
+
+  subscribeToUser(userId) {
+    const userRef = this.getUserRefById(userId);
+    return onSnapshot(userRef, (userDoc) => {
+      this._user = { id: userId, data: userDoc.data() };
+    });
   }
 
   getUserRefById = (userId) => {
@@ -94,13 +136,6 @@ class UserStore {
 
   updateCachedUser() {
     this.setCachedUser = this.user;
-  }
-
-  unsubscribeFromUser() {
-    // const userRef = getUserReferenceByUserId(authStore.userId);
-    // return onSnapshot(userRef, (user) => {
-    //   this._user = user.data();
-    // });
   }
 }
 

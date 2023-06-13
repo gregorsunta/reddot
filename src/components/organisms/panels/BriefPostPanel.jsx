@@ -1,28 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
-import { Button, ElementSkeleton } from '../../atoms/Button.jsx';
+import { Button } from '../../atoms/Button.jsx';
 import { Stack, Panel } from '../../molecules';
-import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_REM } from '../../../constants/StyleConstants.js';
-import { useStores } from '../../../context/authStoreContext.js';
-import { useFirestoreStore } from '../../../context/firestoreStoreContext.js';
-import { toJS } from 'mobx';
-import { useState } from 'react';
 
-const BriefPostPanel = ({ post, postId }) => {
-  const { author, title, text, upvotes, downvotes, profilePicURL } = post?.data;
+const BriefPostPanel = ({ post = {} }) => {
+  const { data, id } = post;
+  const { author, title, text, upvotes, downvotes, profilePicURL } = data;
   const navigate = useNavigate();
   const { theme } = useThemeContext();
   const { container, authorInformation } = useStyles({ theme });
-  const { handlePostUpvote, handlePostDownvotes } = useFirestoreService();
-  const { user } = useStores();
-  const [upvotesState, setUpvotesState] = useState(upvotes);
-  const [downvotesState, setDownvotesState] = useState(upvotes);
-  // const { user: storedUser, cachedUser } = useFirestoreStore();
-  // const storedUserObj = storedUser.toJS();
-  // const cachedUserObj = cachedUser.toJS();
 
   const handleClick = (event) => {
     const dataClickId = event.target
@@ -30,7 +19,7 @@ const BriefPostPanel = ({ post, postId }) => {
       .getAttribute('data-click-id');
 
     if (dataClickId === 'comments' || dataClickId === 'background') {
-      navigate(`post/${postId}`);
+      navigate(`post/${id}`);
     } else if (dataClickId === 'upvote') {
       // upvote
     } else if (dataClickId === 'downvote') {

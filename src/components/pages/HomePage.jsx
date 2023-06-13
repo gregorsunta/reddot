@@ -54,7 +54,7 @@ const HomePage = observer(() => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        await postStore.getPostsForStore(
+        await postStore.fetchPostsForListWithSnapshot(
           postFieldFilter,
           postDirectionFilter,
           postLimitFilter,
@@ -67,32 +67,13 @@ const HomePage = observer(() => {
     return () => {};
   }, [postFieldFilter, postDirectionFilter, postLimitFilter]);
 
-  // useEffect(() => {
-  //   const createPostComponents = (posts) => {
-  //     const components = posts?.map((post) => (
-  //       <BriefPostPanel
-  //         post={post}
-  //         key={post.id}
-  //         postId={post.id}
-  //       ></BriefPostPanel>
-  //     ));
-  //     setPostComponents(components);
-  //   };
-
-  //   createPostComponents(posts);
-  // }, [posts]);
-
   return (
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
           {authStore.user && <CreatePost />}
           {posts?.map((post) => (
-            <BriefPostPanel
-              post={post}
-              key={post.id}
-              postId={post.id}
-            ></BriefPostPanel>
+            <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
         </Stack>
       }

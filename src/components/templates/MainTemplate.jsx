@@ -3,6 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { Stack } from '../molecules/';
 import { LIGHTNESS, NEUTRAL, SIZES_REM, SIZES_PX } from '../../constants';
 import { useThemeContext } from '../../context';
+import { ErrorBoundary } from '../../utils/';
 
 const useContainerStyles = createUseStyles({
   container: {
@@ -33,23 +34,25 @@ const useSideStyles = createUseStyles({
   },
 });
 
-const MainTemplate = ({ auth, content, side }) => {
+const MainTemplate = ({ content, side }) => {
   const { theme } = useThemeContext();
   const containerClassNames = useContainerStyles(theme);
   const contentClassNames = useContentStyles();
   const sideClassNames = useSideStyles();
 
   return (
-    <div className={containerClassNames.background}>
-      <Stack
-        orientation="row"
-        spacing={SIZES_PX.SIZE_16}
-        className={containerClassNames.container}
-      >
-        <section className={contentClassNames.content}>{content}</section>
-        <section className={sideClassNames.side}>{side}</section>
-      </Stack>
-    </div>
+    <ErrorBoundary>
+      <div className={containerClassNames.background}>
+        <Stack
+          orientation="row"
+          spacing={SIZES_PX.SIZE_16}
+          className={containerClassNames.container}
+        >
+          <section className={contentClassNames.content}>{content}</section>
+          <section className={sideClassNames.side}>{side}</section>
+        </Stack>
+      </div>
+    </ErrorBoundary>
   );
 };
 

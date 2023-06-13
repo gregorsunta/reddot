@@ -1,6 +1,12 @@
-import { makeObservable, observable, action, reaction, when } from 'mobx';
+import {
+  makeObservable,
+  observable,
+  action,
+  reaction,
+  when,
+  makeAutoObservable,
+} from 'mobx';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { addUser, getUser } from '../services/firestore/users';
 import { userStore } from './';
 
 class AuthStore {
@@ -8,15 +14,7 @@ class AuthStore {
   isLoading = false;
   auth = null;
   constructor() {
-    makeObservable(this, {
-      user: observable,
-      isLoading: observable,
-      auth: observable,
-      init: action,
-      setUser: action,
-      userExistsInDatabase: action,
-      addUserToDatabase: action,
-    });
+    makeAutoObservable(this);
   }
 
   init = (app) => {
@@ -25,8 +23,7 @@ class AuthStore {
       let unsubscribe;
       if (!!user) {
         this.setUser(user);
-        unsubscribe = userStore.unsubscribeFromUser();
-        this.checkUser(user);
+        unsubscribe = userStore.subscribeToUser(user.uid);
       } else {
         this.setUser(null);
         unsubscribe && unsubscribe();
@@ -40,20 +37,6 @@ class AuthStore {
 
   get userId() {
     return this.user.uid;
-  }
-
-  async checkUser(user) {
-    const userExists = await this.userExistsInDatabase(user);
-    !userExists && this.addUserToDatabase(user);
-  }
-
-  async userExistsInDatabase(userObj) {
-    const user = await getUser(userObj.uid);
-    return !!user;
-  }
-
-  async addUserToDatabase(userObj) {
-    await addUser(userObj);
   }
 }
 

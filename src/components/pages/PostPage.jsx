@@ -4,22 +4,31 @@ import MainTemplate from '../templates/MainTemplate';
 import { useFirestoreService } from '../../context';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { postStore } from '../../stores';
+import { toJS } from 'mobx';
 
 const PostPage = () => {
   const { postId } = useParams();
-  const { getPost } = useFirestoreService();
-  const [data, setData] = useState({});
+  const [post, setPost] = useState();
+
   useEffect(() => {
-    const fetchPost = async () => {
-      setData(await getPost(postId));
+    const getPost = async () => {
+      const post = await postStore.fetchPostWithOwner(postId);
+      console.log(post);
+      setPost(post);
     };
-    fetchPost().catch((err) => console.error(err));
+    if (!post) {
+      getPost();
+    }
   }, []);
+
   return (
     <MainTemplate
-      content={<PostPanel post={data} postId={postId}></PostPanel>}
+      content={<PostPanel post={post ?? {}}></PostPanel>}
       side={<Panel></Panel>}
-    />
+    >
+      {console.log(post)}
+    </MainTemplate>
   );
 };
 export { PostPage };

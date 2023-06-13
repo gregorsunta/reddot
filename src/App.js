@@ -11,11 +11,14 @@ import {
   ThemeContext,
   FirestoreStoreContext,
 } from './context/';
-import ErrorBoundary from './utils/ErrorBoundary.jsx';
+import { ErrorBoundary } from './utils/';
 import { RouterConfig } from './navigation';
 import { THEMES } from './styles';
 import * as firestoreFunctions from './services/firestore/';
 import * as stores from './stores/';
+import { useBeforeUnloadLocalStorage, useOnLoadLocalStorage } from './utils/';
+import { toJS } from 'mobx';
+import { useDebugClick } from './utils/useDebugClick';
 
 const app = initializeApp(getFirebaseConfig());
 firestoreService.init(app);
