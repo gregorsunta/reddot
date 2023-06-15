@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import { createUseStyles } from 'react-jss';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../atoms/Button';
@@ -5,8 +6,10 @@ import { Stack } from '../molecules/Stack';
 import { SIZES_REM } from '../../constants';
 import { useThemeContext } from '../../context';
 
-const PostComment = ({ comment }) => {
-  const { author, text, upvotes, downvotes } = comment?.data;
+const PostComment = observer(({ comment = {} }) => {
+  const { text, upvotes, author = {}, downvotes } = comment?.data;
+  const { data: authorData = {} } = author;
+  const { displayName, profilePicURL } = authorData;
   const { theme } = useThemeContext();
   const { fadedButton } = useStyles({ theme });
 
@@ -14,10 +17,10 @@ const PostComment = ({ comment }) => {
     <Stack orientation="row">
       <Stack orientation="row" alignItems="start">
         <Button variant="icon" type="button" width={'25px'}>
-          <img src={author?.profilePicURL} alt="" />
+          <img src={profilePicURL} alt="" />
         </Button>
         <Stack>
-          <p>{author?.displayName}</p>
+          <p>{displayName}</p>
           <p>{text}</p>
           <Stack orientation="row">
             <Button
@@ -49,7 +52,7 @@ const PostComment = ({ comment }) => {
       </Stack>
     </Stack>
   );
-};
+});
 
 const useStyles = createUseStyles({
   fadedButton: {

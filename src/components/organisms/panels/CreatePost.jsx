@@ -6,7 +6,7 @@ import { Panel, Stack } from '../../molecules/';
 import { useStores } from '../../../context/authStoreContext';
 
 const CreatePost = () => {
-  const authStore = useStores();
+  const { authStore } = useStores();
   const { container, profileIcon, input } = useStyles();
 
   return (

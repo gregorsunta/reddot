@@ -2,21 +2,18 @@ import { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Button, TextArea } from '../atoms';
 import { Stack } from '../molecules';
-import { useStores, useFirestoreService, useThemeContext } from '../../context';
+import { useStores, useThemeContext } from '../../context';
 import { SIZES_PX } from '../../constants';
+import { toJS } from 'mobx';
 
 const CommentSubmitBox = ({ postId, authorId }) => {
   const [commentText, setCommentText] = useState();
-  const { addComment } = useFirestoreService();
-  const [error, setError] = useState();
-  const authStore = useStores();
   const { theme } = useThemeContext();
   const { container, textArea, buttonArea } = useStyles({ theme });
+  const { commentStore, userStore } = useStores();
+  const user = toJS(userStore._user);
 
-  const handleError = (err) => {
-    setError(err);
-  };
-  const submitComment = async (text, authStore, postId) => {
+  const submitComment = async (text, postId) => {
     // text validation!!!
     const obj = {
       text: text,
@@ -24,9 +21,8 @@ const CommentSubmitBox = ({ postId, authorId }) => {
       upvotes: 1,
     };
     try {
-      await addComment(postId, authStore.user.uid, obj);
+      await commentStore.addComment(user.id, postId, obj);
     } catch (err) {
-      handleError(err);
       console.error(err);
     }
   };
@@ -44,7 +40,7 @@ const CommentSubmitBox = ({ postId, authorId }) => {
         <Button
           variant="solid"
           width={'min-content'}
-          onClick={() => submitComment(commentText, authStore, postId)}
+          onClick={() => submitComment(commentText, postId)}
         >
           Submit
         </Button>

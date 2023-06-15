@@ -6,29 +6,32 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { postStore } from '../../stores';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
 
-const PostPage = () => {
+const PostPage = observer(() => {
   const { postId } = useParams();
-  const [post, setPost] = useState();
+  const [post, setPost] = useState(
+    toJS(postStore.findPostOnListByPostId(postId)),
+  );
 
   useEffect(() => {
-    const getPost = async () => {
-      const post = await postStore.fetchPostWithOwner(postId);
-      console.log(post);
-      setPost(post);
+    const fetchPost = async () => {
+      await postStore.fetchPostForListWithSnapshot(postId);
+    };
+    const getPost = () => {
+      setPost(toJS(postStore.findPostOnListByPostId(postId)));
     };
     if (!post) {
+      fetchPost();
       getPost();
     }
-  }, []);
+  });
 
   return (
     <MainTemplate
       content={<PostPanel post={post ?? {}}></PostPanel>}
       side={<Panel></Panel>}
-    >
-      {console.log(post)}
-    </MainTemplate>
+    ></MainTemplate>
   );
-};
+});
 export { PostPage };

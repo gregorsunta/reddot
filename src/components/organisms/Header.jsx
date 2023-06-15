@@ -9,7 +9,14 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
-import { ButtonGroup, Dropdown, Logo, Modal, Panel } from '../molecules/';
+import {
+  ButtonGroup,
+  Dropdown,
+  Logo,
+  Modal,
+  Panel,
+  Stack,
+} from '../molecules/';
 import { Button, Input } from '../atoms/';
 import { LogInForm } from './';
 import classNames from 'classnames';
@@ -132,9 +139,9 @@ const Header = observer(({ className }) => {
       <Logo className={logoContainer} />
 
       <Input className={searchBarContainer} placeholder={'Search reddot'} />
-      <ButtonGroup orientation={'horizontal'} className={btnContainer}>
+      <Stack orientation="row" className={btnContainer}>
         {authStore.user ? authenticatedButtons : anonymousButtons}
-      </ButtonGroup>
+      </Stack>
       <Dropdown className={dropdownContainer}>
         {authStore.user ? authenticatedDropdown : anonymousDropdown}
       </Dropdown>

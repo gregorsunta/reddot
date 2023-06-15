@@ -17,10 +17,10 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
-import { debounce, limit as callLimit } from '../utils';
+import { debounce } from './utils';
 import { userStore, authStore } from './';
 import { makeAutoObservable, toJS } from 'mobx';
-import { attachOnSnapshot } from './utils';
+import { attachOnSnapshot, setToBatch } from './utils';
 
 class PostStore {
   _posts = [];
@@ -36,9 +36,8 @@ class PostStore {
   // list functions
 
   findPostOnListByPostId = (postId) => {
-    const normalPosts = toJS(this.posts);
-    const post = normalPosts.find((post) => post.id === postId);
-    console.log(normalPosts);
+    const posts = toJS(this.posts);
+    const post = posts.find((post) => post.id === postId);
     return post;
   };
 
@@ -63,13 +62,16 @@ class PostStore {
 
   // firestore and list functions
 
-  addAuthorsToPosts = async (posts) => {
-    const postsWithAuthors = posts.map(async (post) => {
-      const author = await userStore.fetchUserByUserId(post.data.authorId);
-      return { ...post, data: { ...post.data, author: author } };
+  fetchPostForListWithSnapshot = async (postId) => {
+    const fetchedPost = await this.fetchPostDebounce(postId);
+    const postRef = this.getPostReferenceByPostId(postId);
+    const unsubscribe = onSnapshot(postRef, async (post) => {
+      this.modifyPostOnList(post);
     });
+    const postWithSubscribe = { ...fetchedPost, unsubscribe: unsubscribe };
 
-    return Promise.all(postsWithAuthors);
+    const postWithAuthor = await this.addAuthorToPost(postWithSubscribe);
+    this.replacePostsOnList([postWithAuthor]);
   };
 
   fetchPostsForListWithSnapshot = async (
@@ -78,7 +80,7 @@ class PostStore {
     postNumberLimit,
     startAfterDoc,
   ) => {
-    const fetchedPosts = await this.fetchPosts(
+    const fetchedPosts = await this.fetchPostsDebounce(
       fieldToSortBy,
       sortDirection,
       postNumberLimit,
@@ -99,37 +101,41 @@ class PostStore {
 
   // firestore functions
 
-  updateDocument = async (ref, obj, batch) => {
+  updatePost = async (postRef, objToUpdate, batch) => {
     if (batch) {
-      batch.update(ref, obj);
+      batch.update(postRef, objToUpdate);
     } else {
-      console.error('Expected WriteBatch, got: ', batch);
-    }
-  };
-
-  addDocument = async (ref, obj, batch) => {
-    if (batch) {
-      batch.set(ref, obj);
-    } else {
-      console.error('Expected WriteBatch, got: ', batch);
+      updateDoc(postRef, objToUpdate);
     }
   };
 
   addPost = async (post) => {
-    const batch = writeBatch();
-    const postCollectionRef = collection(firestoreService.firestore, 'posts');
+    const batch = writeBatch(firestoreService.firestore);
+    const postCollectionRef = doc(
+      collection(firestoreService.firestore, 'posts'),
+    );
+    const userId = toJS(authStore.userId);
+
     const objToSet = {
-      authorId: authStore.user.uid,
+      authorId: userId,
       title: post.title,
       text: post.text,
       timestamp: serverTimestamp(),
+      upvotes: 1,
+      downvotes: 0,
     };
 
     // add to db
-    this.addDocument(postCollectionRef, objToSet, batch);
+    await setToBatch(postCollectionRef, objToSet, batch);
 
     // add to user
-    userStore.addOwnPostId();
+    await userStore.addPostId(userId, postCollectionRef.id, batch);
+
+    try {
+      await batch.commit();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   addCommentId = async (postId, commentId, batch) => {
@@ -138,7 +144,7 @@ class PostStore {
       postId,
     );
     const objToUpdate = { commentIds: arrayUnion(commentId) };
-    this.updateDocument(postRef, objToUpdate, batch);
+    this.updatePost(postRef, objToUpdate, batch);
   };
 
   fetchPost = async (postId) => {
@@ -158,11 +164,14 @@ class PostStore {
     }
   };
 
+  fetchPostDebounce = debounce(this.fetchPost);
+
   fetchPostWithOwner = async (postId) => {
     const post = await this.fetchPost(postId);
     const author = await userStore.fetchUserByUserId(post.id);
     return { ...post, ...author };
   };
+
   fetchPosts = async (
     fieldToSortBy,
     sortDirection,
@@ -187,6 +196,8 @@ class PostStore {
       console.error(err);
     }
   };
+
+  fetchPostsDebounce = debounce(this.fetchPosts);
 
   getPostReferenceByPostId = (postId) => {
     return doc(firestoreService.firestore, 'posts', postId);
@@ -345,6 +356,20 @@ class PostStore {
         userStore.updateCachedUser();
       }
     }
+  };
+
+  addAuthorsToPosts = async (posts) => {
+    const postsWithAuthors = posts.map(async (post) => {
+      const author = await userStore.fetchUserByUserId(post.data.authorId);
+      return { ...post, data: { ...post.data, author: author } };
+    });
+
+    return Promise.all(postsWithAuthors);
+  };
+
+  addAuthorToPost = async (post) => {
+    const author = await userStore.fetchUserByUserId(post.data.authorId);
+    return { ...post, data: { ...post.data, author: author } };
   };
 }
 

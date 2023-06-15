@@ -10,13 +10,29 @@ import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
 import { commentStore } from '../../../stores';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
 
-const PostPanel = ({ post }) => {
+const PostPanel = observer(({ post }) => {
   const { data = {}, id = {} } = post;
-  const { author, title, text, upvotes, downvotes, profilePicURL } = data;
+  const { author, title, text, upvotes, downvotes, profilePicURL, commentIds } =
+    data;
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });
-  const comments = toJS(commentStore.comments);
+  const comments = toJS(commentStore._comments);
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        await commentStore.fetchCommentsForListWithSnapshotDebounce(commentIds);
+      } catch (err) {
+        console.error('Failed to get comments: ', err);
+      }
+    };
+    getComments(commentIds);
+    return () => {
+      commentStore.resetCommentList();
+    };
+  }, [commentIds]);
 
   return (
     <Panel>
@@ -56,13 +72,13 @@ const PostPanel = ({ post }) => {
         <CommentSubmitBox postId={id} authorId={author?.id}></CommentSubmitBox>
         <Stack>
           {comments?.map((comment) => (
-            <PostComment comment={comment}></PostComment>
+            <PostComment key={comment.id} comment={comment}></PostComment>
           ))}
         </Stack>
       </Stack>
     </Panel>
   );
-};
+});
 
 PostPanel.propTypes = {
   post: PropTypes.shape({

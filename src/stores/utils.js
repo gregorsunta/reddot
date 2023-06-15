@@ -1,4 +1,4 @@
-import { onSnapshot } from 'firebase/firestore';
+import { addDoc, onSnapshot } from 'firebase/firestore';
 
 export const debounce = (callback, delay = 200) => {
   let timer = null;
@@ -18,4 +18,20 @@ export const attachOnSnapshot = async (docRef, cb) => {
   return onSnapshot(docRef, (doc) => {
     cb(doc);
   });
+};
+
+export const setToBatch = async (ref, obj, batch) => {
+  if (batch) {
+    batch.set(ref, obj);
+  } else {
+    console.error('Expected WriteBatch, got: ', batch);
+  }
+};
+
+export const updateToBatch = async (ref, obj, batch) => {
+  if (batch) {
+    batch.update(ref, obj);
+  } else {
+    console.error('Expected WriteBatch, got: ', batch);
+  }
 };

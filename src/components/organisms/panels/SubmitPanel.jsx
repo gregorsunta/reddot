@@ -19,8 +19,7 @@ import { InputBox } from '../.';
 import { Input } from '../../atoms/Input.jsx';
 
 const SubmitPanel = observer(() => {
-  const { firestoreService, postFunctions } = useFirestoreService();
-  const authStore = useStores();
+  const { postStore } = useStores();
   const [activeType, setActiveType] = useState('text');
   const [title, setTitle] = useState('');
   const [postContent, setPostContent] = useState('');
@@ -37,7 +36,7 @@ const SubmitPanel = observer(() => {
   const submitPost = () => {
     const type = activeType;
     if (type === 'text') {
-      postFunctions.addPost({
+      postStore.addPost({
         title: title,
         text: postContent,
       });

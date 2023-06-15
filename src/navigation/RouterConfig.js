@@ -7,9 +7,11 @@ import LoginPage from '../components/pages/LoginPage';
 import RegisterPage from '../components/pages/RegisterPage';
 import { useStores } from '../context/authStoreContext.js';
 import { PostPage } from '../components/pages/PostPage.jsx';
+import { toJS } from 'mobx';
 
 const RouterConfig = observer(() => {
-  const authStore = useStores();
+  const { userStore } = useStores();
+  const user = toJS(userStore._user);
   return (
     <>
       <Routes>
@@ -17,9 +19,7 @@ const RouterConfig = observer(() => {
           <Route index element={<HomePage />} />
           <Route
             path="submit"
-            element={
-              authStore.user ? <SubmitPage /> : <Navigate to={'/login'} />
-            }
+            element={user ? <SubmitPage /> : <Navigate to={'/login'} />}
           />
           <Route path={'login'} element={<LoginPage />} />
           <Route path={'signup'} element={<RegisterPage />} />

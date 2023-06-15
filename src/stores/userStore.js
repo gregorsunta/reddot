@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import {
   arrayRemove,
   onSnapshot,
@@ -6,12 +6,12 @@ import {
   arrayUnion,
   doc,
   getDoc,
+  addDoc,
 } from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
 
 class UserStore {
   _user = null;
-  _cachedUser = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -25,9 +25,10 @@ class UserStore {
     return this._user.id;
   }
 
-  get cachedUser() {
-    return this._cachedUser;
-  }
+  addUser = async (userObj) => {
+    const collectionRef = collection(firestoreService.firestore, 'users');
+    await addDoc(collectionRef, userObj);
+  };
 
   fetchUserByUserId = async (userId) => {
     try {
@@ -39,7 +40,7 @@ class UserStore {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        return docSnap.data();
+        return { id: docSnap.id, data: docSnap.data() };
       } else {
         console.warn(`Doc snap does not exist.`);
         return null;
@@ -66,17 +67,13 @@ class UserStore {
   subscribeToUser(userId) {
     const userRef = this.getUserRefById(userId);
     return onSnapshot(userRef, (userDoc) => {
-      this._user = { id: userId, data: userDoc.data() };
+      runInAction(() => (this._user = { id: userId, data: userDoc.data() }));
     });
   }
 
-  getUserRefById = (userId) => {
-    return doc(collection(firestoreService.firestore, 'users'), userId);
-  };
-
   updateDocument = async (ref, obj, batch) => {
     if (batch) {
-      batch.update(ref, obj);
+      await batch.update(ref, obj);
     } else {
       console.error('Expected WriteBatch, got: ', batch);
     }
@@ -88,6 +85,16 @@ class UserStore {
       postIds: arrayUnion(commentId),
     };
     this.updateDocument(userRef, objToUpdate, batch);
+  };
+
+  addPostId = async (userId, postId, batch) => {
+    console.log(userId);
+    console.log(postId);
+    const userRef = this.getUserRefById(userId);
+    const objToUpdate = {
+      postIds: arrayUnion(postId),
+    };
+    await this.updateDocument(userRef, objToUpdate, batch);
   };
 
   addUpvotedPostId = async (userId, postId, batch) => {
@@ -122,21 +129,10 @@ class UserStore {
     this.updateDocument(userRef, objToUpdate, batch);
   };
 
-  addOwnPostId = async (userId, postId, batch) => {
-    const userRef = this.getUserRefById(userId);
-    const objToUpdate = {
-      postIds: arrayUnion(postId),
-    };
-    this.addCommentId(userRef, objToUpdate, batch);
+  // other
+  getUserRefById = (userId) => {
+    return doc(collection(firestoreService.firestore, 'users'), userId);
   };
-
-  setCachedUser(user) {
-    this._cachedUser = { ...user, timestamp: Date.now() };
-  }
-
-  updateCachedUser() {
-    this.setCachedUser = this.user;
-  }
 }
 
 const userStore = new UserStore();

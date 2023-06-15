@@ -8,7 +8,8 @@ import { SIZES_REM } from '../../../constants/StyleConstants.js';
 
 const BriefPostPanel = ({ post = {} }) => {
   const { data, id } = post;
-  const { author, title, text, upvotes, downvotes, profilePicURL } = data;
+  const { author, title, text, upvotes, downvotes } = data;
+  const { data: authorData } = author;
   const navigate = useNavigate();
   const { theme } = useThemeContext();
   const { container, authorInformation } = useStyles({ theme });
@@ -35,7 +36,7 @@ const BriefPostPanel = ({ post = {} }) => {
     >
       <Stack data-click-id="post">
         <span className={authorInformation}>
-          Posted by {author?.displayName}
+          Posted by {authorData.displayName}
         </span>
         <p>{title}</p>
         <p>{text}</p>
