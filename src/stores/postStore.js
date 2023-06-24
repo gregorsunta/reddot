@@ -51,7 +51,7 @@ class PostStore {
 
   modifyPostOnList = (updatedPost) => {
     const index = this.findPostIndexOnListByPostId(updatedPost.id);
-    this._posts[index] = { ...this._posts[index], ...updatedPost };
+    this._posts[index] = { ...toJS(this._posts[index]), ...updatedPost };
   };
 
   findPostIndexOnListByPostId = (postId) => {
