@@ -5,6 +5,7 @@ import { Button } from '../atoms/Button';
 import { Stack } from '../molecules/Stack';
 import { SIZES_PX, SIZES_REM } from '../../constants';
 import { useThemeContext } from '../../context';
+import { useState } from 'react';
 
 const PostComment = observer(({ comment = {} }) => {
   const { text, upvotes, author = {}, downvotes } = comment?.data;
@@ -17,7 +18,9 @@ const PostComment = observer(({ comment = {} }) => {
     author: authorClassname,
     commentLine,
     commentLineContainer,
+    hide,
   } = useStyles({ theme });
+  const [postHidden, setPostHidden] = useState();
 
   return (
     <Stack orientation="row" className={container}>
@@ -29,7 +32,8 @@ const PostComment = observer(({ comment = {} }) => {
           <Stack
             justifyContent={'center'}
             alignItems={'center'}
-            className={commentLineContainer}
+            className={[commentLineContainer, postHidden && hide]}
+            onClick={() => setPostHidden(true)}
           >
             <div className={commentLine}></div>
           </Stack>
@@ -37,7 +41,7 @@ const PostComment = observer(({ comment = {} }) => {
         <Stack>
           <p className={authorClassname}>{displayName}</p>
           <p>{text}</p>
-          <Stack orientation="row">
+          <Stack orientation="row" className={postHidden && hide}>
             <Button
               className={fadedButton}
               type="button"
@@ -99,6 +103,9 @@ const useStyles = createUseStyles({
     backgroundColor: ({ theme }) => theme.BORDER,
     width: '2.25px',
     height: '100%',
+  },
+  hide: {
+    display: 'none',
   },
 });
 

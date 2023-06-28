@@ -20,6 +20,7 @@ const Stack = ({
   spacing,
   justifyContent,
   alignItems,
+  onClick,
 }) => {
   const containerClassNames = useStyles({
     orientation,
@@ -29,7 +30,11 @@ const Stack = ({
   });
   const allClassNames = classNames(containerClassNames.container, className);
 
-  return <Component className={allClassNames}>{children}</Component>;
+  return (
+    <Component onClick={onClick} className={allClassNames}>
+      {children}
+    </Component>
+  );
 };
 
 Stack.propTypes = {
@@ -37,8 +42,9 @@ Stack.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  onClick: PropTypes.func,
   orientation: PropTypes.oneOf(['column', 'row']),
-  className: PropTypes.string,
+  className: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   spacing: PropTypes.string,
   justifyContent: PropTypes.oneOf(['space-between', 'center', 'start', 'end']),
   alignItems: PropTypes.oneOf(['stretch', 'center', 'start', 'end']),

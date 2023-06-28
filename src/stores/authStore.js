@@ -26,6 +26,7 @@ class AuthStore {
         unsubscribe = userStore.subscribeToUser(user.uid);
       } else {
         this.setUser(null);
+        userStore.removeUserFromStore();
         unsubscribe && unsubscribe();
       }
     });

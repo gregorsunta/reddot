@@ -14,8 +14,6 @@ const PostPage = observer(() => {
     toJS(postStore.findPostOnListByPostId(postId)),
   );
 
-  console.log(post);
-
   useEffect(() => {
     const fetchPost = async () => {
       await postStore.fetchPostForListWithSnapshot(postId);

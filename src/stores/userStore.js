@@ -25,6 +25,10 @@ class UserStore {
     return this._user.id;
   }
 
+  removeUserFromStore() {
+    this._user = null;
+  }
+
   addUser = async (userObj) => {
     const collectionRef = collection(firestoreService.firestore, 'users');
     await addDoc(collectionRef, userObj);
