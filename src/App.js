@@ -9,7 +9,6 @@ import {
   StoreContext,
   FirestoreServiceContext,
   ThemeContext,
-  FirestoreStoreContext,
 } from './context/';
 import { ErrorBoundary } from './utils/';
 import { RouterConfig } from './navigation';
@@ -17,8 +16,9 @@ import { THEMES } from './styles';
 import * as firestoreFunctions from './services/firestore/';
 import * as stores from './stores/';
 import { useBeforeUnloadLocalStorage, useOnLoadLocalStorage } from './utils/';
-import { toJS } from 'mobx';
 import { useDebugClick } from './utils/useDebugClick';
+import { jss } from 'react-jss';
+// import jssPluginGlobal from 'jss-plugin-global';
 
 const app = initializeApp(getFirebaseConfig());
 firestoreService.init(app);
@@ -27,6 +27,16 @@ const App = () => {
   const [authStore] = useState(() => stores.authStore);
   const { light, dark } = THEMES;
   const [theme, setTheme] = useState(light);
+
+  // global styles
+  const styles = {
+    '@global': {
+      body: {
+        color: theme.TEXT,
+      },
+    },
+  };
+  jss.createStyleSheet(styles).attach();
 
   const toggleTheme = () => {
     setTheme(theme === light ? dark : light);

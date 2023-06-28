@@ -5,35 +5,6 @@ import { LIGHTNESS, NEUTRAL, SIZES_REM, SIZES_PX } from '../../constants';
 import { useThemeContext } from '../../context';
 import { ErrorBoundary } from '../../utils/';
 
-const useContainerStyles = createUseStyles({
-  container: {
-    maxWidth: 'max-content',
-    margin: `0 auto`,
-    paddingTop: `80px`,
-    paddingInline: `${SIZES_PX.SIZE_16}`,
-    minHeight: '100lvh',
-    justifyContent: 'center',
-  },
-  background: {
-    backgroundColor: (theme) => theme.PRIMARY_BACKGROUND,
-  },
-});
-const useContentStyles = createUseStyles({
-  content: {
-    width: 'clamp(320px,640px,640px)',
-  },
-});
-const useSideStyles = createUseStyles({
-  side: {
-    maxWidth: '310px',
-  },
-  '@media(max-width: 970px)': {
-    side: {
-      display: 'none',
-    },
-  },
-});
-
 const MainTemplate = ({ content, side }) => {
   const { theme } = useThemeContext();
   const containerClassNames = useContainerStyles(theme);
@@ -55,5 +26,34 @@ const MainTemplate = ({ content, side }) => {
     </ErrorBoundary>
   );
 };
+
+const useContainerStyles = createUseStyles({
+  container: {
+    maxWidth: 'max-content',
+    margin: `0 auto`,
+    paddingTop: `80px`,
+    paddingInline: `${SIZES_PX.SIZE_16}`,
+    minHeight: '100lvh',
+    justifyContent: 'center',
+  },
+  background: {
+    backgroundColor: (theme) => theme.BACKGROUND,
+  },
+});
+const useContentStyles = createUseStyles({
+  content: {
+    width: 'clamp(320px,640px,640px)',
+  },
+});
+const useSideStyles = createUseStyles({
+  side: {
+    maxWidth: '310px',
+  },
+  '@media(max-width: 970px)': {
+    side: {
+      display: 'none',
+    },
+  },
+});
 
 export default MainTemplate;

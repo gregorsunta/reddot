@@ -56,7 +56,6 @@ const Header = observer(({ className }) => {
   const anonymousDropdown = [
     <Button
       variant="text"
-      startIcon={<CgProfile />}
       endIcon={<IoIosArrowDropdown />}
       className=""
       key={uuidv4()}
@@ -169,7 +168,7 @@ const useStyles = createUseStyles({
     height: '6vh',
     padding: '0 3vw',
     width: '100vw',
-    backgroundColor: ({ theme }) => theme.SECONDARY_BACKGROUND,
+    backgroundColor: ({ theme }) => theme.BACKGROUND_1,
   },
   searchBarContainer: {
     flexGrow: 1,
@@ -177,13 +176,12 @@ const useStyles = createUseStyles({
     padding: '0 2vw',
     height: '80%',
     fontWeight: 400,
-    backgroundColor: ({ theme }) => theme.TERTIARY_BACKGROUND,
+    backgroundColor: ({ theme }) => theme.BACKGROUND_2,
     color: 'hsl(0 0% 60%)',
   },
   btnContainer: {
     height: '70%',
     display: 'flex',
-    gap: 'var(--size-5)',
   },
   dropdownContainer: {
     height: '70%',
@@ -194,11 +192,11 @@ const useStyles = createUseStyles({
     },
     '& > ul': {
       right: '0',
-      backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
+      backgroundColor: ({ theme }) => theme.BACKGROUND_1,
     },
     '& *': {
       border: 'none',
-      backgroundColor: ({ theme }) => theme.BASE_BACKGROUND,
+      // backgroundColor: ({ theme }) => theme.BACKGROUND,
     },
   },
   '@media (max-width: 780px)': {

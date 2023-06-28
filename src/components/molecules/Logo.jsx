@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
     fontSize: SIZES_REM.SIZE_32,
     fontWeight: '400',
     textDecoration: 'none',
-    color: ({ theme }) => theme.LOW_FADED_TEXT,
+    color: ({ theme }) => theme.TEXT_1,
     letterSpacing: '-1px',
     '@media (max-width: 920px)': {
       display: 'none',

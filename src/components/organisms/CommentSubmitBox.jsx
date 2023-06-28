@@ -51,13 +51,17 @@ const CommentSubmitBox = ({ postId, authorId }) => {
 
 const useStyles = createUseStyles({
   container: {
+    backgroundColor: ({ theme }) => theme.BACKGROUND,
     border: ({ theme }) => `1px solid ${theme.BORDER}`,
     borderRadius: SIZES_PX.SIZE_3,
-    backgroundColor: ({ theme }) => theme.PRIMARY_BACKGROUND,
   },
   textArea: {
-    padding: ({ theme }) => SIZES_PX.SIZE_10,
+    backgroundColor: ({ theme }) => theme.BACKGROUND_1,
+    padding: SIZES_PX.SIZE_10,
     border: 'none',
+    '&::placeholder': {
+      color: ({ theme }) => theme.TEXT_1,
+    },
   },
   buttonArea: {},
 });

@@ -74,7 +74,7 @@ const useStyles = createUseStyles({
     gap: 'var(--size-3)',
     padding: 0,
     height: 0,
-    background: ({ theme }) => theme.SECONDARY_BACKGROUND,
+    background: ({ theme }) => theme.BACKGROUND_1,
 
     overflow: 'hidden',
 

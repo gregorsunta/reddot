@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
 import { SIZES_REM, ACCENT, LIGHTNESS } from '../../constants/';
 import { useThemeContext } from '../../context';
+import Color from 'color';
 
 const useContainerStyles = createUseStyles({
   container: {
@@ -13,7 +14,7 @@ const useContainerStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
 
-    color: ({ theme }) => theme.PRIMARY_TEXT,
+    color: ({ theme }) => theme.TEXT,
     textDecoration: 'none',
 
     minWidth: 'min-content',
@@ -30,7 +31,7 @@ const useContainerStyles = createUseStyles({
     },
   },
   active: {
-    backgroundColor: ({ theme }) => 'red',
+    backgroundColor: ({ theme }) => theme.PRIMARY_1,
     borderBottom: '2px solid hsl(0, 0%, 50%)',
   },
   disabled: {
@@ -60,11 +61,14 @@ const useVariantStyles = createUseStyles({
     padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES_REM.SIZE_16}`,
-    color: ({ theme }) => theme.ACCENT,
-    borderColor: ({ theme }) => theme.ACCENT,
+    color: ({ theme }) => theme.PRIMARY,
+    borderColor: ({ theme }) => theme.PRIMARY,
     backgroundColor: 'transparent',
     '&:hover': {
-      backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_95})`,
+      backgroundColor: ({ theme }) =>
+        theme.ISLIGHTACTIVE
+          ? Color(theme.PRIMARY).lightness(95).toString()
+          : Color(theme.PRIMARY).fade(0.9).toString(),
     },
   },
   solid: {
@@ -72,9 +76,14 @@ const useVariantStyles = createUseStyles({
 
     whiteSpace: 'nowrap',
     borderRadius: `${SIZES_REM.SIZE_16}`,
-    backgroundColor: ({ theme }) => theme.ACCENT,
+    backgroundColor: ({ theme }) => theme.PRIMARY,
     color: 'white',
-    '&:hover': { backgroundColor: `hsl(${ACCENT.HS} ${LIGHTNESS.L_45})` },
+    '&:hover': {
+      backgroundColor: ({ theme }) =>
+        theme.ISLIGHTACTIVE
+          ? Color(theme.PRIMARY).lighten(0.1).toString()
+          : Color(theme.PRIMARY).lighten(0.1).toString(),
+    },
   },
   text: {
     padding: `${SIZES_REM.SIZE_2} ${SIZES_REM.SIZE_16}`,

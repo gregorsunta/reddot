@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button } from '../atoms/Button';
 import { Stack } from '../molecules/Stack';
-import { SIZES_REM } from '../../constants';
+import { SIZES_PX, SIZES_REM } from '../../constants';
 import { useThemeContext } from '../../context';
 
 const PostComment = observer(({ comment = {} }) => {
@@ -11,16 +11,31 @@ const PostComment = observer(({ comment = {} }) => {
   const { data: authorData = {} } = author;
   const { displayName, profilePicURL } = authorData;
   const { theme } = useThemeContext();
-  const { fadedButton } = useStyles({ theme });
+  const {
+    container,
+    fadedButton,
+    author: authorClassname,
+    commentLine,
+    commentLineContainer,
+  } = useStyles({ theme });
 
   return (
-    <Stack orientation="row">
+    <Stack orientation="row" className={container}>
       <Stack orientation="row" alignItems="start">
-        <Button variant="icon" type="button" width={'25px'}>
-          <img src={profilePicURL} alt="" />
-        </Button>
         <Stack>
-          <p>{displayName}</p>
+          <Button variant="icon" type="button" width={'25px'}>
+            <img src={profilePicURL} alt="" />
+          </Button>
+          <Stack
+            justifyContent={'center'}
+            alignItems={'center'}
+            className={commentLineContainer}
+          >
+            <div className={commentLine}></div>
+          </Stack>
+        </Stack>
+        <Stack>
+          <p className={authorClassname}>{displayName}</p>
           <p>{text}</p>
           <Stack orientation="row">
             <Button
@@ -55,10 +70,35 @@ const PostComment = observer(({ comment = {} }) => {
 });
 
 const useStyles = createUseStyles({
+  container: {
+    position: 'relative',
+  },
   fadedButton: {
     fontWeight: '600',
     fontSize: SIZES_REM.SIZE_14,
     color: ({ theme }) => theme.MEDIUM_FADED_TEXT,
+  },
+  author: {
+    color: ({ theme }) => theme.TEXT_2,
+    fontSize: SIZES_REM.SIZE_12,
+    fontWeight: '600',
+  },
+  commentLineContainer: {
+    position: 'absolute',
+    top: SIZES_REM.SIZE_28,
+    left: '8px',
+    bottom: 0,
+    width: '8px',
+    '&:hover': {
+      '& *': {
+        backgroundColor: ({ theme }) => theme.BORDER_1,
+      },
+    },
+  },
+  commentLine: {
+    backgroundColor: ({ theme }) => theme.BORDER,
+    width: '2.25px',
+    height: '100%',
   },
 });
 

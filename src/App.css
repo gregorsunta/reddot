@@ -2,24 +2,4 @@
 @import url('./assets/reset-styles.css');
 :root {
   font-family: 'Ubuntu';
-
-  --size-08: 0.034rem;
-  --size-09: 0.056rem;
-  --size-0: 0.1rem;
-  --size-1: 0.146rem;
-  --size-2: 0.236rem;
-  --size-3: 0.382rem;
-  --size-4: 0.618rem;
-  --size-5: 1rem;
-  --size-5-5: 1.3rem;
-  --size-6: 1.618rem;
-  --size-6-5: 2rem;
-  --size-7: 2.618rem;
-  --size-8: 4.236rem;
-  --size-9: 6.854rem;
-  --size-10: 11.089rem;
-  /* --accent-hue: 162; */
-  --accent-hue: 145;
-  /* --accent-saturation: 88%; */
-  --accent-saturation: 65%;
 }

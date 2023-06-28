@@ -76,8 +76,7 @@ const BriefPostPanel = ({ post = {} }) => {
 const useStyles = createUseStyles({
   container: {
     '&:hover': {
-      // borderColor: ({ theme }) => theme.HIGHLIGHTED_BORDER,
-      borderColor: ({ theme }) => theme.HIGHLIGHTED_BORDER,
+      borderColor: ({ theme }) => theme.BORDER_1,
     },
   },
   authorInformation: {

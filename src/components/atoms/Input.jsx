@@ -27,10 +27,10 @@ const Input = ({
 const useStyles = createUseStyles({
   container: {
     color: ({ theme }) => theme.PRIMARY_TEXT,
-    backgroundColor: ({ theme }) => theme.TERTIARY_BACKGROUND,
+    backgroundColor: ({ theme }) => theme.BACKGROUND_2,
     border: ({ theme }) => `1px solid ${theme.BORDER}`,
     '&::placeholder': {
-      color: ({ theme }) => theme.PRIMARY_TEXT,
+      color: ({ theme }) => theme.TEXT,
     },
     '&:focus': {
       outline: ({ theme }) => `1.5px solid ${theme.HIGHLIGHTED_BORDER}`,
