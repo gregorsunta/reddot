@@ -1,13 +1,6 @@
-import {
-  makeObservable,
-  observable,
-  action,
-  reaction,
-  when,
-  makeAutoObservable,
-} from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { userStore } from './';
+import { contentStore } from './';
 
 class AuthStore {
   user = null;
@@ -23,10 +16,10 @@ class AuthStore {
       let unsubscribe;
       if (!!user) {
         this.setUser(user);
-        unsubscribe = userStore.subscribeToUser(user.uid);
+        unsubscribe = contentStore.subscribeToUser(user.uid);
       } else {
         this.setUser(null);
-        userStore.removeUserFromStore();
+        contentStore.resetUser();
         unsubscribe && unsubscribe();
       }
     });

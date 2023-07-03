@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { authStore, commentStore, postStore } from '../stores';
+import { contentStore } from '../stores';
 import { toJS } from 'mobx';
 
 const useDebugClick = () => {
   useEffect(() => {
     const handleDebugClick = () => {
-      console.log(toJS(commentStore.comments));
+      console.log(toJS(contentStore.posts));
     };
     window.addEventListener('click', handleDebugClick);
     return () => {

@@ -10,8 +10,8 @@ import { PostPage } from '../components/pages/PostPage.jsx';
 import { toJS } from 'mobx';
 
 const RouterConfig = observer(() => {
-  const { userStore } = useStores();
-  const user = toJS(userStore._user);
+  const { contentStore } = useStores();
+  const user = toJS(contentStore.user);
   return (
     <>
       <Routes>

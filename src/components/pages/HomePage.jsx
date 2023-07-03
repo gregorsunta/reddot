@@ -3,8 +3,8 @@ import { toJS } from 'mobx';
 import { useFirestoreService } from '../../context/firestoreServiceContext';
 import { PostPanel, BriefPostPanel, CreatePost } from '../organisms/';
 import MainTemplate from '../templates/MainTemplate';
-import { Button, Input } from '../atoms';
-import { Stack, Panel } from '../molecules/';
+import { Button, Input, Stack } from '../atoms';
+import { Panel } from '../molecules/';
 import { useStores } from '../../context/authStoreContext';
 import { SIZES_REM, SIZES_PX } from '../../constants';
 import { observer } from 'mobx-react';
@@ -44,40 +44,42 @@ const anonymousSide = (
 );
 
 const HomePage = observer(() => {
-  const { authStore, postStore } = useStores();
+  const { contentStore } = useStores();
   const [postComponents, setPostComponents] = useState(null);
-  const [postFieldFilter, setPostFilter] = useState('timestamp');
-  const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
-  const [postLimitFilter, setPostLimitFilter] = useState(10);
-  const posts = toJS(postStore.posts);
+  // const [postFieldFilter, setPostFilter] = useState('timestamp');
+  // const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
+  // const [postLimitFilter, setPostLimitFilter] = useState(10);
+  const posts = toJS(contentStore.posts);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        await postStore.fetchPostsForListWithSnapshot(
-          postFieldFilter,
-          postDirectionFilter,
-          postLimitFilter,
-        );
+        await contentStore.getPostsForListByTimestampWithDebounce(0);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchPosts();
-    return () => {};
-  }, [postFieldFilter, postDirectionFilter, postLimitFilter]);
+
+    if (posts.length === 0) {
+      setTimeout(fetchPosts, 1000);
+    }
+    return () => {
+      contentStore.resetPosts();
+    };
+  }, []);
 
   return (
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
-          {authStore.user && <CreatePost />}
+          {contentStore.user && <CreatePost />}
+          {console.log(posts)}
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
         </Stack>
       }
-      side={authStore.user ? authenticatedSide(authStore) : anonymousSide}
+      side={contentStore.user ? authenticatedSide(contentStore) : anonymousSide}
     ></MainTemplate>
   );
 });

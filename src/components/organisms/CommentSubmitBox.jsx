@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { Button, TextArea } from '../atoms';
-import { Stack } from '../molecules';
+import { Button, TextArea, Stack } from '../atoms';
 import { useStores, useThemeContext } from '../../context';
 import { SIZES_PX, SIZES_REM } from '../../constants';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import Color from 'color';
+import { firestoreService } from '../../services/firestore/FirestoreService';
 
 const CommentSubmitBox = observer(({ postId, authorId }) => {
   const [commentText, setCommentText] = useState();
   const { theme } = useThemeContext();
-  const { commentStore, userStore } = useStores();
-  const user = toJS(userStore._user);
+  const { contentStore } = useStores();
+  const user = toJS(contentStore.user);
   const { container, textArea, buttonArea, mask } = useStyles({
     theme,
   });
@@ -25,7 +25,7 @@ const CommentSubmitBox = observer(({ postId, authorId }) => {
       upvotes: 1,
     };
     try {
-      await commentStore.addComment(user.id, postId, obj);
+      await firestoreService.addComment(user.id, postId, obj);
     } catch (err) {
       console.error(err);
     }

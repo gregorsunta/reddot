@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { SIZES_REM } from '../../../constants';
-import { Input } from '../../atoms';
-import { Panel, Stack } from '../../molecules/';
+import { Input, Stack } from '../../atoms';
+import { Panel } from '../../molecules/';
 import { useStores } from '../../../context/authStoreContext';
 
 const CreatePost = () => {

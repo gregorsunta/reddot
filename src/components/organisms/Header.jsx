@@ -9,15 +9,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import AuthService from '../../services/AuthService';
-import {
-  ButtonGroup,
-  Dropdown,
-  Logo,
-  Modal,
-  Panel,
-  Stack,
-} from '../molecules/';
-import { Button, Input } from '../atoms/';
+import { Button, Input, Stack } from '../atoms/';
+import { ButtonGroup, Dropdown, Logo, Modal, Panel } from '../molecules/';
 import { LogInForm } from './';
 import classNames from 'classnames';
 import { useStores, useThemeContext } from '../../context';

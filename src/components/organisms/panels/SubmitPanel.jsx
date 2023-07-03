@@ -9,21 +9,21 @@ import {
 } from 'react-ionicons';
 import { ButtonGroup } from '../../molecules/ButtonGroup.jsx';
 import { uuidv4 } from '@firebase/util';
-import { Button } from '../../atoms/Button';
+import { Button, Stack } from '../../atoms';
 import { observer } from 'mobx-react';
 import { useFirestoreService } from '../../../context/firestoreServiceContext';
 import { useStores } from '../../../context/authStoreContext';
-import { Panel, Stack } from '../../molecules';
+import { Panel } from '../../molecules';
 import { createUseStyles } from 'react-jss';
 import { InputBox } from '../.';
 import { Input } from '../../atoms/Input.jsx';
 
 const SubmitPanel = observer(() => {
-  const { postStore } = useStores();
+  const { contentStore } = useStores();
+  const {} = useFirestoreService();
   const [activeType, setActiveType] = useState('text');
   const [title, setTitle] = useState('');
   const [postContent, setPostContent] = useState('');
-
   const { container, btnsContainer, btn, input, textArea, active } =
     useStyles();
 
@@ -36,7 +36,7 @@ const SubmitPanel = observer(() => {
   const submitPost = () => {
     const type = activeType;
     if (type === 'text') {
-      postStore.addPost({
+      contentStore.addPost({
         title: title,
         text: postContent,
       });

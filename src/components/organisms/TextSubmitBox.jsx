@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, TextArea } from '../atoms';
-import { Stack } from '../molecules';
+import { Stack } from '../atoms';
 
 const TextSubmitBox = ({
   className,

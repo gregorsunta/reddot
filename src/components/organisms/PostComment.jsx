@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react';
 import { createUseStyles } from 'react-jss';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
-import { Button } from '../atoms/Button';
-import { Stack } from '../molecules/Stack';
+import { Button, Stack } from '../atoms';
 import { SIZES_PX, SIZES_REM } from '../../constants';
-import { useThemeContext } from '../../context';
+import { useStores, useThemeContext } from '../../context';
 import { useState } from 'react';
+import { firestoreService } from '../../services/firestore/FirestoreService';
 
-const PostComment = observer(({ comment = {} }) => {
-  const { text, upvotes, author = {}, downvotes } = comment?.data;
+const PostComment = observer(({ comment = {}, post = {} }) => {
+  const { text, upvotes, author = {}, downvotes } = comment;
   const { data: authorData = {} } = author;
   const { displayName, profilePicURL } = authorData;
   const { theme } = useThemeContext();
@@ -21,14 +21,16 @@ const PostComment = observer(({ comment = {} }) => {
     hide,
   } = useStyles({ theme });
   const [postHidden, setPostHidden] = useState();
+  const { contentStore, authStore } = useStores();
 
   return (
     <Stack orientation="row" className={container}>
       <Stack orientation="row" alignItems="start">
-        <Stack>
+        <Stack orientation="row">
           <Button variant="icon" type="button" width={'25px'}>
             <img src={profilePicURL} alt="" />
           </Button>
+
           <Stack
             justifyContent={'center'}
             alignItems={'center'}
@@ -39,7 +41,25 @@ const PostComment = observer(({ comment = {} }) => {
           </Stack>
         </Stack>
         <Stack>
-          <p className={authorClassname}>{displayName}</p>
+          <Stack orientation="row" justifyContent="space-between">
+            <p className={authorClassname}>{displayName}</p>
+            {authStore.user && (
+              <Button
+                variant="icon"
+                type="button"
+                width={'5px'}
+                onClick={() => {
+                  firestoreService.removeComment(
+                    contentStore.user.id,
+                    post.id,
+                    comment.id,
+                  );
+                }}
+              >
+                D
+              </Button>
+            )}
+          </Stack>
           <p>{text}</p>
           <Stack orientation="row" className={postHidden && hide}>
             <Button

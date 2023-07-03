@@ -1,15 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
-import { Button } from '../../atoms/Button.jsx';
-import { Stack, Panel } from '../../molecules';
+import { Button, Stack } from '../../atoms';
+import { Panel } from '../../molecules';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_REM } from '../../../constants/StyleConstants.js';
 
 const BriefPostPanel = ({ post = {} }) => {
-  const { data, id } = post;
-  const { author, title, text, upvotes, downvotes } = data;
-  const { data: authorData } = author;
+  const { author, title, text, upvotes, downvotes, id } = post;
   const navigate = useNavigate();
   const { theme } = useThemeContext();
   const { container, authorInformation } = useStyles({ theme });
@@ -36,7 +34,7 @@ const BriefPostPanel = ({ post = {} }) => {
     >
       <Stack data-click-id="post">
         <span className={authorInformation}>
-          Posted by {authorData.displayName}
+          Posted by {author.displayName}
         </span>
         <p>{title}</p>
         <p>{text}</p>

@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import createAuthService from '../../services/AuthService';
 import MainTemplate from '../templates/MainTemplate';
-import { Button, Input } from '../atoms';
-import { Panel, Stack } from '../molecules';
+import { Button, Input, Stack } from '../atoms';
+import { Panel } from '../molecules';
 import { LogInForm } from '../organisms';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';

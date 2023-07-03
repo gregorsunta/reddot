@@ -1,8 +1,39 @@
-import { addDoc, collection, doc, getFirestore } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  increment,
+  limit as queryLimit,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+  writeBatch,
+  arrayUnion,
+  arrayRemove,
+  startAfter,
+  onSnapshot,
+  where,
+  getFirestore,
+} from 'firebase/firestore';
 
 class FirestoreService {
   init = (app) => {
     this.firestore = getFirestore(app);
+  };
+
+  updateDocument = async (ref, obj) => {
+    updateDoc(ref, obj);
+  };
+
+  updateDocumentWithBatch = async (ref, obj, batch) => {
+    if (batch) {
+      await batch.update(ref, obj);
+    } else {
+      console.error('Expected WriteBatch, got: ', batch);
+    }
   };
 
   addDocument = async (collectionName, documentName) => {
@@ -16,50 +47,73 @@ class FirestoreService {
     }
   };
 
-  getDocumentRef = (collectionName, documentName) => {
-    return doc(this.firestore, collectionName, documentName);
+  getDocument = async (ref) => {
+    try {
+      return await getDoc(ref);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  // saveImagePost = async (post) => {
-  //   try {
-  //     // save the post in firestore (structured text) and firebase storage (images etc)
-  //     const postRef = await this.addDocument('posts', {
-  //       name: '',
-  //       title: post.title,
-  //       imageUrl: 'LOADING',
-  //       timestamp: serverTimestamp(),
-  //     });
+  getDocumentsByQuery = async (query) => {
+    try {
+      return await getDocs(query);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  //     const filePath = `${getAuth().currentUser.uid}/${postRef.id}/${
-  //       post.name
-  //     }`;
+  getDocumentRef = (collectionName, documentId) => {
+    return doc(this.firestore, collectionName, documentId);
+  };
 
-  //     const imageRef = ref(getStorage(), filePath);
-  //     const fileSnapshot = await uploadBytesResumable(imageRef, filePath);
-  //     const publicImageUrl = getDownloadURL(imageRef);
+  attachOnSnapshot = async (docRef, cb) => {
+    // return an unsubscribe function
+    return onSnapshot(docRef, (doc) => {
+      cb(doc);
+    });
+  };
 
-  //     await updateDoc(postRef, {
-  //       imageUrl: publicImageUrl,
-  //       storageUri: fileSnapshot.metadata.fullPath,
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  setToBatch = async (ref, obj, batch) => {
+    if (batch) {
+      batch.set(ref, obj);
+    } else {
+      console.error('Expected WriteBatch, got: ', batch);
+    }
+  };
 
-  // updateDocumentWithRef = async (
-  //   collectionName,
-  //   documentRef,
-  //   updatedDocument,
-  // ) => {
-  //   try {
-  //     const postRef = this.addDocument(collectionName, documentName);
+  updateToBatch = async (ref, obj, batch) => {
+    if (batch) {
+      batch.update(ref, obj);
+    } else {
+      console.error('Expected WriteBatch, got: ', batch);
+    }
+  };
 
-  //     await updateDoc(documentRef, {
-  //       comments: { commentIds: commentRef.id },
-  //     });
-  //   } catch (err) {}
-  // };
+  getDocumentsByIds = async (ids, path) => {
+    if (!ids || !ids.length || !path) {
+      console.info('Aborting getContentById() due to parameters missing');
+      return [];
+    }
+
+    const collectionRef = collection(firestoreService.firestore, path);
+    const batches = [];
+
+    while (ids.length) {
+      const batch = ids.splice(0, 10);
+      const q = query(collectionRef, where('__name__', 'in', batch));
+      batches.push(
+        getDocs(q).then((querySnapshot) =>
+          querySnapshot.docs.map((doc) => {
+            return { ...doc.data(), id: doc.id };
+          }),
+        ),
+      );
+    }
+
+    // after all of the data is fetched, return it
+    return Promise.all(batches).then((content) => content.flat());
+  };
 }
 const firestoreService = new FirestoreService();
 export { firestoreService };

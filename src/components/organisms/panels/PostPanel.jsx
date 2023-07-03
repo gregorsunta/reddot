@@ -2,35 +2,44 @@ import { useEffect, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
-import { Button } from '../../atoms';
-import { Stack, Panel } from '../../molecules';
+import { Button, Stack } from '../../atoms';
+import { Panel } from '../../molecules';
 import { PostComment, CommentSubmitBox } from '../';
 import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
-import { commentStore } from '../../../stores';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
+import { useStores } from '../../../context';
 
 const PostPanel = observer(({ post }) => {
-  const { data = {}, id = {} } = post;
-  const { author, title, text, upvotes, downvotes, profilePicURL, commentIds } =
-    data;
+  const {
+    author,
+    title,
+    text,
+    upvotes,
+    downvotes,
+    profilePicURL,
+    commentIds,
+    id,
+  } = post;
+
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });
-  const comments = toJS(commentStore._comments);
+  const { contentStore } = useStores();
+  const comments = toJS(contentStore.comments);
 
   useEffect(() => {
     const getComments = async () => {
       try {
-        await commentStore.fetchCommentsForListWithSnapshotDebounce(commentIds);
+        await contentStore.getCommentsForListByIds(...commentIds);
       } catch (err) {
         console.error('Failed to get comments: ', err);
       }
     };
-    getComments(commentIds);
+    getComments();
     return () => {
-      commentStore.resetCommentList();
+      contentStore.resetComments();
     };
   }, [commentIds]);
 
@@ -72,7 +81,11 @@ const PostPanel = observer(({ post }) => {
         <CommentSubmitBox postId={id} authorId={author?.id}></CommentSubmitBox>
         <Stack>
           {comments?.map((comment) => (
-            <PostComment key={comment.id} comment={comment}></PostComment>
+            <PostComment
+              key={comment.id}
+              comment={comment}
+              post={post}
+            ></PostComment>
           ))}
         </Stack>
       </Stack>

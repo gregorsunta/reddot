@@ -28,6 +28,8 @@ const App = () => {
   const { light, dark } = THEMES;
   const [theme, setTheme] = useState(light);
 
+  useDebugClick();
+
   // global styles
   const styles = {
     '@global': {

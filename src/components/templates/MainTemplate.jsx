@@ -1,6 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { Stack } from '../molecules/';
+import { Stack } from '../atoms';
 import { LIGHTNESS, NEUTRAL, SIZES_REM, SIZES_PX } from '../../constants';
 import { useThemeContext } from '../../context';
 import { ErrorBoundary } from '../../utils/';
