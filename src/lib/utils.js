@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
 
-export const debounce = (callback, delay = 2000) => {
+export const debounce = (callback, delay = 500) => {
   let timer = null;
   return (...args) => {
     clearTimeout(timer);

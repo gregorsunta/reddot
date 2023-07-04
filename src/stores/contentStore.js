@@ -40,8 +40,8 @@ class ContentStore {
     this.posts.push(...posts);
   };
 
-  pushToComments = (comments) => {
-    this.comments.push(comments);
+  pushToComments = (...comments) => {
+    this.comments.push(...comments);
   };
 
   // list reading functions
@@ -68,6 +68,7 @@ class ContentStore {
     ];
     const posts = await Posts.fetchPostsByQueryParams();
     const postsWithAuthors = await addAuthorsToPosts(posts);
+    this.resetPosts();
     this.pushToPosts(...postsWithAuthors);
   };
 
@@ -86,6 +87,22 @@ class ContentStore {
     this.resetComments();
     this.pushToComments(...comments);
   };
+
+  getCommentsWithAuthorsForListByIds = async (...commentIds) => {
+    const comments = await Comments.fetchCommentsByIds(commentIds);
+    const commentsWithAuthors = comments.map(async (comment) => {
+      const author = await Users.fetchUserByUserId(comment.authorId);
+      console.log(author);
+      return { ...comment, author: { ...author } };
+    });
+    this.resetComments();
+    const awaitedCommentsWithAuthors = await Promise.all(commentsWithAuthors);
+    this.pushToComments(...awaitedCommentsWithAuthors);
+  };
+
+  getCommentsWithAuthorsForListByIdsWithDebounce = debounce(
+    this.getCommentsWithAuthorsForListByIds,
+  );
 
   subscribeToUser = async (userId) => {
     const userRef = getUserRefById(userId);

@@ -9,8 +9,7 @@ import { firestoreService } from '../../services/firestore/FirestoreService';
 
 const PostComment = observer(({ comment = {}, post = {} }) => {
   const { text, upvotes, author = {}, downvotes } = comment;
-  const { data: authorData = {} } = author;
-  const { displayName, profilePicURL } = authorData;
+  const { displayName, profilePicURL } = author;
   const { theme } = useThemeContext();
   const {
     container,

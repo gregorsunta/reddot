@@ -68,7 +68,7 @@ export const removeComment = async (userId, postId, commentId) => {
 };
 
 export const fetchCommentsByIds = async (commentIds) => {
-  if (!commentIds) {
+  if (commentIds.length === 0 || !commentIds) {
     console.info('CommentIds from post missing, aborting getCommentsByPostId.');
     return null;
   }

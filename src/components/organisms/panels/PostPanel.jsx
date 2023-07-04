@@ -32,7 +32,9 @@ const PostPanel = observer(({ post }) => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        await contentStore.getCommentsForListByIds(...commentIds);
+        await contentStore.getCommentsWithAuthorsForListByIdsWithDebounce(
+          ...commentIds,
+        );
       } catch (err) {
         console.error('Failed to get comments: ', err);
       }
