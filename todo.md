@@ -1,9 +1,10 @@
 ## UI
 
 - [x] basic post display functionality
-- [ ] post display based on search bar
-- [ ] pagination on post display
+- [ ] post search
+- ~~[ ] pagination on post display~~
 - [ ] loading screens (loading icon and skeleton loading)
+- [ ] connection error screen
 
 ## Code
 
@@ -20,7 +21,7 @@
 ## Design
 
 - [x] stack component
-- [ ] grid component
 - [x] make login component reusable
-- [ ] search functionality - should use a trigram
 - [x] add dark theme
+- [ ] grid component
+- [ ] search functionality - should use a trigram
