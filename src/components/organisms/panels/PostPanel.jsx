@@ -32,14 +32,14 @@ const PostPanel = observer(({ post }) => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        await contentStore.getCommentsWithAuthorsForListByIdsWithDebounce(
-          ...commentIds,
-        );
+        await contentStore.getCommentsWithAuthorsForListByIds(...commentIds);
       } catch (err) {
         console.error('Failed to get comments: ', err);
       }
     };
-    getComments();
+    if (commentIds) {
+      getComments();
+    }
     return () => {
       contentStore.resetComments();
     };
@@ -97,7 +97,7 @@ const PostPanel = observer(({ post }) => {
 
 PostPanel.propTypes = {
   post: PropTypes.shape({
-    author: PropTypes.string,
+    author: PropTypes.object,
     title: PropTypes.string,
     text: PropTypes.string,
   }),

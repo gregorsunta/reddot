@@ -8,6 +8,7 @@ import { Panel } from '../molecules/';
 import { useStores } from '../../context/authStoreContext';
 import { SIZES_REM, SIZES_PX } from '../../constants';
 import { observer } from 'mobx-react';
+import { debounce } from '../../lib/utils';
 
 const authenticatedSide = (authStore) => (
   <Stack orientation="column" spacing={SIZES_REM.SIZE_16}>
@@ -46,26 +47,22 @@ const anonymousSide = (
 const HomePage = observer(() => {
   const { contentStore } = useStores();
   const [postComponents, setPostComponents] = useState(null);
-  // const [postFieldFilter, setPostFilter] = useState('timestamp');
-  // const [postDirectionFilter, setPostDirectionFilter] = useState('desc');
-  // const [postLimitFilter, setPostLimitFilter] = useState(10);
   const posts = toJS(contentStore.posts);
+  // implement page load if page exists in store
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        await contentStore.getPostsForListByTimestampWithDebounce(0);
+        await contentStore.getPostsForListByTimestamp(0);
       } catch (err) {
         console.error(err);
       }
     };
 
     if (posts.length === 0) {
-      setTimeout(fetchPosts, 1000);
+      fetchPosts();
     }
-    return () => {
-      contentStore.resetPosts();
-    };
+    return () => {};
   }, []);
 
   return (
@@ -73,7 +70,6 @@ const HomePage = observer(() => {
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
           {contentStore.user && <CreatePost />}
-          {console.log(posts)}
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}

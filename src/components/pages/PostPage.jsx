@@ -23,13 +23,12 @@ const PostPage = observer(() => {
       }
     };
     const existingPost = contentStore.findPostOnListByPostId(postId);
-
     if (existingPost) {
       setPost(existingPost);
     } else {
       fetchPost();
     }
-  }, [postId]);
+  }, []);
 
   return (
     <MainTemplate

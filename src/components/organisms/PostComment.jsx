@@ -27,7 +27,7 @@ const PostComment = observer(({ comment = {}, post = {} }) => {
       <Stack orientation="row" alignItems="start">
         <Stack orientation="row">
           <Button variant="icon" type="button" width={'25px'}>
-            <img src={profilePicURL} alt="" />
+            <img src={profilePicURL} referrerPolicy="no-referrer" alt="" />
           </Button>
 
           <Stack

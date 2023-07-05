@@ -4,17 +4,20 @@ import { makeAutoObservable, runInAction, toJS } from 'mobx';
 import { firestoreService } from '../services/firestore/FirestoreService';
 import { limit, onSnapshot, orderBy, startAt } from 'firebase/firestore';
 import {
+  addAuthorToPost,
   addAuthorsToPosts,
   fetchPostsByQueryParams,
   getPostReferenceByPostId,
 } from '../lib/Posts';
-import { debounce } from '../lib/utils';
 import { getUserRefById } from '../lib/Users';
 
 class ContentStore {
   constructor() {
     makeAutoObservable(this);
   }
+  fetchingUser = false;
+  fetchingPosts = false;
+  fetchingComments = false;
   user = {};
   posts = [];
   comments = [];
@@ -38,6 +41,7 @@ class ContentStore {
 
   pushToPosts = (...posts) => {
     this.posts.push(...posts);
+    console.log(toJS(this.posts));
   };
 
   pushToComments = (...comments) => {
@@ -55,12 +59,28 @@ class ContentStore {
   // async list manipulating functions
 
   getUserForListById = async (id) => {
+    if (this.fetchingUser) {
+      console.info(
+        'getPostsForListByTimestamp() is already fetching user. Aborting.',
+      );
+      return;
+    }
+    this.fetchingUser = true;
+
     const user = await Users.fetchUserByUserId(id);
     this.resetUser();
     this.addUser(user);
+    this.fetchingUser = false;
   };
 
   getPostsForListByTimestamp = async (startAtValue = 0) => {
+    if (this.fetchingPosts) {
+      console.info(
+        'getPostsForListByTimestamp() is already fetching posts. Aborting.',
+      );
+      return;
+    }
+    this.fetchingPosts = true;
     const params = [
       orderBy('timestamp', 'desc'),
       limit(10),
@@ -70,39 +90,56 @@ class ContentStore {
     const postsWithAuthors = await addAuthorsToPosts(posts);
     this.resetPosts();
     this.pushToPosts(...postsWithAuthors);
+    this.fetchingPosts = false;
   };
 
-  getPostsForListByTimestampWithDebounce = debounce(
-    this.getPostsForListByTimestamp,
-  );
-
   getPostForListByPostId = async (id) => {
+    if (this.fetchingPosts) {
+      console.info(
+        'getPostForListByPostId() is already fetching posts. Aborting.',
+      );
+      return;
+    }
+    this.fetchingPosts = true;
     const postRef = getPostReferenceByPostId(id);
     const post = await firestoreService.getDocument(postRef);
-    this.pushToPosts({ id: post.id, ...post.data() });
+    const postWithAuthor = await addAuthorToPost(post.data());
+    this.pushToPosts({ id: post.id, ...postWithAuthor });
+    this.fetchingPosts = false;
   };
 
   getCommentsForListByIds = async (...ids) => {
+    if (this.fetchingComments) {
+      console.info(
+        'getCommentsForListByIds() is already fetching comments. Aborting.',
+      );
+      return;
+    }
+    this.fetchingComments = true;
     const comments = await Comments.fetchCommentsByIds(ids);
     this.resetComments();
     this.pushToComments(...comments);
+    this.fetchingComments = false;
   };
 
   getCommentsWithAuthorsForListByIds = async (...commentIds) => {
+    if (this.fetchingComments) {
+      console.info(
+        'getCommentsForListByIds() is already fetching comments. Aborting.',
+      );
+      return;
+    }
+    this.fetchingComments = true;
     const comments = await Comments.fetchCommentsByIds(commentIds);
     const commentsWithAuthors = comments.map(async (comment) => {
       const author = await Users.fetchUserByUserId(comment.authorId);
-      console.log(author);
       return { ...comment, author: { ...author } };
     });
     this.resetComments();
     const awaitedCommentsWithAuthors = await Promise.all(commentsWithAuthors);
     this.pushToComments(...awaitedCommentsWithAuthors);
+    this.fetchingComments = false;
   };
-
-  getCommentsWithAuthorsForListByIdsWithDebounce = debounce(
-    this.getCommentsWithAuthorsForListByIds,
-  );
 
   subscribeToUser = async (userId) => {
     const userRef = getUserRefById(userId);
