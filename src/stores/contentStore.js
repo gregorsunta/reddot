@@ -41,7 +41,6 @@ class ContentStore {
 
   pushToPosts = (...posts) => {
     this.posts.push(...posts);
-    console.log(toJS(this.posts));
   };
 
   pushToComments = (...comments) => {
