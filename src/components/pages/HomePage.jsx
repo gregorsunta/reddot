@@ -45,11 +45,10 @@ const anonymousSide = (
 );
 
 const HomePage = observer(() => {
-  const { contentStore } = useStores();
+  const { authStore, contentStore } = useStores();
   const [postComponents, setPostComponents] = useState(null);
   const posts = toJS(contentStore.posts);
   // implement page load if page exists in store
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -69,13 +68,13 @@ const HomePage = observer(() => {
     <MainTemplate
       content={
         <Stack orientation="column" spacing={SIZES_PX.SIZE_16}>
-          {contentStore.user && <CreatePost />}
+          {authStore.user && <CreatePost />}
           {posts?.map((post) => (
             <BriefPostPanel post={post} key={post.id}></BriefPostPanel>
           ))}
         </Stack>
       }
-      side={contentStore.user ? authenticatedSide(contentStore) : anonymousSide}
+      side={authStore.user ? authenticatedSide(contentStore) : anonymousSide}
     ></MainTemplate>
   );
 });

@@ -37,7 +37,7 @@ const PostPanel = observer(({ post }) => {
         console.error('Failed to get comments: ', err);
       }
     };
-    if (commentIds) {
+    if (commentIds && commentIds.length > 0) {
       getComments();
     }
     return () => {
