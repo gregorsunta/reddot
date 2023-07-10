@@ -5,6 +5,7 @@ const firebaseConfig = {
   storageBucket: 'reddot-b1116.appspot.com',
   messagingSenderId: '753035621309',
   appId: '1:753035621309:web:a0d1d6580dd8b6632b98d4',
+  measurementId: 'G-ZMXS86H52D',
 };
 
 function getFirebaseConfig() {
