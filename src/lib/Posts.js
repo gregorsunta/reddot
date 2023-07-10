@@ -79,7 +79,7 @@ export const fetchPost = async (postId) => {
 // export const fetchPostDebounce = debounce(fetchPost);
 
 export const fetchPostWithOwner = async (postId) => {
-  const post = await this.fetchPost(postId);
+  const post = await fetchPost(postId);
   const author = await Users.fetchUserByUserId(post.id);
   return { ...post, ...author };
 };

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { observe, toJS } from 'mobx';
 import { observer } from 'mobx-react';
+import { Posts } from '../../lib';
 
 const PostPage = observer(() => {
   const { postId } = useParams();
@@ -15,8 +16,7 @@ const PostPage = observer(() => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        await contentStore.getPostForListByPostId(postId);
-        const post = contentStore.findPostOnListByPostId(postId);
+        const post = await Posts.fetchPostWithOwner(postId);
         setPost(post);
       } catch (err) {
         console.error(err);

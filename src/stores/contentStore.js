@@ -79,7 +79,7 @@ class ContentStore {
     this.fetchingUser = false;
   };
 
-  getPostsForListByTimestamp = async (startAtValue = 0) => {
+  getPostsForListByTimestamp = async (lastPostId) => {
     if (this.fetchingPosts) {
       console.info(
         'getPostsForListByTimestamp() is already fetching posts. Aborting.',
@@ -88,12 +88,21 @@ class ContentStore {
     }
     this.fetchingPosts = true;
 
-    const q = query(
-      collection(firestoreService.firestore, 'posts'),
-      orderBy('timestamp', 'desc'),
-      limit(10),
-      startAt(startAtValue),
-    );
+    let q;
+    if (lastPostId) {
+      q = query(
+        collection(firestoreService.firestore, 'posts'),
+        orderBy('timestamp', 'desc'),
+        limit(10),
+        startAt(lastPostId),
+      );
+    } else {
+      q = query(
+        collection(firestoreService.firestore, 'posts'),
+        orderBy('timestamp', 'desc'),
+        limit(10),
+      );
+    }
 
     const posts = await Posts.fetchPostsByQueryParams(q);
     const postsWithAuthors = await addAuthorsToPosts(posts);
@@ -139,7 +148,7 @@ class ContentStore {
       return;
     }
     this.fetchingComments = true;
-    const comments = Comments.getCommentsByIdsWithAuthors(commentIds);
+    const comments = await Comments.getCommentsByIdsWithAuthors(commentIds);
     this.resetComments();
     this.pushToComments(...comments);
     this.fetchingComments = false;
