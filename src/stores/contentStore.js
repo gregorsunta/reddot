@@ -2,7 +2,14 @@ import { Posts, Users, Comments } from '../lib';
 import { makeAutoObservable, runInAction, toJS } from 'mobx';
 
 import { firestoreService } from '../services/firestore/FirestoreService';
-import { limit, onSnapshot, orderBy, startAt } from 'firebase/firestore';
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  startAt,
+} from 'firebase/firestore';
 import {
   addAuthorToPost,
   addAuthorsToPosts,
@@ -80,12 +87,15 @@ class ContentStore {
       return;
     }
     this.fetchingPosts = true;
-    const params = [
+
+    const q = query(
+      collection(firestoreService.firestore, 'posts'),
       orderBy('timestamp', 'desc'),
       limit(10),
-      // startAt(startAtValue),
-    ];
-    const posts = await Posts.fetchPostsByQueryParams();
+      startAt(startAtValue),
+    );
+
+    const posts = await Posts.fetchPostsByQueryParams(q);
     const postsWithAuthors = await addAuthorsToPosts(posts);
     this.resetPosts();
     this.pushToPosts(...postsWithAuthors);
@@ -129,14 +139,9 @@ class ContentStore {
       return;
     }
     this.fetchingComments = true;
-    const comments = await Comments.fetchCommentsByIds(commentIds);
-    const commentsWithAuthors = comments.map(async (comment) => {
-      const author = await Users.fetchUserByUserId(comment.authorId);
-      return { ...comment, author: { ...author } };
-    });
+    const comments = Comments.getCommentsByIdsWithAuthors(commentIds);
     this.resetComments();
-    const awaitedCommentsWithAuthors = await Promise.all(commentsWithAuthors);
-    this.pushToComments(...awaitedCommentsWithAuthors);
+    this.pushToComments(...comments);
     this.fetchingComments = false;
   };
 

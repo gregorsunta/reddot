@@ -105,3 +105,12 @@ export const addAuthorsToComments = (comments) => {
 
   return Promise.all(commentsWithAuthors);
 };
+
+export const getCommentsByIdsWithAuthors = async (commentIds) => {
+  const comments = await fetchCommentsByIds(commentIds);
+  const commentsWithAuthors = comments.map(async (comment) => {
+    const author = await Users.fetchUserByUserId(comment.authorId);
+    return { ...comment, author: { ...author } };
+  });
+  return await Promise.all(commentsWithAuthors);
+};

@@ -84,16 +84,11 @@ export const fetchPostWithOwner = async (postId) => {
   return { ...post, ...author };
 };
 
-export const fetchPostsByQueryParams = async () => {
+export const fetchPostsByQueryParams = async (query) => {
   console.info('fetchPostsByQueryParams()');
+
   try {
-    const q = query(
-      collection(firestoreService.firestore, 'posts'),
-      orderBy('timestamp', 'desc'),
-      limit(10),
-      // startAt(0),
-    );
-    const querySnapshot = await firestoreService.getDocumentsByQuery(q);
+    const querySnapshot = await firestoreService.getDocumentsByQuery(query);
     const fetchedPosts = [];
 
     querySnapshot.forEach((docSnap) => {
