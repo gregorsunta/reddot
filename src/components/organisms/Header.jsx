@@ -127,7 +127,11 @@ const Header = observer(({ className }) => {
   }, [showModal, authStore.user]);
 
   return (
-    <div className={allContainerClasses}>
+    <Stack
+      orientation="row"
+      alignItems="center"
+      className={allContainerClasses}
+    >
       <Logo className={logoContainer} />
 
       <Input className={searchBarContainer} placeholder={'Search reddot'} />
@@ -142,7 +146,7 @@ const Header = observer(({ className }) => {
           <Modal onClose={closeModal}>{modalContent}</Modal>,
           document.getElementById('root'),
         )}
-    </div>
+    </Stack>
   );
 });
 
@@ -153,8 +157,7 @@ Header.propTypes = {
 
 const useStyles = createUseStyles({
   container: {
-    display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'space-between',
     gap: '2vw',
     position: 'fixed',
     top: 0,
