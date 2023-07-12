@@ -31,7 +31,7 @@ class ContentStore {
 
   // basic list manipulating functions
   resetUser = () => {
-    this.user = [];
+    this.user = {};
   };
 
   resetPosts = () => {
@@ -54,7 +54,7 @@ class ContentStore {
     this.comments.push(...comments);
   };
 
-  // list reading functions
+  // store reading functions
 
   findPostOnListByPostId = (postId) => {
     const posts = toJS(this.posts);
@@ -62,7 +62,7 @@ class ContentStore {
     return post;
   };
 
-  // async list manipulating functions
+  // async store manipulating functions
 
   getUserForListById = async (id) => {
     if (this.fetchingUser) {

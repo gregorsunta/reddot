@@ -2,6 +2,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  increment,
   limit,
   orderBy,
   query,
@@ -124,4 +125,10 @@ export const addAuthorsToPosts = async (posts) => {
 export const addAuthorToPost = async (post) => {
   const author = await Users.fetchUserByUserId(post.authorId);
   return { ...post, author: author };
+};
+
+export const incrementPostVotes = async (postId, value, batch) => {
+  const postRef = getPostReferenceByPostId(postId);
+  const objToUpdate = { postVotes: increment(value) };
+  firestoreService.updateToBatch(postRef, objToUpdate, batch);
 };

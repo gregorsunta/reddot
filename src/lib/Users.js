@@ -44,46 +44,63 @@ export const fetchUserByUserId = async (userId) => {
 };
 
 export const checkUser = async (user) => {
-  const userExists = await this.userExistsInDatabase(user);
-  !userExists && this.addUserToDatabase(user);
+  const userExists = await userExistsInDatabase(user);
+  !userExists && addUserToDatabase(user);
 };
 
 export const userExistsInDatabase = async (userObj) => {
-  const user = await this.getUser(userObj.uid);
-  return !!user;
+  const user = await fetchUserByUserId(userObj.uid);
+  return user.exists();
 };
 
 export const addUserToDatabase = async (userObj) => {
-  await this.addUser(userObj);
-};
-
-export const subscribeToUser = (userId) => {
-  const userRef = this.getUserRefById(userId);
-  return onSnapshot(userRef, (userDoc) => {
-    runInAction(() => (this._user = { id: userId, ...userDoc.data() }));
-  });
+  await addUser(userObj);
 };
 
 export const addCommentId = async (userId, commentId, batch) => {
-  const userRef = this.getUserRefById(userId);
+  const userRef = getUserRefById(userId);
   const objToUpdate = {
     postIds: arrayUnion(commentId),
   };
-  this.updateDocument(userRef, objToUpdate, batch);
+  firestoreService.updateToBatch(userRef, objToUpdate, batch);
 };
 
 export const removeCommentId = async (userId, commentId, batch) => {
-  const userRef = this.getUserRefById(userId);
+  const userRef = getUserRefById(userId);
   const objToUpdate = {
     postIds: arrayRemove(commentId),
   };
-  this.updateDocument(userRef, objToUpdate, batch);
+  firestoreService.updateToBatch(userRef, objToUpdate, batch);
 };
 
 export const addPostId = async (userId, postId, batch) => {
-  const userRef = this.getUserRefById(userId);
+  const userRef = getUserRefById(userId);
   const objToUpdate = {
     postIds: arrayUnion(postId),
   };
-  await this.updateDocument(userRef, objToUpdate, batch);
+  await firestoreService.updateToBatch(userRef, objToUpdate, batch);
+};
+
+export const removePostId = async (userId, postId, batch) => {
+  const userRef = getUserRefById(userId);
+  const objToUpdate = {
+    postIds: arrayRemove(postId),
+  };
+  await firestoreService.updateToBatch(userRef, objToUpdate, batch);
+};
+
+export const addVoteId = async (userId, voteId, batch) => {
+  const userRef = getUserRefById(userId);
+  const objToUpdate = {
+    voteIds: arrayUnion(voteId),
+  };
+  await firestoreService.updateToBatch(userRef, objToUpdate, batch);
+};
+
+export const removeVoteId = async (userId, voteId, batch) => {
+  const userRef = getUserRefById(userId);
+  const objToUpdate = {
+    voteIds: arrayRemove(voteId),
+  };
+  await firestoreService.updateToBatch(userRef, objToUpdate, batch);
 };

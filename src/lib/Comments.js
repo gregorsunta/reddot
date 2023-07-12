@@ -3,6 +3,7 @@ import {
   arrayUnion,
   collection,
   doc,
+  increment,
   orderBy,
   query,
   serverTimestamp,
@@ -113,4 +114,10 @@ export const getCommentsByIdsWithAuthors = async (commentIds) => {
     return { ...comment, author: { ...author } };
   });
   return await Promise.all(commentsWithAuthors);
+};
+
+export const incrementCommentVotes = async (commendId, value, batch) => {
+  const commentRef = getCommentReferenceByCommentId(commendId);
+  const objToUpdate = { postVotes: increment(value) };
+  firestoreService.updateToBatch(commentRef, objToUpdate, batch);
 };

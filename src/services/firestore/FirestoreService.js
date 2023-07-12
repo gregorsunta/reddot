@@ -28,14 +28,6 @@ class FirestoreService {
     updateDoc(ref, obj);
   };
 
-  updateDocumentWithBatch = async (ref, obj, batch) => {
-    if (batch) {
-      await batch.update(ref, obj);
-    } else {
-      console.error('Expected WriteBatch, got: ', batch);
-    }
-  };
-
   addDocument = async (collectionName, documentName) => {
     try {
       return await addDoc(
@@ -88,6 +80,10 @@ class FirestoreService {
     } else {
       console.error('Expected WriteBatch, got: ', batch);
     }
+  };
+
+  deleteToBatch = async (ref, batch) => {
+    batch.delete(ref);
   };
 
   getDocumentsByIds = async (ids, path) => {

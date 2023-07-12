@@ -8,3 +8,7 @@ export const debounce = (callback, delay = 200) => {
     }, delay);
   };
 };
+
+export const idSeperator = (idStr) => {
+  return idStr.split('_');
+};

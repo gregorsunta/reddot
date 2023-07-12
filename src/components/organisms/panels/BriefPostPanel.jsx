@@ -5,14 +5,23 @@ import { Button, Stack } from '../../atoms';
 import { Panel } from '../../molecules';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_REM } from '../../../constants/StyleConstants.js';
+import { handleVote } from '../../../lib/Votes';
+import { useStores } from '../../../context';
+import { toJS } from 'mobx';
 
 const BriefPostPanel = ({ post = {} }) => {
-  const { author, title, text, upvotes, downvotes, id } = post;
+  const { author, title, text, postVotes, id } = post;
   const navigate = useNavigate();
   const { theme } = useThemeContext();
   const { container, authorInformation } = useStyles({ theme });
+  const { authStore } = useStores();
+  const { user } = toJS(authStore);
 
   const handleClick = (event) => {
+    if (!user) {
+      console.info('handleClick() user not signed in.');
+      return;
+    }
     const dataClickId = event.target
       .closest('[data-click-id]')
       .getAttribute('data-click-id');
@@ -20,9 +29,9 @@ const BriefPostPanel = ({ post = {} }) => {
     if (dataClickId === 'comments' || dataClickId === 'background') {
       navigate(`post/${id}`);
     } else if (dataClickId === 'upvote') {
-      // upvote
+      handleVote('posts', id, user.uid, 'upvote');
     } else if (dataClickId === 'downvote') {
-      // downvote
+      handleVote('posts', id, user.uid, 'downvote');
     }
   };
 
@@ -48,7 +57,7 @@ const BriefPostPanel = ({ post = {} }) => {
               // const res = await handlePostUpvote(user.uid, postId);
             }}
           />
-          {parseInt(upvotes) - parseInt(downvotes)}
+          {parseInt(postVotes)}
           <Button
             type="button"
             variant="icon"
