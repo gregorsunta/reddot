@@ -31,8 +31,7 @@ export const addPost = async (post, userId) => {
     title: post.title,
     text: post.text,
     timestamp: serverTimestamp(),
-    upvotes: 1,
-    downvotes: 0,
+    votes: 0,
   };
 
   // add to db
@@ -129,6 +128,6 @@ export const addAuthorToPost = async (post) => {
 
 export const incrementPostVotes = async (postId, value, batch) => {
   const postRef = getPostReferenceByPostId(postId);
-  const objToUpdate = { postVotes: increment(value) };
+  const objToUpdate = { votes: increment(value) };
   firestoreService.updateToBatch(postRef, objToUpdate, batch);
 };

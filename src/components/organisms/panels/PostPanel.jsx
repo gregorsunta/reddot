@@ -11,23 +11,15 @@ import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { useStores } from '../../../context';
+import { handleVote } from '../../../lib/Votes';
 
 const PostPanel = observer(({ post }) => {
-  const {
-    author,
-    title,
-    text,
-    upvotes,
-    downvotes,
-    profilePicURL,
-    commentIds,
-    id,
-  } = post;
+  const { author, title, text, votes, profilePicURL, commentIds, id } = post;
 
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });
   const { contentStore } = useStores();
-  const comments = toJS(contentStore.comments);
+  const { user, comments } = toJS(contentStore);
 
   useEffect(() => {
     const getComments = async () => {
@@ -58,15 +50,17 @@ const PostPanel = observer(({ post }) => {
               type="button"
               variant="icon"
               startIcon={<BiUpvote />}
+              onClick={() => handleVote('posts', id, user.id, 'upvote')}
             >
               Upvote
             </Button>
-            {parseInt(upvotes) - parseInt(downvotes)}
+            {parseInt(votes)}
             <Button
               className={fadedButton}
               type="button"
               variant="icon"
               startIcon={<BiDownvote />}
+              onClick={() => handleVote('posts', id, user.id, 'downvote')}
             >
               Downvote
             </Button>

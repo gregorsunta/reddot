@@ -6,9 +6,11 @@ import { SIZES_PX, SIZES_REM } from '../../constants';
 import { useStores, useThemeContext } from '../../context';
 import { useState } from 'react';
 import { firestoreService } from '../../services/firestore/FirestoreService';
+import { handleVote } from '../../lib/Votes';
+import { toJS } from 'mobx';
 
 const PostComment = observer(({ comment = {}, post = {} }) => {
-  const { text, upvotes, author = {}, downvotes } = comment;
+  const { text, author = {}, votes, id } = comment;
   const { displayName, profilePicURL } = author;
   const { theme } = useThemeContext();
   const {
@@ -21,6 +23,8 @@ const PostComment = observer(({ comment = {}, post = {} }) => {
   } = useStyles({ theme });
   const [postHidden, setPostHidden] = useState();
   const { contentStore, authStore } = useStores();
+  const { user } = toJS(contentStore);
+  console.log(user.id);
 
   return (
     <Stack orientation="row" className={container}>
@@ -67,14 +71,16 @@ const PostComment = observer(({ comment = {}, post = {} }) => {
               variant="icon"
               startIcon={<BiUpvote />}
               dataAttributes={{ 'data-click-id': 'upvote' }}
+              onClick={() => handleVote('comments', id, user.id, 'upvote')}
             ></Button>
-            {parseInt(upvotes) - parseInt(downvotes)}
+            {parseInt(votes)}
             <Button
               className={fadedButton}
               type="button"
               variant="icon"
               startIcon={<BiDownvote />}
               dataAttributes={{ 'data-click-id': 'downvote' }}
+              onClick={() => handleVote('comments', id, user.id, 'downvote')}
             ></Button>
             <Button
               className={fadedButton}

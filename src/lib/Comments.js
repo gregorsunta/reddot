@@ -24,8 +24,7 @@ export const addComment = async (userId, postId, comment) => {
   batch.set(commentCollectionRef, {
     authorId: userId,
     text: comment.text,
-    upvotes: comment.upvotes,
-    downvotes: comment.downvotes,
+    votes: 0,
     timestamp: serverTimestamp(),
   });
 
@@ -118,6 +117,6 @@ export const getCommentsByIdsWithAuthors = async (commentIds) => {
 
 export const incrementCommentVotes = async (commendId, value, batch) => {
   const commentRef = getCommentReferenceByCommentId(commendId);
-  const objToUpdate = { postVotes: increment(value) };
+  const objToUpdate = { votes: increment(value) };
   firestoreService.updateToBatch(commentRef, objToUpdate, batch);
 };

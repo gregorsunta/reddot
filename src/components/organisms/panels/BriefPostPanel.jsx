@@ -10,7 +10,7 @@ import { useStores } from '../../../context';
 import { toJS } from 'mobx';
 
 const BriefPostPanel = ({ post = {} }) => {
-  const { author, title, text, postVotes, id } = post;
+  const { author, title, text, votes, id } = post;
   const navigate = useNavigate();
   const { theme } = useThemeContext();
   const { container, authorInformation } = useStyles({ theme });
@@ -53,11 +53,8 @@ const BriefPostPanel = ({ post = {} }) => {
             variant="icon"
             startIcon={<BiUpvote />}
             dataAttributes={{ 'data-click-id': 'upvote' }}
-            onClick={async () => {
-              // const res = await handlePostUpvote(user.uid, postId);
-            }}
           />
-          {parseInt(postVotes)}
+          {parseInt(votes)}
           <Button
             type="button"
             variant="icon"
@@ -70,9 +67,6 @@ const BriefPostPanel = ({ post = {} }) => {
             startIcon={<BiComment />}
             // to={`post/${id}`}
             dataAttributes={{ 'data-click-id': 'comments' }}
-            onClick={() => {
-              // handlePostDownvotes(user.uid, postId);
-            }}
           />
         </Stack>
       </Stack>
