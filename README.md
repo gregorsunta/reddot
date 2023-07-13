@@ -19,6 +19,8 @@ Below you can see how I structured my database.
 - Submit post of text type
 - See recent posts
 - Comment on posts
+- Vote posts and comments
+- Delete comments
 
 ## What would I do differently
 
