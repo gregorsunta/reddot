@@ -7,6 +7,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import Color from 'color';
 import { firestoreService } from '../../services/firestore/FirestoreService';
+import * as Comments from '../../lib/Comments';
 
 const CommentSubmitBox = observer(({ postId, authorId }) => {
   const [commentText, setCommentText] = useState();
@@ -25,7 +26,7 @@ const CommentSubmitBox = observer(({ postId, authorId }) => {
       upvotes: 1,
     };
     try {
-      await firestoreService.addComment(user.id, postId, obj);
+      await Comments.addComment(user.id, postId, obj);
     } catch (err) {
       console.error(err);
     }
@@ -43,7 +44,7 @@ const CommentSubmitBox = observer(({ postId, authorId }) => {
 
   return (
     <Stack className={container}>
-      {!user && (
+      {Object.keys(user).length === 0 && (
         <Stack justifyContent={'center'} alignItems={'center'} className={mask}>
           <p>You need to be signed in to comment</p>
         </Stack>

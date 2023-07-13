@@ -55,7 +55,35 @@ class FirestoreService {
     }
   };
 
+  getDocumentsByIds = async (ids, path) => {
+    if (!ids || !ids.length || !path) {
+      console.info('Aborting getContentById() due to parameters missing');
+      return [];
+    }
+
+    const collectionRef = collection(firestoreService.firestore, path);
+    const batches = [];
+
+    while (ids.length) {
+      const batch = ids.splice(0, 10);
+      const q = query(collectionRef, where('__name__', 'in', batch));
+      batches.push(
+        getDocs(q).then((querySnapshot) =>
+          querySnapshot.docs.map((doc) => {
+            return { ...doc.data(), id: doc.id };
+          }),
+        ),
+      );
+    }
+
+    // after all of the data is fetched, return it
+    return Promise.all(batches).then((content) => content.flat());
+  };
+
   getDocumentRef = (collectionName, documentId) => {
+    if (!documentId) {
+      return doc(collection(this.firestore, collectionName));
+    }
     return doc(this.firestore, collectionName, documentId);
   };
 
@@ -83,32 +111,11 @@ class FirestoreService {
   };
 
   deleteToBatch = async (ref, batch) => {
-    batch.delete(ref);
-  };
-
-  getDocumentsByIds = async (ids, path) => {
-    if (!ids || !ids.length || !path) {
-      console.info('Aborting getContentById() due to parameters missing');
-      return [];
+    if (batch) {
+      batch.delete(ref);
+    } else {
+      console.error('Expected WriteBatch, got: ', batch);
     }
-
-    const collectionRef = collection(firestoreService.firestore, path);
-    const batches = [];
-
-    while (ids.length) {
-      const batch = ids.splice(0, 10);
-      const q = query(collectionRef, where('__name__', 'in', batch));
-      batches.push(
-        getDocs(q).then((querySnapshot) =>
-          querySnapshot.docs.map((doc) => {
-            return { ...doc.data(), id: doc.id };
-          }),
-        ),
-      );
-    }
-
-    // after all of the data is fetched, return it
-    return Promise.all(batches).then((content) => content.flat());
   };
 }
 const firestoreService = new FirestoreService();

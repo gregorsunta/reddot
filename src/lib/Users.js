@@ -1,19 +1,5 @@
-import {
-  arrayRemove,
-  arrayUnion,
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  writeBatch,
-} from 'firebase/firestore';
-import * as Posts from './Posts';
-import * as Users from './Users';
+import { arrayRemove, arrayUnion } from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
-import { debounce } from './utils';
-import { runInAction } from 'mobx';
 
 export const getUserRefById = (userId) => {
   return firestoreService.getDocumentRef('users', userId);

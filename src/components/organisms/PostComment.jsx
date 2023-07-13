@@ -7,6 +7,7 @@ import { useStores, useThemeContext } from '../../context';
 import { useState } from 'react';
 import { firestoreService } from '../../services/firestore/FirestoreService';
 import { handleVote } from '../../lib/Votes';
+import { removeComment } from '../../lib/Comments';
 import { toJS } from 'mobx';
 
 const PostComment = observer(({ comment = {}, post = {} }) => {
@@ -24,7 +25,6 @@ const PostComment = observer(({ comment = {}, post = {} }) => {
   const [postHidden, setPostHidden] = useState();
   const { contentStore, authStore } = useStores();
   const { user } = toJS(contentStore);
-  console.log(user.id);
 
   return (
     <Stack orientation="row" className={container}>
@@ -52,11 +52,7 @@ const PostComment = observer(({ comment = {}, post = {} }) => {
                 type="button"
                 width={'5px'}
                 onClick={() => {
-                  firestoreService.removeComment(
-                    contentStore.user.id,
-                    post.id,
-                    comment.id,
-                  );
+                  removeComment(contentStore.user.id, post.id, comment.id);
                 }}
               >
                 D

@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi';
 import { Button, Stack } from '../../atoms';
 import { Panel } from '../../molecules';
 import { PostComment, CommentSubmitBox } from '../';
-import { useFirestoreService } from '../../../context/firestoreServiceContext.js';
 import { useThemeContext } from '../../../context/themeContext.js';
 import { SIZES_PX, SIZES_REM } from '../../../constants/StyleConstants.js';
 import { toJS } from 'mobx';
@@ -14,7 +13,7 @@ import { useStores } from '../../../context';
 import { handleVote } from '../../../lib/Votes';
 
 const PostPanel = observer(({ post }) => {
-  const { author, title, text, votes, profilePicURL, commentIds, id } = post;
+  const { author, title, text, votes, commentIds, id } = post;
 
   const { theme } = useThemeContext();
   const { container, fadedButton } = useStyles({ theme });

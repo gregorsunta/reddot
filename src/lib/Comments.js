@@ -1,18 +1,14 @@
 import {
-  arrayRemove,
-  arrayUnion,
   collection,
   doc,
   increment,
-  orderBy,
-  query,
   serverTimestamp,
   writeBatch,
 } from 'firebase/firestore';
 import * as Posts from './Posts';
 import * as Users from './Users';
+import * as Votes from './Votes';
 import { firestoreService } from '../services/firestore/FirestoreService';
-import { debounce } from './utils';
 
 export const addComment = async (userId, postId, comment) => {
   const batch = writeBatch(firestoreService.firestore);
@@ -34,7 +30,7 @@ export const addComment = async (userId, postId, comment) => {
 
   // add id (ref id) to the post
 
-  Users.addCommentId(postId, commentCollectionRef.id, batch);
+  Posts.addCommentId(postId, commentCollectionRef.id, batch);
 
   // execute WriteBatch
   try {
@@ -47,19 +43,23 @@ export const addComment = async (userId, postId, comment) => {
 export const removeComment = async (userId, postId, commentId) => {
   const batch = writeBatch(firestoreService.firestore);
   const commentDocRef = getCommentReferenceByCommentId(commentId);
+  const voteId = Votes.createVoteId('comments', commentId);
   // remove comment from the db
 
   batch.delete(commentDocRef);
 
-  // remove id (ref id) from the user
+  // remove commentId from entities
 
   Users.removeCommentId(userId, commentId, batch);
 
-  // add id (ref id) to the post
-
   Posts.removeCommentId(postId, commentId, batch);
 
-  // execute WriteBatch
+  // remove vote
+  await Votes.removeVote(userId, voteId, batch);
+
+  Users.removeVoteId(userId, voteId, batch);
+
+  // execute
   try {
     await batch.commit();
   } catch (err) {

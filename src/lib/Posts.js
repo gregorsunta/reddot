@@ -1,18 +1,14 @@
 import {
   arrayRemove,
   arrayUnion,
-  collection,
   increment,
-  limit,
-  orderBy,
-  query,
   serverTimestamp,
-  startAt,
   writeBatch,
 } from 'firebase/firestore';
 import * as Users from './Users';
+import * as Comments from './Comments';
+import * as Votes from './Votes';
 import { firestoreService } from '../services/firestore/FirestoreService';
-import { debounce } from './utils';
 
 export const updatePost = async (postRef, objToUpdate, batch) => {
   if (batch) {
@@ -39,6 +35,38 @@ export const addPost = async (post, userId) => {
 
   // add to user
   await Users.addPostId(userId, postRef.id, batch);
+
+  try {
+    await batch.commit();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const removePost = async (userId, postId, commentId) => {
+  const batch = writeBatch(firestoreService.firestore);
+  const postRef = getPostReferenceByPostId(postId);
+  const voteId = Votes.createVoteId('posts', postId);
+
+  // remove post from the db
+
+  batch.delete(postRef);
+
+  // remove ids from the entity
+
+  Users.removePostId(userId, commentId, batch);
+
+  // remove vote
+
+  Votes.removeVote(userId, voteId, batch);
+
+  // remove comments
+
+  /////////////
+  /* missing */
+  /////////////
+
+  // execute
 
   try {
     await batch.commit();

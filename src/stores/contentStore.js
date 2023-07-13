@@ -30,6 +30,16 @@ class ContentStore {
   comments = [];
 
   // basic list manipulating functions
+  setFetchingUser = (bool) => {
+    this.fetchingUser = bool;
+  };
+  setFetchingPosts = (bool) => {
+    this.fetchingPosts = bool;
+  };
+  setFetchingComments = (bool) => {
+    this.fetchingComments = bool;
+  };
+
   resetUser = () => {
     this.user = {};
   };
@@ -71,12 +81,11 @@ class ContentStore {
       );
       return;
     }
-    this.fetchingUser = true;
-
+    this.setFetchingUser(true);
     const user = await Users.fetchUserByUserId(id);
     this.resetUser();
     this.addUser(user);
-    this.fetchingUser = false;
+    this.setFetchingUser(false);
   };
 
   getPostsForListByTimestamp = async (lastPostId) => {
@@ -86,7 +95,7 @@ class ContentStore {
       );
       return;
     }
-    this.fetchingPosts = true;
+    this.setFetchingPosts(true);
 
     let q;
     if (lastPostId) {
@@ -108,7 +117,7 @@ class ContentStore {
     const postsWithAuthors = await addAuthorsToPosts(posts);
     this.resetPosts();
     this.pushToPosts(...postsWithAuthors);
-    this.fetchingPosts = false;
+    this.setFetchingPosts(false);
   };
 
   getPostForListByPostId = async (id) => {
@@ -118,12 +127,12 @@ class ContentStore {
       );
       return;
     }
-    this.fetchingPosts = true;
+    this.setFetchingPosts(true);
     const postRef = getPostReferenceByPostId(id);
     const post = await firestoreService.getDocument(postRef);
     const postWithAuthor = await addAuthorToPost(post.data());
     this.pushToPosts({ id: post.id, ...postWithAuthor });
-    this.fetchingPosts = false;
+    this.setFetchingPosts(false);
   };
 
   getCommentsForListByIds = async (...ids) => {
@@ -133,11 +142,11 @@ class ContentStore {
       );
       return;
     }
-    this.fetchingComments = true;
+    this.setFetchingComments(true);
     const comments = await Comments.fetchCommentsByIds(ids);
     this.resetComments();
     this.pushToComments(...comments);
-    this.fetchingComments = false;
+    this.setFetchingComments(false);
   };
 
   getCommentsWithAuthorsForListByIds = async (...commentIds) => {
@@ -147,11 +156,11 @@ class ContentStore {
       );
       return;
     }
-    this.fetchingComments = true;
+    this.setFetchingComments(true);
     const comments = await Comments.getCommentsByIdsWithAuthors(commentIds);
     this.resetComments();
     this.pushToComments(...comments);
-    this.fetchingComments = false;
+    this.setFetchingComments(false);
   };
 
   subscribeToUser = async (userId) => {

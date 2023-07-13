@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   TextOutline,
   ImageOutline,
@@ -17,9 +16,12 @@ import { Panel } from '../../molecules';
 import { createUseStyles } from 'react-jss';
 import { InputBox } from '../.';
 import { Input } from '../../atoms/Input.jsx';
+import * as Posts from '../../../lib/Posts';
+import { toJS } from 'mobx';
 
 const SubmitPanel = observer(() => {
   const { contentStore } = useStores();
+  const { user } = toJS(contentStore);
   const {} = useFirestoreService();
   const [activeType, setActiveType] = useState('text');
   const [title, setTitle] = useState('');
@@ -36,10 +38,13 @@ const SubmitPanel = observer(() => {
   const submitPost = () => {
     const type = activeType;
     if (type === 'text') {
-      contentStore.addPost({
-        title: title,
-        text: postContent,
-      });
+      Posts.addPost(
+        {
+          title: title,
+          text: postContent,
+        },
+        user.id,
+      );
     }
   };
   return (
