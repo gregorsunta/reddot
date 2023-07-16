@@ -1,7 +1,10 @@
 import {
   arrayRemove,
   arrayUnion,
+  doc,
   increment,
+  onSnapshot,
+  queryEqual,
   serverTimestamp,
   writeBatch,
 } from 'firebase/firestore';
@@ -88,23 +91,12 @@ export const removeCommentId = async (postId, commentId, batch) => {
 };
 
 export const fetchPost = async (postId) => {
-  if (!postId) {
-    console.error('Expected postId, got:', postId);
-    return null;
-  }
   try {
-    const docRef = firestoreService.getDocumentRef('posts', postId);
-    const docSnap = await firestoreService.getDocument(docRef);
-    if (docSnap.exists()) {
-      const snapData = docSnap.data();
-      return { id: docSnap.id, ...snapData };
-    }
+    return await firestoreService.getDocumentById(postId, 'posts');
   } catch (err) {
     console.error(err);
   }
 };
-
-// export const fetchPostDebounce = debounce(fetchPost);
 
 export const fetchPostWithOwner = async (postId) => {
   const post = await fetchPost(postId);
@@ -130,12 +122,6 @@ export const fetchPostsByQueryParams = async (query) => {
   }
 };
 
-// export const fetchPostsByQueryParamsWithDebounce = debounce(
-//   fetchPostsByQueryParams,
-// );
-
-// export const fetchPostsDebounce = debounce(fetchPosts);
-
 export const getPostReferenceByPostId = (postId) => {
   return firestoreService.getDocumentRef('posts', postId);
 };
@@ -158,4 +144,41 @@ export const incrementPostVotes = async (postId, value, batch) => {
   const postRef = getPostReferenceByPostId(postId);
   const objToUpdate = { votes: increment(value) };
   firestoreService.updateToBatch(postRef, objToUpdate, batch);
+};
+
+// listeners
+
+export const subscribeToPost = async (postId, handleDoc) => {
+  console.log('subscribeToPost() called');
+  if (!postId) {
+    console.error('subscribeToPost() no id specified.');
+  }
+  const postRef = getPostReferenceByPostId(postId);
+  try {
+    return onSnapshot(postRef, (docSnap) => {
+      console.log('handling doc');
+      if (docSnap.exists()) {
+        handleDoc({ id: docSnap.id, ...docSnap.data() });
+      } else {
+        console.warn(
+          'subscribeToPost() post with specified postId does not exist.',
+        );
+      }
+    });
+  } catch (error) {
+    console.error('An error occured');
+  }
+};
+
+export const subscribeToPostsWithOwnersByQueryParams = async (
+  query,
+  handleDoc,
+) => {
+  console.info('subscribeToPostsByQueryParams()');
+
+  return onSnapshot(query, (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      handleDoc({ id: doc.id, ...doc.data() });
+    });
+  });
 };

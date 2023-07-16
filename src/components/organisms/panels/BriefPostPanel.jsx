@@ -43,7 +43,7 @@ const BriefPostPanel = ({ post = {} }) => {
     >
       <Stack data-click-id="post">
         <span className={authorInformation}>
-          Posted by {author.displayName}
+          Posted by {author?.displayName ?? 'Anonymous'}
         </span>
         <p>{title}</p>
         <p>{text}</p>

@@ -38,6 +38,8 @@ const App = () => {
   };
   jss.createStyleSheet(styles).attach();
 
+  useDebugClick();
+
   const toggleTheme = () => {
     setTheme(theme === light ? dark : light);
   };

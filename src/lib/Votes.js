@@ -10,15 +10,10 @@ export const getVoteRefByVoteId = (voteId) => {
 };
 
 export const getVoteById = async (voteId) => {
-  const voteRef = getVoteRefByVoteId(voteId);
-  const vote = await firestoreService.getDocument(voteRef);
-  if (vote.exists()) {
-    return vote.data();
-  } else {
-    console.info(
-      `getVoteById() vote with specified voteId (${voteId}) does not exist.`,
-    );
-    return null;
+  try {
+    return await firestoreService.getDocumentById(voteId, 'votes');
+  } catch (error) {
+    console.error('getVoteById()', error);
   }
 };
 

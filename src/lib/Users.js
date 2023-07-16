@@ -1,5 +1,12 @@
-import { arrayRemove, arrayUnion } from 'firebase/firestore';
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  query,
+  where,
+} from 'firebase/firestore';
 import { firestoreService } from '../services/firestore/FirestoreService';
+import { queries } from '@testing-library/react';
 
 export const getUserRefById = (userId) => {
   return firestoreService.getDocumentRef('users', userId);
@@ -11,22 +18,14 @@ export const addUser = async (userObj) => {
 
 export const fetchUserByUserId = async (userId) => {
   try {
-    if (!userId) {
-      console.error('Expected userId, got:', userId);
-      return null;
-    }
-    const docRef = getUserRefById(userId);
-    const docSnap = await firestoreService.getDocument(docRef);
-
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
-    } else {
-      console.warn(`Doc snap does not exist.`);
-      return null;
-    }
+    return await firestoreService.getDocumentById(userId, 'users');
   } catch (err) {
     console.error(err);
   }
+};
+
+export const fetchUsersByUserIds = async (userIds) => {
+  return await firestoreService.getDocumentsByIds(userIds, 'users');
 };
 
 export const checkUser = async (user) => {

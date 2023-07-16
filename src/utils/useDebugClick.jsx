@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 const useDebugClick = () => {
   useEffect(() => {
     const handleDebugClick = () => {
-      console.log(toJS(contentStore.posts));
+      console.log(toJS(contentStore.fetchingTempPost));
     };
     window.addEventListener('click', handleDebugClick);
     return () => {

@@ -10,29 +10,42 @@ import { Posts } from '../../lib';
 
 const PostPage = observer(() => {
   const { postId } = useParams();
-  const [post, setPost] = useState();
   const { contentStore } = useStores();
+  const { tempPost: post, resetTempPost } = toJS(contentStore);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const post = await Posts.fetchPostWithOwner(postId);
-        setPost(post);
-      } catch (err) {
-        console.error(err);
+    let unsubscribe;
+    if (Object.keys(post).length === 'f') {
+      (async () => {
+        unsubscribe = await contentStore.subscribeToTempPost(postId);
+        return null;
+      })();
+    }
+
+    const stop = () => {
+      if (unsubscribe) {
+        unsubscribe();
+        // resetTempPost();
       }
     };
-    const existingPost = contentStore.findPostOnListByPostId(postId);
-    if (existingPost) {
-      setPost(existingPost);
-    } else {
-      fetchPost();
-    }
+
+    return async () => {
+      stop();
+    };
   }, []);
+
+  useEffect(() => {
+    const getAuthor = async () => {
+      await contentStore.addAuthorToTempPost();
+    };
+    if (!post.author) {
+      // getAuthor();
+    }
+  });
 
   return (
     <MainTemplate
-      content={<PostPanel post={post ?? {}}></PostPanel>}
+      content={<PostPanel post={post ?? {}}>{console.log(post)}</PostPanel>}
       side={<Panel></Panel>}
     ></MainTemplate>
   );

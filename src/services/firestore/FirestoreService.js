@@ -57,8 +57,8 @@ class FirestoreService {
 
   getDocumentsByIds = async (ids, path) => {
     if (!ids || !ids.length || !path) {
-      console.info('Aborting getContentById() due to parameters missing');
-      return [];
+      console.info('Aborting getDocumentsByIds() due to parameters missing');
+      return null;
     }
 
     const collectionRef = collection(firestoreService.firestore, path);
@@ -78,6 +78,26 @@ class FirestoreService {
 
     // after all of the data is fetched, return it
     return Promise.all(batches).then((content) => content.flat());
+  };
+
+  getDocumentById = async (id, ...path) => {
+    if (!id || !path) {
+      console.info('Aborting getDocumentsByIds() due to parameters missing');
+      return null;
+    }
+    const docRef = this.getDocumentRef(...path, id);
+    const doc = await getDoc(docRef);
+    if (doc.exists()) {
+      return { id: doc.id, ...doc.data() };
+    } else {
+      console.info(
+        'getDocumentById() doc with specified id and path does not exist: id ',
+        id,
+        'path',
+        path,
+      );
+      return null;
+    }
   };
 
   getDocumentRef = (collectionName, documentId) => {

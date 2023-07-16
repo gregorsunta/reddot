@@ -10,12 +10,6 @@ import {
   query,
   startAt,
 } from 'firebase/firestore';
-import {
-  addAuthorToPost,
-  addAuthorsToPosts,
-  fetchPostsByQueryParams,
-  getPostReferenceByPostId,
-} from '../lib/Posts';
 import { getUserRefById } from '../lib/Users';
 
 class ContentStore {
@@ -24,8 +18,10 @@ class ContentStore {
   }
   fetchingUser = false;
   fetchingPosts = false;
+  fetchingTempPost = false;
   fetchingComments = false;
   user = {};
+  tempPost = {};
   posts = [];
   comments = [];
 
@@ -33,9 +29,15 @@ class ContentStore {
   setFetchingUser = (bool) => {
     this.fetchingUser = bool;
   };
+
   setFetchingPosts = (bool) => {
     this.fetchingPosts = bool;
   };
+
+  setFetchingTempPost = (bool) => {
+    this.fetchingTempPost = bool;
+  };
+
   setFetchingComments = (bool) => {
     this.fetchingComments = bool;
   };
@@ -46,6 +48,10 @@ class ContentStore {
 
   resetPosts = () => {
     this.posts = [];
+  };
+
+  resetTempPost = () => {
+    this.tempPost = {};
   };
 
   resetComments = () => {
@@ -60,16 +66,38 @@ class ContentStore {
     this.posts.push(...posts);
   };
 
+  updateTempPost = (post) => {
+    this.tempPost = { ...this.tempPost, ...post };
+  };
+
   pushToComments = (...comments) => {
     this.comments.push(...comments);
   };
 
+  updatePost = (post) => {
+    const postIndex = this.findPostIndexOnListByPostId(post.id);
+    this.posts[postIndex] = { ...this.posts[postIndex], ...post };
+  };
+
+  handleSubscribedPost = (post) => {
+    const postIndex = this.findPostIndexOnListByPostId(post.id);
+    if (postIndex !== -1) {
+      this.updatePost(post);
+    } else {
+      this.pushToPosts(post);
+    }
+  };
   // store reading functions
 
   findPostOnListByPostId = (postId) => {
     const posts = toJS(this.posts);
     const post = posts.find((post) => post.id === postId);
     return post;
+  };
+
+  findPostIndexOnListByPostId = (postId) => {
+    const posts = toJS(this.posts);
+    return posts.findIndex((post) => post.id === postId);
   };
 
   // async store manipulating functions
@@ -114,7 +142,7 @@ class ContentStore {
     }
 
     const posts = await Posts.fetchPostsByQueryParams(q);
-    const postsWithAuthors = await addAuthorsToPosts(posts);
+    const postsWithAuthors = await Posts.addAuthorsToPosts(posts);
     this.resetPosts();
     this.pushToPosts(...postsWithAuthors);
     this.setFetchingPosts(false);
@@ -128,9 +156,9 @@ class ContentStore {
       return;
     }
     this.setFetchingPosts(true);
-    const postRef = getPostReferenceByPostId(id);
+    const postRef = Posts.getPostReferenceByPostId(id);
     const post = await firestoreService.getDocument(postRef);
-    const postWithAuthor = await addAuthorToPost(post.data());
+    const postWithAuthor = await Posts.addAuthorToPost(post.data());
     this.pushToPosts({ id: post.id, ...postWithAuthor });
     this.setFetchingPosts(false);
   };
@@ -169,6 +197,97 @@ class ContentStore {
       this.resetUser();
       this.addUser(snapshot);
     });
+  };
+
+  subscribeToTempPost = async (postId) => {
+    if (this.fetchingTempPost) {
+      console.info(
+        'subscribeToTempPost() tempPost is already being fetched or listened to',
+      );
+      return;
+    }
+    this.setFetchingTempPost(true);
+
+    const unsubscribe = await Posts.subscribeToPost(
+      postId,
+      this.updateTempPost,
+    );
+
+    return async () => {
+      console.info(
+        'subscribeToTempPost() calling callback. Unsubscribing and stuff..',
+      );
+
+      unsubscribe();
+      this.setFetchingTempPost(false);
+    };
+  };
+
+  subscribeToPostsByTimestamp = async (lastPostId) => {
+    if (this.fetchingPosts) {
+      console.info(
+        'getPostsForListByTimestamp() something is already fetching posts. Aborting.',
+      );
+      return;
+    } else {
+      console.log(
+        'getPostsForListByTimestamp() something is not fetching posts. Continuing.',
+      );
+    }
+    this.setFetchingPosts(true);
+
+    let q;
+    if (lastPostId) {
+      q = query(
+        collection(firestoreService.firestore, 'posts'),
+        orderBy('timestamp', 'desc'),
+        limit(10),
+        startAt(lastPostId),
+      );
+    } else {
+      q = query(
+        collection(firestoreService.firestore, 'posts'),
+        orderBy('timestamp', 'desc'),
+        limit(10),
+      );
+    }
+
+    return await Posts.subscribeToPostsWithOwnersByQueryParams(
+      q,
+      this.handleSubscribedPost,
+    );
+  };
+
+  getMissingPostAuthorsOnList = async () => {
+    const missingAuthorIds = [];
+
+    // add id if post.author does not exist
+    this.posts.forEach(
+      (post) => post?.author ?? missingAuthorIds.push(post.authorId),
+    );
+    if (missingAuthorIds.length === 0) {
+      console.info(
+        'getMissingPostAuthorsOnList() canceling fetch because ids not specified.',
+      );
+      return;
+    }
+    const authors = await Users.fetchUsersByUserIds(missingAuthorIds);
+    this.posts.forEach((post) => {
+      authors.forEach(
+        (author) =>
+          post.authorId === author.id && this.updatePost({ ...post, author }),
+      );
+    });
+  };
+
+  addAuthorToTempPost = async () => {
+    if (Object.keys(this.tempPost).length === 0) {
+      console.info(`addAuthorToTempPost() tempPost doesn't exist yet.`);
+      return;
+    }
+    const userId = this.tempPost.authorId;
+    const user = Users.fetchUserByUserId(userId);
+    this.updateTempPost(user);
   };
 }
 

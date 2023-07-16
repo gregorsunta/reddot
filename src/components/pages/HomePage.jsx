@@ -52,7 +52,7 @@ const HomePage = observer(() => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        await contentStore.getPostsForListByTimestamp(0);
+        await contentStore.subscribeToPostsByTimestamp();
       } catch (err) {
         console.error(err);
       }
@@ -63,6 +63,13 @@ const HomePage = observer(() => {
     }
     return () => {};
   }, []);
+
+  useEffect(() => {
+    const getAuthorsForPosts = async () => {
+      await contentStore.getMissingPostAuthorsOnList();
+    };
+    getAuthorsForPosts();
+  }, [posts]);
 
   return (
     <MainTemplate
