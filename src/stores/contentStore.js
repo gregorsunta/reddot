@@ -26,6 +26,7 @@ class ContentStore {
   comments = [];
 
   // basic list manipulating functions
+
   setFetchingUser = (bool) => {
     this.fetchingUser = bool;
   };
@@ -87,6 +88,7 @@ class ContentStore {
       this.pushToPosts(post);
     }
   };
+
   // store reading functions
 
   findPostOnListByPostId = (postId) => {
@@ -191,6 +193,40 @@ class ContentStore {
     this.setFetchingComments(false);
   };
 
+  getAuthorForTempPost = async () => {
+    if (Object.keys(this.tempPost).length === 0) {
+      console.info(`addAuthorToTempPost() tempPost doesn't exist yet.`);
+      return;
+    }
+    const userId = this.tempPost.authorId;
+    const user = Users.fetchUserByUserId(userId);
+    this.updateTempPost(user);
+  };
+
+  getMissingPostAuthorsOnList = async () => {
+    const missingAuthorIds = [];
+
+    // add id if post.author does not exist
+    this.posts.forEach(
+      (post) => post?.author ?? missingAuthorIds.push(post.authorId),
+    );
+    if (missingAuthorIds.length === 0) {
+      console.info(
+        'getMissingPostAuthorsOnList() canceling fetch because ids not specified.',
+      );
+      return;
+    }
+    const authors = await Users.fetchUsersByUserIds(missingAuthorIds);
+    this.posts.forEach((post) => {
+      authors.forEach(
+        (author) =>
+          post.authorId === author.id && this.updatePost({ ...post, author }),
+      );
+    });
+  };
+
+  // subscriber functions
+
   subscribeToUser = async (userId) => {
     const userRef = getUserRefById(userId);
     return onSnapshot(userRef, (snapshot) => {
@@ -256,38 +292,6 @@ class ContentStore {
       q,
       this.handleSubscribedPost,
     );
-  };
-
-  getMissingPostAuthorsOnList = async () => {
-    const missingAuthorIds = [];
-
-    // add id if post.author does not exist
-    this.posts.forEach(
-      (post) => post?.author ?? missingAuthorIds.push(post.authorId),
-    );
-    if (missingAuthorIds.length === 0) {
-      console.info(
-        'getMissingPostAuthorsOnList() canceling fetch because ids not specified.',
-      );
-      return;
-    }
-    const authors = await Users.fetchUsersByUserIds(missingAuthorIds);
-    this.posts.forEach((post) => {
-      authors.forEach(
-        (author) =>
-          post.authorId === author.id && this.updatePost({ ...post, author }),
-      );
-    });
-  };
-
-  addAuthorToTempPost = async () => {
-    if (Object.keys(this.tempPost).length === 0) {
-      console.info(`addAuthorToTempPost() tempPost doesn't exist yet.`);
-      return;
-    }
-    const userId = this.tempPost.authorId;
-    const user = Users.fetchUserByUserId(userId);
-    this.updateTempPost(user);
   };
 }
 
