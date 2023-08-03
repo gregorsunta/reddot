@@ -66,7 +66,7 @@ const HomePage = observer(() => {
 
   useEffect(() => {
     const getAuthorsForPosts = async () => {
-      await contentStore.getMissingPostAuthorsOnList();
+      await contentStore.fetchMissingPostAuthorsOnList();
     };
     getAuthorsForPosts();
   }, [posts]);

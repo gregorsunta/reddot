@@ -21,18 +21,10 @@ const PostPanel = observer(({ post }) => {
   const { user, comments } = toJS(contentStore);
 
   useEffect(() => {
-    const getComments = async () => {
-      try {
-        await contentStore.getCommentsWithAuthorsForListByIds(...commentIds);
-      } catch (err) {
-        console.error('Failed to get comments: ', err);
-      }
-    };
-    if (commentIds && commentIds.length > 0) {
-      getComments();
-    }
+    contentStore.handleCommentRequest(commentIds);
+
     return () => {
-      contentStore.resetComments();
+      // contentStore.resetComments();
     };
   }, [commentIds]);
 

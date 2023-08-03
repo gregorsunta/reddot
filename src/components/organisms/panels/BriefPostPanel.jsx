@@ -18,20 +18,23 @@ const BriefPostPanel = ({ post = {} }) => {
   const { user } = toJS(authStore);
 
   const handleClick = (event) => {
-    if (!user) {
-      console.info('handleClick() user not signed in.');
-      return;
-    }
     const dataClickId = event.target
       .closest('[data-click-id]')
       .getAttribute('data-click-id');
 
     if (dataClickId === 'comments' || dataClickId === 'background') {
       navigate(`post/${id}`);
-    } else if (dataClickId === 'upvote') {
-      handleVote('posts', id, user.uid, 'upvote');
-    } else if (dataClickId === 'downvote') {
-      handleVote('posts', id, user.uid, 'downvote');
+    } else {
+      if (!user) {
+        console.info('handleClick() user not signed in.');
+        return;
+      }
+
+      if (dataClickId === 'upvote') {
+        handleVote('posts', id, user.uid, 'upvote');
+      } else if (dataClickId === 'downvote') {
+        handleVote('posts', id, user.uid, 'downvote');
+      }
     }
   };
 

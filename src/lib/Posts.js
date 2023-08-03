@@ -148,32 +148,24 @@ export const incrementPostVotes = async (postId, value, batch) => {
 
 // listeners
 
-export const subscribeToPost = async (postId, handleDoc) => {
-  console.log('subscribeToPost() called');
+export const subscribeToPost = (postId, handleDoc) => {
   if (!postId) {
     console.error('subscribeToPost() no id specified.');
   }
   const postRef = getPostReferenceByPostId(postId);
-  try {
-    return onSnapshot(postRef, (docSnap) => {
-      console.log('handling doc');
-      if (docSnap.exists()) {
-        handleDoc({ id: docSnap.id, ...docSnap.data() });
-      } else {
-        console.warn(
-          'subscribeToPost() post with specified postId does not exist.',
-        );
-      }
-    });
-  } catch (error) {
-    console.error('An error occured');
-  }
+
+  return onSnapshot(postRef, (docSnap) => {
+    if (docSnap.exists()) {
+      handleDoc({ id: docSnap.id, ...docSnap.data() });
+    } else {
+      console.warn(
+        'subscribeToPost() post with specified postId does not exist.',
+      );
+    }
+  });
 };
 
-export const subscribeToPostsWithOwnersByQueryParams = async (
-  query,
-  handleDoc,
-) => {
+export const subscribeToPostsWithOwnersByQueryParams = (query, handleDoc) => {
   console.info('subscribeToPostsByQueryParams()');
 
   return onSnapshot(query, (querySnapshot) => {

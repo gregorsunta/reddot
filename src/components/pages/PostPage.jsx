@@ -14,38 +14,33 @@ const PostPage = observer(() => {
   const { tempPost: post, resetTempPost } = toJS(contentStore);
 
   useEffect(() => {
-    let unsubscribe;
-    if (Object.keys(post).length === 'f') {
-      (async () => {
-        unsubscribe = await contentStore.subscribeToTempPost(postId);
-        return null;
-      })();
-    }
+    const unsubscribe =
+      contentStore.verifyAndSubscribeIfTempPostNotExists(postId);
 
     const stop = () => {
       if (unsubscribe) {
         unsubscribe();
-        // resetTempPost();
+        contentStore.resetComments();
       }
     };
 
-    return async () => {
+    return () => {
       stop();
     };
   }, []);
 
   useEffect(() => {
     const getAuthor = async () => {
-      await contentStore.addAuthorToTempPost();
+      // await contentStore.addAuthorToTempPost();
     };
     if (!post.author) {
       // getAuthor();
     }
-  });
+  }, []);
 
   return (
     <MainTemplate
-      content={<PostPanel post={post ?? {}}>{console.log(post)}</PostPanel>}
+      content={<PostPanel post={post ?? {}}></PostPanel>}
       side={<Panel></Panel>}
     ></MainTemplate>
   );

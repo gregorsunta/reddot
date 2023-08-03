@@ -91,6 +91,10 @@ class ContentStore {
 
   // store reading functions
 
+  tempPostExists = (id) => {
+    return this.tempPost && this.tempPost.id === id;
+  };
+
   findPostOnListByPostId = (postId) => {
     const posts = toJS(this.posts);
     const post = posts.find((post) => post.id === postId);
@@ -102,12 +106,20 @@ class ContentStore {
     return posts.findIndex((post) => post.id === postId);
   };
 
+  findCommentOnListById = (id) => {
+    return this.comments.find((comment) => comment.id === id);
+  };
+
+  commentsExists = (ids) => {
+    return ids.every((id) => !!this.findCommentOnListById(id));
+  };
+
   // async store manipulating functions
 
-  getUserForListById = async (id) => {
+  fetchUserForListById = async (id) => {
     if (this.fetchingUser) {
       console.info(
-        'getPostsForListByTimestamp() is already fetching user. Aborting.',
+        'fetchPostsForListByTimestamp() is already fetching user. Aborting.',
       );
       return;
     }
@@ -118,10 +130,10 @@ class ContentStore {
     this.setFetchingUser(false);
   };
 
-  getPostsForListByTimestamp = async (lastPostId) => {
+  fetchPostsForListByTimestamp = async (lastPostId) => {
     if (this.fetchingPosts) {
       console.info(
-        'getPostsForListByTimestamp() is already fetching posts. Aborting.',
+        'fetchPostsForListByTimestamp() is already fetching posts. Aborting.',
       );
       return;
     }
@@ -150,10 +162,10 @@ class ContentStore {
     this.setFetchingPosts(false);
   };
 
-  getPostForListByPostId = async (id) => {
+  fetchPostForListByPostId = async (id) => {
     if (this.fetchingPosts) {
       console.info(
-        'getPostForListByPostId() is already fetching posts. Aborting.',
+        'fetchPostForListByPostId() is already fetching posts. Aborting.',
       );
       return;
     }
@@ -165,10 +177,10 @@ class ContentStore {
     this.setFetchingPosts(false);
   };
 
-  getCommentsForListByIds = async (...ids) => {
+  fetchCommentsForListByIds = async (ids) => {
     if (this.fetchingComments) {
       console.info(
-        'getCommentsForListByIds() is already fetching comments. Aborting.',
+        'fetchCommentsForListByIds() is already fetching comments. Aborting.',
       );
       return;
     }
@@ -179,10 +191,10 @@ class ContentStore {
     this.setFetchingComments(false);
   };
 
-  getCommentsWithAuthorsForListByIds = async (...commentIds) => {
+  fetchCommentsWithAuthorsForListByIds = async (commentIds) => {
     if (this.fetchingComments) {
       console.info(
-        'getCommentsForListByIds() is already fetching comments. Aborting.',
+        'fetchCommentsForListByIds() is already fetching comments. Aborting.',
       );
       return;
     }
@@ -193,9 +205,9 @@ class ContentStore {
     this.setFetchingComments(false);
   };
 
-  getAuthorForTempPost = async () => {
-    if (Object.keys(this.tempPost).length === 0) {
-      console.info(`addAuthorToTempPost() tempPost doesn't exist yet.`);
+  fetchAuthorForTempPost = async () => {
+    if (this.tempPostExists()) {
+      console.info(`fetchAuthorForTempPost() tempPost doesn't exist yet.`);
       return;
     }
     const userId = this.tempPost.authorId;
@@ -203,7 +215,7 @@ class ContentStore {
     this.updateTempPost(user);
   };
 
-  getMissingPostAuthorsOnList = async () => {
+  fetchMissingPostAuthorsOnList = async () => {
     const missingAuthorIds = [];
 
     // add id if post.author does not exist
@@ -212,7 +224,7 @@ class ContentStore {
     );
     if (missingAuthorIds.length === 0) {
       console.info(
-        'getMissingPostAuthorsOnList() canceling fetch because ids not specified.',
+        'fetchMissingPostAuthorsOnList() canceling fetch because ids not specified.',
       );
       return;
     }
@@ -235,7 +247,7 @@ class ContentStore {
     });
   };
 
-  subscribeToTempPost = async (postId) => {
+  subscribeToTempPost = (postId) => {
     if (this.fetchingTempPost) {
       console.info(
         'subscribeToTempPost() tempPost is already being fetched or listened to',
@@ -244,12 +256,9 @@ class ContentStore {
     }
     this.setFetchingTempPost(true);
 
-    const unsubscribe = await Posts.subscribeToPost(
-      postId,
-      this.updateTempPost,
-    );
+    const unsubscribe = Posts.subscribeToPost(postId, this.updateTempPost);
 
-    return async () => {
+    return () => {
       console.info(
         'subscribeToTempPost() calling callback. Unsubscribing and stuff..',
       );
@@ -292,6 +301,29 @@ class ContentStore {
       q,
       this.handleSubscribedPost,
     );
+  };
+
+  // component functions
+
+  verifyAndSubscribeIfTempPostNotExists = (id) => {
+    if (this.tempPostExists(id)) {
+      console.info('tempPost exists');
+      return null;
+    }
+    return this.subscribeToTempPost(id);
+  };
+
+  handleCommentRequest = (ids) => {
+    if (!ids || ids.length === 0) {
+      console.info('comment ids not specified.');
+      return;
+    }
+    if (this.commentsExists(ids)) {
+      console.info('comments exist.');
+      return;
+    }
+    console.info('required comments do not exist.');
+    this.fetchCommentsForListByIds(ids);
   };
 }
 
